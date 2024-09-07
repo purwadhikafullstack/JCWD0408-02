@@ -20,8 +20,8 @@ enum Provider {
 model User {
   id          Int           @id @default(autoincrement())
   email       String        @unique
-  username    String        @unique
-  phone       String
+  username    String?       @unique
+  phone       String?
   password    String?
   isVerify    Boolean       @default(false)
   provider    Provider      @default(CREDENTIAL)
@@ -36,8 +36,8 @@ model User {
 model Tenant {
   id        Int        @id @default(autoincrement())
   email     String     @unique
-  username  String     @unique
-  phone     String
+  username  String?    @unique
+  phone     String?
   password  String?
   isVerify  Boolean    @default(false)
   provider  Provider   @default(CREDENTIAL)
@@ -119,18 +119,20 @@ enum StatusRes {
 }
 
 model Reservation {
-  id        Int       @id @default(autoincrement())
-  price     Float
-  startDate DateTime
-  endDate   DateTime
-  statusRes StatusRes @default(PENDING)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt()
-  Review    Review?
-  user_Id   Int
-  room_Id   Int
-  room      Room      @relation(fields: [room_Id], references: [id])
-  user      User      @relation(fields: [user_Id], references: [id])
+  id           Int       @id @default(autoincrement())
+  price        Float
+  startDate    DateTime
+  endDate      DateTime
+  paymentProof String?
+  paymentLink  String?
+  statusRes    StatusRes @default(PENDING)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt()
+  Review       Review?
+  user_Id      Int
+  room_Id      Int
+  room         Room      @relation(fields: [room_Id], references: [id])
+  user         User      @relation(fields: [user_Id], references: [id])
 }
 
 model Review {
