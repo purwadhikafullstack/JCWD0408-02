@@ -1,4 +1,4 @@
-import Home from './(home)/page';
+import Home from './(home)/(withNavbar)/page';
 
 describe('<Home />', () => {
   it('mounts', () => {
