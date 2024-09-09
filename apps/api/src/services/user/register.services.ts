@@ -1,13 +1,17 @@
-import { User } from "@prisma/client";
-import { checkExistingAccount } from "../checkExistingAccount";
-import { Response } from "express";
+import { User } from '@prisma/client';
+import { checkExistingAccount } from '../checkExistingAccount';
+import prisma from '@/prisma';
 
-export const registerServicesUser = async (body: User, res: Response) => {
-    try {
-        const { email, username, phone, password } = body
-        await checkExistingAccount(email, res)
-        
-    } catch (error) {
-        throw error
-    }
-}
+export const registerServicesUser = async (body: User) => {
+  try {
+    const { email } = body;
+    await checkExistingAccount(email);
+    const createUser = await prisma.user.create({
+      data: { email },
+    });
+
+    return createUser;
+  } catch (error) {
+    throw error;
+  }
+};
