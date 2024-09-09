@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "cross-env": "^7.0.3",
+    "flowbite": "^2.5.1",
+    "flowbite-react": "^0.10.1",
     "formik": "^2.4.6",
     "next": "14.0.4",
     "react": "^18",
