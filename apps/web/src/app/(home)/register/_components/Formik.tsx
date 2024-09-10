@@ -3,12 +3,12 @@
 import ButtonComp from "@/components/ButtonComp";
 import { InputErr } from "@/components/Input";
 import { registerAxios } from "@/libs/fetch/registerUser";
-import { navigate } from "@/libs/server";
 import { RegisterSchema } from "@/Schemas/Schema";
 import { UserType } from "@/types/user";
 import { AxiosError } from "axios";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const FormikComp = () => {
   const [loading, setLoading] = useState(false);
@@ -16,12 +16,11 @@ const FormikComp = () => {
     setLoading(true);
     try {
       const res = await registerAxios(data);
-      alert(res.data.msg);
-      navigate("/login");
+      toast.success(res.data.msg);
       setLoading(false);
     } catch (err: any) {
       if (err instanceof AxiosError) {
-        alert(err.response?.data);
+        toast.error(err.response?.data);
       }
     } finally {
       setLoading(false);
