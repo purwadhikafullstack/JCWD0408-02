@@ -31,7 +31,7 @@ const Navbar = () => {
             className={`flex gap-3 border-2 ${scrolled ? "border-white text-white" : "border-btn text-white"} rounded-full px-2 py-2 font-semibold`}
           >
             <Link
-              href={"/register"}
+              href={"/account/register"}
               className="text-white transition-colors duration-150 hover:text-gray-300"
             >
               Daftar
@@ -44,7 +44,7 @@ const Navbar = () => {
             {/* Style line end */}
 
             <Link
-              href={"/login"}
+              href={"/account/login"}
               className="text-white transition-colors duration-150 hover:text-gray-300"
             >
               Masuk

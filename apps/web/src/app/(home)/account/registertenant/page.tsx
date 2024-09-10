@@ -2,17 +2,17 @@ import DesainLoginRegis from "@/components/DesainLoginRegis";
 import React from "react";
 import FormikComp from "./_components/Formik";
 
-const Login = () => {
+const RegisterTenant = () => {
   return (
     <div className="bg-latar">
       <DesainLoginRegis
-        text1="Masuk"
-        text2="Daftar"
-        href="/register"
-        hrefTenant="/registertenant"
-        ket="Belum"
-        ketTenant="Tenant"
-        ketPembeli="Pembeli"
+        text1="Daftar"
+        text2="Masuk"
+        href="/account/logintenant"
+        hrefTenant="/account/register"
+        ket="Sudah"
+        ketTenant="Pembeli"
+        ketPembeli="Tenant"
       >
         <FormikComp />
       </DesainLoginRegis>
@@ -20,4 +20,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RegisterTenant;

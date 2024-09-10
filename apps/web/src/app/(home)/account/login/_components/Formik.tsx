@@ -1,5 +1,4 @@
 "use client";
-"use client";
 
 import ButtonComp from "@/components/ButtonComp";
 import { Input, InputErr } from "@/components/Input";
@@ -62,7 +61,7 @@ const FormikComp = () => {
               />
             </div>
             <Link
-              href={"/forgot-password-user"}
+              href={"/account/forgot-password-user"}
               className="mb-6 w-fit text-xs text-btn hover:text-btnhover hover:underline"
             >
               Lupa password?

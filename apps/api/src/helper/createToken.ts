@@ -7,7 +7,7 @@ interface IPayload {
 
 const secret = process.env.SECRET_KEY || 'nezztar';
 
-export const createToken = (payload: IPayload, expires: string = '1d') => {
+export const createToken = (payload: IPayload, expires: string) => {
   const token = sign(payload, secret, { expiresIn: expires });
   return token;
 };
