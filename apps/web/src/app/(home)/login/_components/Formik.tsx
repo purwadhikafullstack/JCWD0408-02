@@ -1,9 +1,11 @@
 "use client";
+"use client";
 
 import ButtonComp from "@/components/ButtonComp";
 import { Input, InputErr } from "@/components/Input";
 import { LoginSchema } from "@/Schemas/Schema";
 import { ErrorMessage, Form, Formik } from "formik";
+import Link from "next/link";
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
@@ -34,7 +36,7 @@ const FormikComp = () => {
                 placeholder="Masukkan email"
               />
             </div>
-            <div className="mb-6">
+            <div>
               <label htmlFor="password" className="text-sm text-black">
                 E-Mail Password
               </label>
@@ -59,6 +61,12 @@ const FormikComp = () => {
                 className="text-xs text-red-700"
               />
             </div>
+            <Link
+              href={"/forgot-password-user"}
+              className="mb-6 w-fit text-xs text-btn hover:text-btnhover hover:underline"
+            >
+              Lupa password?
+            </Link>
 
             <ButtonComp text="Masuk" />
           </Form>

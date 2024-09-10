@@ -24,6 +24,8 @@ model User {
   phone       String?
   password    String?
   isVerify    Boolean       @default(false)
+  otp         String?
+  otpExpired  DateTime?
   provider    Provider      @default(CREDENTIAL)
   avatar      String?
   role        String        @default("user")
@@ -34,19 +36,21 @@ model User {
 }
 
 model Tenant {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  username  String?    @unique
-  phone     String?
-  password  String?
-  isVerify  Boolean    @default(false)
-  provider  Provider   @default(CREDENTIAL)
-  avatar    String?
-  role      String     @default("tenant")
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt()
-  Property  Property[]
-  Room      Room[]
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  username   String?    @unique
+  phone      String?
+  password   String?
+  isVerify   Boolean    @default(false)
+  otp        String?
+  otpExpired DateTime?
+  provider   Provider   @default(CREDENTIAL)
+  avatar     String?
+  role       String     @default("tenant")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt()
+  Property   Property[]
+  Room       Room[]
 }
 
 enum Category {
