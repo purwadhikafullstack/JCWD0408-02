@@ -1,4 +1,5 @@
 "use client";
+"use client";
 
 import ButtonComp from "@/components/ButtonComp";
 import { Input, InputErr } from "@/components/Input";
