@@ -19,3 +19,13 @@ export const LoginSchema = Yup.object().shape({
     .minNumbers(1, "Password harus mengandung setidaknya 1 angka")
     .min(6, "Password harus minimal 6 karakter"),
 });
+export const FormDataSchema = Yup.object().shape({
+  username: Yup.string().required("Mohon masukkan email anda"),
+  phone: Yup.string().required("Masukkan nomor telephone").matches(/^\d+$/),
+  password: Yup.string()
+    .required("Masukkan password")
+    .minLowercase(1, "Password harus mengandung setidaknya 1 huruf kecil")
+    .minUppercase(1, "Password harus mengandung setidaknya 1 huruf besar")
+    .minNumbers(1, "Password harus mengandung setidaknya 1 angka")
+    .min(6, "Password harus minimal 6 karakter"),
+});
