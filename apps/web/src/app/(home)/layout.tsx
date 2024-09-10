@@ -1,4 +1,5 @@
-import './globals.css';
+import ToastComp from "@/components/ToastComp";
+import "./globals.css";
 
 export default function RootLayout({
   children,
@@ -7,7 +8,8 @@ export default function RootLayout({
 }) {
   return (
     <div>
+      <ToastComp />
       {children}
     </div>
-  )
+  );
 }
