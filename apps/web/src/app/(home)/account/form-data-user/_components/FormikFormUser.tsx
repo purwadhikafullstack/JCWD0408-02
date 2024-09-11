@@ -2,7 +2,7 @@
 
 import ButtonComp from "@/components/ButtonComp";
 import { InputErr } from "@/components/Input";
-import { updateDataUser } from "@/libs/fetch/registerUser";
+import { updateDataUser } from "@/libs/fetch/user";
 import { deleteCookie, navigate } from "@/libs/server";
 import { FormDataSchema } from "@/Schemas/Schema";
 import { FormDataInput } from "@/types/user";
