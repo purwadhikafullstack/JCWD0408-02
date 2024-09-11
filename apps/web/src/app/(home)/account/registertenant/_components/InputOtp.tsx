@@ -1,5 +1,5 @@
 import DesainOtp from "@/components/DesainOtp";
-import { verifyOtpTenant } from "@/libs/fetch/registerTenant";
+import { verifyOtpTenant } from "@/libs/fetch/tenant";
 import { navigate } from "@/libs/server";
 import { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";

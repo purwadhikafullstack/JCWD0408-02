@@ -1,5 +1,5 @@
 import DesainOtp from "@/components/DesainOtp";
-import { verifyOtp } from "@/libs/fetch/registerUser";
+import { verifyOtp } from "@/libs/fetch/user";
 import { navigate } from "@/libs/server";
 import { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";

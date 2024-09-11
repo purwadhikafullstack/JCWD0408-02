@@ -1,5 +1,7 @@
+import prisma from '@/prisma';
 import {
   getUserServices,
+  loginUserServices,
   registerServicesUser,
   updateDatauserServices,
   verifyOtpServices,
@@ -49,6 +51,20 @@ export class UserController {
         status: 'ok',
         msg: 'Email has been registered, please login',
         result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async loginUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { user, token } = await loginUserServices(req.body);
+      return res.status(200).send({
+        status: 'ok',
+        msg: 'Login succes',
+        user,
+        token,
       });
     } catch (error) {
       next(error);

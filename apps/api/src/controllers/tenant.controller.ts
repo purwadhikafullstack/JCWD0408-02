@@ -1,4 +1,5 @@
 import {
+  loginTenantServices,
   registerServicesTenant,
   updateDataTenantServices,
   verifyOtpServicesTenant,
@@ -48,6 +49,20 @@ export class TenantController {
         status: 'ok',
         msg: 'Email has been registered, please login',
         result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async loginTenant(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { user, token } = await loginTenantServices(req.body);
+      return res.status(200).send({
+        status: 'ok',
+        msg: 'Login succes',
+        user,
+        token,
       });
     } catch (error) {
       next(error);

@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { createCookie } from "@/libs/server";
 import InputOtpRegisterTenant from "./InputOtp";
-import { registerAxiosTenant } from "@/libs/fetch/registerTenant";
+import { registerAxiosTenant } from "@/libs/fetch/tenant";
 
 const FormikComp = () => {
   const [loading, setLoading] = useState(false);

@@ -18,6 +18,7 @@ export class TenantRouter {
     this.router.post('/register', this.tenantController.register);
     this.router.post('/verify-otp', this.tenantController.verifyOtp);
     this.router.post('/update-data', this.tenantController.updateDataTenant);
+    this.router.post('/login', this.tenantController.loginTenant);
   }
 
   getRouter(): Router {
