@@ -8,11 +8,11 @@ const Login = () => {
       <DesainLoginRegis
         text1="Masuk"
         text2="Daftar"
-        href="/registertenant"
-        hrefTenant="/register"
+        href="/account/register"
+        hrefTenant="/account/registertenant"
         ket="Belum"
-        ketTenant="Pembeli"
-        ketPembeli="Tenant"
+        ketTenant="Tenant"
+        ketPembeli="Pembeli"
       >
         <FormikComp />
       </DesainLoginRegis>

@@ -10,6 +10,7 @@ import express, {
 import cors from 'cors';
 import { PORT } from './config';
 import { UserRouter } from './routers/user.router';
+import { TenantRouter } from './routers/tenant.router';
 import { ReservationRouter } from './routers/reservation.user.router';
 
 export default class App {
@@ -53,6 +54,7 @@ export default class App {
 
   private routes(): void {
     const userRouter = new UserRouter();
+    const tenantRouter = new TenantRouter();;
     const reservationRouter = new ReservationRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
@@ -60,6 +62,7 @@ export default class App {
     });
 
     this.app.use('/api/users', userRouter.getRouter());
+    this.app.use('/api/tenant', tenantRouter.getRouter());;
     this.app.use('/api/reservation', reservationRouter.getRouter());
   }
 
