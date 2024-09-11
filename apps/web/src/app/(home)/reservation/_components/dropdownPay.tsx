@@ -1,11 +1,12 @@
+import { MouseEventHandler } from 'react';
 import { MdOutlinePayment } from 'react-icons/md';
 
 interface IProps {
-  drop: any;
-  setDrop: any;
-  payMethod: any;
-  paymentVA: any;
-  paymentTF: any;
+  drop: boolean;
+  setDrop: MouseEventHandler<HTMLButtonElement>;
+  payMethod: string;
+  paymentVA: MouseEventHandler<HTMLButtonElement>;
+  paymentTF: MouseEventHandler<HTMLButtonElement>;
 }
 export default function DropdownPay({
   drop,
@@ -18,10 +19,8 @@ export default function DropdownPay({
     <div>
       <h1 className="font-semibold pb-4 text-xl">Bayar Menggunakan</h1>
       <button
-        id="dropdownDefaultButton"
-        data-dropdown-toggle="dropdownId"
         onClick={setDrop}
-        className="w-full text-lg text-white bg-btn hover:bg-btnhover focus:ring-2  focus:outline-none focus:ring-latar font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-button "
+        className="w-full text-lg hover:text-white border-2 border-btn text-btn hover:bg-btn   font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center  "
         type="button"
       >
         {payMethod}
@@ -42,17 +41,14 @@ export default function DropdownPay({
         </svg>
       </button>
 
-      <div
-        id="dropdown"
-        className={`z-10 ${drop ? 'block' : 'hidden'} w-full bg-white divide-y divide-gray-100 rounded-lg shadow  dark:bg-gray-700`}
+      <div className={`z-10 ${drop ? 'block' : 'hidden'} w-full bg-abu  divide-y rounded-lg shadow `}
       >
         <ul
-          className="py-2 text-sm text-gray-700 dark:text-gray-200"
-          aria-labelledby="dropdownDefaultButton"
+          className="py-2 text-sm  bg-white "
         >
-          <li className="border-b-2">
+          <li className="border-b-2 bg-w">
             <button
-              className="flex items-center gap-5 text-lg px-4 py-2"
+              className="flex  items-center gap-5 text-lg px-4 py-2"
               onClick={paymentVA}
             >
               <MdOutlinePayment />
