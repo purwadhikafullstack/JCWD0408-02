@@ -2,8 +2,10 @@
 
 import ButtonComp from "@/components/ButtonComp";
 import { Input, InputErr } from "@/components/Input";
-import { loginTenant } from "@/libs/fetch/tenant";
+import { loginUser } from "@/libs/fetch/user";
 import { createCookie, navigate } from "@/libs/server";
+import { useAppDispatch } from "@/Redux/Hooks";
+import { loginAction } from "@/Redux/slices/userSlice";
 import { LoginSchema } from "@/Schemas/Schema";
 import { LoginType } from "@/types/user";
 import { AxiosError } from "axios";
@@ -16,6 +18,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 const FormikComp = () => {
   const [hidePass, setHidePass] = useState(false);
   const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
   const initialValues: LoginType = {
     email: "",
     password: "",
@@ -24,8 +27,13 @@ const FormikComp = () => {
   const onLogin = async (data: LoginType, action: FormikHelpers<LoginType>) => {
     setLoading(true);
     try {
-      const res = await loginTenant(data);
+      const res = await loginUser(data);
+      const userData = {
+        ...res.data.user,
+        token: res.data.token,
+      };
       createCookie("token", res.data.token);
+      dispatch(loginAction(userData));
       toast.success(res.data.msg);
       action.resetForm();
       navigate("/home");

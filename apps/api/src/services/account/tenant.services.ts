@@ -89,7 +89,7 @@ export const updateDataTenantServices = async (body: Tenant, token: string) => {
 export const loginTenantServices = async (body: Tenant) => {
   try {
     const { email, password } = body;
-    const user = await prisma.tenant.findFirst({ where: { email } });
+    const user = await prisma.tenant.findFirst({ where: { email, provider: "CREDENTIAL" } });
     if (!user) throw new Error('User not found');
     if (!user.isVerify)
       throw new Error('User not verify, please verify for login');
