@@ -89,7 +89,7 @@ export const updateDatauserServices = async (body: User, token: string) => {
 export const loginUserServices = async (body: User) => {
   try {
     const { email, password } = body;
-    const user = await prisma.user.findFirst({ where: { email } });
+    const user = await prisma.user.findFirst({ where: { email, provider:"CREDENTIAL" } });
     if (!user) throw new Error('User not found');
     if (!user.isVerify)
       throw new Error('User not verify, please verify for login');
