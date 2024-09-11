@@ -2,7 +2,6 @@
 
 import ButtonComp from "@/components/ButtonComp";
 import { InputErr } from "@/components/Input";
-import { registerAxios } from "@/libs/fetch/registerUser";
 import { RegisterSchema } from "@/Schemas/Schema";
 import { UserType } from "@/types/user";
 import { AxiosError } from "axios";
@@ -11,6 +10,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import InputOtpRegisterUser from "./InputOtp";
 import { createCookie } from "@/libs/server";
+import { registerAxios } from "@/libs/fetch/user";
 
 const FormikComp = () => {
   const [loading, setLoading] = useState(false);

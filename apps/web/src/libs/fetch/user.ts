@@ -1,10 +1,10 @@
-import { FormDataInput, UserType } from "@/types/user";
+import { FormDataInput, LoginType, UserType } from "@/types/user";
 import { axiosInstance } from "../axios";
 import { getCookie } from "../server";
 
-export const registerAxiosTenant = async (payload: UserType) => {
+export const registerAxios = async (payload: UserType) => {
   const res = await axiosInstance.post(
-    "/api/tenant/register",
+    "/api/users/register",
     {
       email: payload.email,
     },
@@ -17,10 +17,10 @@ export const registerAxiosTenant = async (payload: UserType) => {
   return res;
 };
 
-export const verifyOtpTenant = async (payload: UserType) => {
+export const verifyOtp = async (payload: UserType) => {
   const token = await getCookie("token");
   const res = await axiosInstance.post(
-    "/api/tenant/verify-otp",
+    "/api/users/verify-otp",
     {
       otp: payload.otp,
     },
@@ -34,10 +34,10 @@ export const verifyOtpTenant = async (payload: UserType) => {
   return res;
 };
 
-export const updateDataTenant = async (payload: FormDataInput) => {
+export const updateDataUser = async (payload: FormDataInput) => {
   const token = await getCookie("token");
   const res = await axiosInstance.post(
-    "/api/tenant/update-data",
+    "/api/users/update-data",
     {
       username: payload.username,
       phone: payload.phone,
@@ -46,6 +46,22 @@ export const updateDataTenant = async (payload: FormDataInput) => {
     {
       headers: {
         Authorization: `Bearer ${token?.value}`,
+      },
+    },
+  );
+  return res;
+};
+
+export const loginUser = async (payload: LoginType) => {
+  const res = await axiosInstance.post(
+    "/api/users/login",
+    {
+      email: payload.email,
+      password: payload.password,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
       },
     },
   );

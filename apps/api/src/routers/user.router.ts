@@ -18,6 +18,7 @@ export class UserRouter {
     this.router.post('/register', this.userController.register);
     this.router.post('/verify-otp', this.userController.verifyOtp);
     this.router.post('/update-data', this.userController.updateDatauser);
+    this.router.post('/login', this.userController.loginUser);
     this.router.get(
       '/getusers',
       this.authMiddleware.verifyTokenOtp,

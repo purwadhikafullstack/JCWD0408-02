@@ -3,8 +3,7 @@
 import ButtonComp from "@/components/ButtonComp";
 import { InputErr } from "@/components/Input";
 import { updateDataTenant } from "@/libs/fetch/registerTenant";
-import { updateDataUser } from "@/libs/fetch/registerUser";
-import { navigate } from "@/libs/server";
+import { deleteCookie, navigate } from "@/libs/server";
 import { FormDataSchema } from "@/Schemas/Schema";
 import { FormDataInput } from "@/types/user";
 import { AxiosError } from "axios";
@@ -15,6 +14,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const FormikFormTenant = () => {
   const [hidePass, setHidePass] = useState(false);
+  const [loading, setLoading] = useState(false);
   const initialValues: FormDataInput = {
     username: "",
     phone: "",
@@ -22,14 +22,18 @@ const FormikFormTenant = () => {
   };
 
   const onRegister = async (data: FormDataInput) => {
+    setLoading(true);
     try {
       const res = await updateDataTenant(data);
       toast.success(res.data.msg);
+      deleteCookie("token");
       navigate("/account/logintenant");
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -102,7 +106,10 @@ const FormikFormTenant = () => {
                 </div>
               </div>
 
-              <ButtonComp text="Submit" />
+              <ButtonComp
+                disable={loading}
+                text={loading ? "Loading..." : "Submit"}
+              />
             </section>
           </Form>
         );

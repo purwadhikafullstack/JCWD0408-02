@@ -2,22 +2,48 @@
 
 import ButtonComp from "@/components/ButtonComp";
 import { Input, InputErr } from "@/components/Input";
+import { loginTenant } from "@/libs/fetch/tenant";
+import { createCookie, navigate } from "@/libs/server";
 import { LoginSchema } from "@/Schemas/Schema";
-import { ErrorMessage, Form, Formik } from "formik";
+import { LoginType } from "@/types/user";
+import { AxiosError } from "axios";
+import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
 import Link from "next/link";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const FormikComp = () => {
   const [hidePass, setHidePass] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const initialValues: LoginType = {
+    email: "",
+    password: "",
+  };
+
+  const onLogin = async (data: LoginType, action: FormikHelpers<LoginType>) => {
+    setLoading(true);
+    try {
+      const res = await loginTenant(data);
+      createCookie("token", res.data.token);
+      toast.success(res.data.msg);
+      action.resetForm();
+      navigate("/home");
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={initialValues}
       validationSchema={LoginSchema}
       onSubmit={(value, action) => {
-        alert(JSON.stringify(value));
-        action.resetForm();
+        onLogin(value, action);
       }}
     >
       {() => {
@@ -67,7 +93,10 @@ const FormikComp = () => {
               Lupa password?
             </Link>
 
-            <ButtonComp text="Masuk" />
+            <ButtonComp
+              disable={loading}
+              text={loading ? "Loading..." : "Masuk"}
+            />
           </Form>
         );
       }}

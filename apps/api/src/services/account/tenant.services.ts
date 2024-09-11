@@ -5,6 +5,8 @@ import prisma from '@/prisma';
 import { Tenant } from '@prisma/client';
 import { verify } from 'jsonwebtoken';
 import { hashPass } from '@/helper/hashPass';
+import { compare } from 'bcrypt';
+import { createToken } from '@/helper/createToken';
 
 const secret = process.env.SECRET_KEY || 'nezztar';
 
@@ -79,6 +81,33 @@ export const updateDataTenantServices = async (body: Tenant, token: string) => {
     });
 
     return updateData;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const loginTenantServices = async (body: Tenant) => {
+  try {
+    const { email, password } = body;
+    const user = await prisma.tenant.findFirst({ where: { email } });
+    if (!user) throw new Error('User not found');
+    if (!user.isVerify)
+      throw new Error('User not verify, please verify for login');
+    const isValidPass = await compare(password!, user.password!);
+    if (!isValidPass)
+      throw new Error(
+        'Password is incorrect, please enter the correct password',
+      );
+    const payload = {
+      id: user.id,
+      role: user.role,
+      username: user.username!,
+      email: user.email,
+      phone: user.phone!,
+    };
+    const token = createToken(payload, '1d');
+
+    return { user, token };
   } catch (error) {
     throw error;
   }
