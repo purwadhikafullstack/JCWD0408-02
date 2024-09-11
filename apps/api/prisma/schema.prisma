@@ -71,7 +71,6 @@ model Property {
   tenant      Tenant        @relation(fields: [tenant_Id], references: [id])
   PropertyPic PropertyPic[]
   Room        Room[]
-  Review      Review[]
 }
 
 model PropertyPic {
@@ -90,20 +89,22 @@ enum Type {
 }
 
 model Room {
-  id          Int           @id @default(autoincrement())
-  type        Type          @default(Standard)
-  price       Float
-  capacity    Int           @default(1)
-  description String
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt()
-  property_Id Int
-  tenant_Id   Int
-  tenant      Tenant        @relation(fields: [tenant_Id], references: [id])
-  property    Property      @relation(fields: [property_Id], references: [id])
-  RoomPic     RoomPic[]
-  Review      Review[]
-  Reservation Reservation[]
+  id           Int           @id @default(autoincrement())
+  type         Type          @default(Standard)
+  price        Float
+  capacity     Int           @default(1)
+  description  String
+  facility     String        @default("")
+  availability Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt()
+  property_Id  Int
+  tenant_Id    Int
+  tenant       Tenant        @relation(fields: [tenant_Id], references: [id])
+  property     Property      @relation(fields: [property_Id], references: [id])
+  RoomPic      RoomPic[]
+  Review       Review[]
+  Reservation  Reservation[]
 }
 
 model RoomPic {
@@ -147,10 +148,8 @@ model Review {
   updatedAt      DateTime    @updatedAt()
   user_Id        Int
   room_Id        Int
-  property_Id    Int
   reservation_Id Int         @unique
   user           User        @relation(fields: [user_Id], references: [id])
   room           Room        @relation(fields: [room_Id], references: [id])
-  property       Property    @relation(fields: [property_Id], references: [id])
   reservation    Reservation @relation(fields: [reservation_Id], references: [id])
 }
