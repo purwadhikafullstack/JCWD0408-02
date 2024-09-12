@@ -89,7 +89,9 @@ export const updateDatauserServices = async (body: User, token: string) => {
 export const loginUserServices = async (body: User) => {
   try {
     const { email, password } = body;
-    const user = await prisma.user.findFirst({ where: { email, provider:"CREDENTIAL" } });
+    const user = await prisma.user.findFirst({
+      where: { email, provider: 'CREDENTIAL' },
+    });
     if (!user) throw new Error('User not found');
     if (!user.isVerify)
       throw new Error('User not verify, please verify for login');
@@ -108,6 +110,54 @@ export const loginUserServices = async (body: User) => {
     const token = createToken(payload, '1d');
 
     return { user, token };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const forgotPasswordUserServices = async (email: string) => {
+  try {
+    const user = await prisma.user.findFirst({
+      where: { email, provider: 'CREDENTIAL' },
+    });
+    if (!user) throw new Error('Invalid email address');
+    const payload = {
+      id: user.id,
+      role: user.role,
+      username: user.username!,
+      email: user.email,
+      phone: user.phone!,
+    };
+    const token = createToken(payload, '30m');
+    const link =
+      process.env.BASE_URL_FRONTEND + `/account/forgot-password-user/${token}`;
+    await transporter.sendMail({
+      to: email,
+      subject: 'Link reset password',
+      html: `<a href="${link}" target="_blank">Reset password here</a>`,
+    });
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const resetPasswordUserServices = async (
+  userId: number,
+  password: string,
+) => {
+  try {
+    const user = await prisma.user.findFirst({
+      where: { id: userId, provider: 'CREDENTIAL' },
+    });
+    if (!user) throw new Error('Account not found');
+    const hashPassword = await hashPass(password);
+    const newPass = await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashPassword },
+    });
+    return newPass;
   } catch (error) {
     throw error;
   }

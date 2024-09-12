@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { BsTwitterX } from "react-icons/bs";
 import { FaFacebook } from "react-icons/fa";
 import Link from 'next/link';
-import { Logo } from './Logo';
+import { Logo } from '../../../../components/Logo';
 
 interface IPropsDesainLogin {
     text1: string;

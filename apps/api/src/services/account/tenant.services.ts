@@ -112,3 +112,50 @@ export const loginTenantServices = async (body: Tenant) => {
     throw error;
   }
 };
+
+export const forgotPasswordTenantServices = async (email: string) => {
+  try {
+    const user = await prisma.tenant.findFirst({
+      where: { email, provider: 'CREDENTIAL' },
+    });
+    if (!user) throw new Error('Invalid email address');
+    const payload = {
+      id: user.id,
+      role: user.role,
+      username: user.username!,
+      email: user.email,
+      phone: user.phone!,
+    };
+    const token = createToken(payload, '30m');
+    const link = process.env.BASE_URL_FRONTEND + `/account/forgot-password-tenant/${token}`;
+    await transporter.sendMail({
+      to: email,
+      subject: 'Link reset password',
+      html: `<a href="${link}" target="_blank">Reset password here</a>`,
+    });
+
+    return user
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const resetPasswordTenantServices = async (
+  userId: number,
+  password: string,
+) => {
+  try {
+    const user = await prisma.tenant.findFirst({
+      where: { id: userId, provider: 'CREDENTIAL' },
+    });
+    if (!user) throw new Error('Account not found');
+    const hashPassword = await hashPass(password);
+    const newPass = await prisma.tenant.update({
+      where: { id: userId },
+      data: { password: hashPassword },
+    });
+    return newPass;
+  } catch (error) {
+    throw error;
+  }
+};

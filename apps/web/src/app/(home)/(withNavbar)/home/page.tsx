@@ -1,12 +1,12 @@
-import HeroSection from '@/components/homepageComp/HeroSection'
-import React from 'react'
+import React from "react";
+import Homepage from "@/app/(home)/(withNavbar)/home/_components/Index";
 
 const Home = () => {
   return (
-    <div className='bg-latar'>
-        <HeroSection/>
+    <div>
+      <Homepage />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

@@ -1,21 +1,5 @@
+import { UserState } from "@/types/user";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface UserState {
-  id: number;
-  email: string;
-  username: string;
-  phone: string;
-  role: string;
-  token: string
-  provider: Provider | null;
-}
-
-enum Provider {
-  GOOGLE,
-  TWITTER,
-  FACEBOOK,
-  CREDENTIAL,
-}
 
 const initialState: UserState = {
   id: 0,
@@ -24,6 +8,7 @@ const initialState: UserState = {
   phone: "",
   role: "",
   token: "",
+  avatar: "",
   provider: null,
 };
 
@@ -38,6 +23,7 @@ export const userSlice = createSlice({
       state.phone = action.payload.phone;
       state.role = action.payload.role;
       state.token = action.payload.token;
+      state.avatar = action.payload.token;
       state.provider = action.payload.provider;
     },
     logoutAction: (state) => {
@@ -47,6 +33,7 @@ export const userSlice = createSlice({
       state.phone = "";
       state.role = "";
       state.token = "";
+      state.avatar = "";
       state.provider = null;
     },
   },
