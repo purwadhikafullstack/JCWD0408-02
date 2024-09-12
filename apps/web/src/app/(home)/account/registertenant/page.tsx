@@ -1,6 +1,6 @@
-import DesainLoginRegis from "@/components/DesainLoginRegis";
 import React from "react";
 import FormikComp from "./_components/Formik";
+import DesainLoginRegis from "../_components/DesainLoginRegis";
 
 const RegisterTenant = () => {
   return (

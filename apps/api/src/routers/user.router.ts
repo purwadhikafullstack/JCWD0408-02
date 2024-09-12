@@ -19,11 +19,9 @@ export class UserRouter {
     this.router.post('/verify-otp', this.userController.verifyOtp);
     this.router.post('/update-data', this.userController.updateDatauser);
     this.router.post('/login', this.userController.loginUser);
-    this.router.get(
-      '/getusers',
-      this.authMiddleware.verifyTokenOtp,
-      this.userController.getusers,
-    );
+    this.router.post('/forgot-password', this.userController.forgotPasswordUser);
+    this.router.patch('/reset-password',this.authMiddleware.verifyTokenOtp, this.userController.resetPasswordUser);
+    this.router.get('/getusers',this.authMiddleware.verifyTokenOtp, this.userController.getusers,);
   }
 
   getRouter(): Router {

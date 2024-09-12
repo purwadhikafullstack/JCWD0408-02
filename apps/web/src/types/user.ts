@@ -13,3 +13,21 @@ export interface LoginType {
   email: string;
   password: string;
 }
+
+export interface UserState {
+  id: number;
+  email: string;
+  username: string;
+  phone: string;
+  role: string;
+  token: string;
+  avatar: string;
+  provider: Provider | null;
+}
+
+enum Provider {
+  GOOGLE,
+  TWITTER,
+  FACEBOOK,
+  CREDENTIAL,
+}

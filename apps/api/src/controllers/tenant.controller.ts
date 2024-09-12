@@ -1,6 +1,8 @@
 import {
+  forgotPasswordTenantServices,
   loginTenantServices,
   registerServicesTenant,
+  resetPasswordTenantServices,
   updateDataTenantServices,
   verifyOtpServicesTenant,
 } from '@/services/account/tenant.services';
@@ -63,6 +65,33 @@ export class TenantController {
         msg: 'Login succes',
         user,
         token,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async forgotPasswordTenant(req: Request, res: Response, next: NextFunction) {
+    try {
+      await forgotPasswordTenantServices(req.body.email);
+      return res.status(200).send({
+        status: 'ok',
+        msg: 'Send email success, please check your email',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async resetPasswordTenant(req: Request, res: Response, next: NextFunction) {
+    try {
+      await resetPasswordTenantServices(
+        Number(req.user?.id),
+        req.body.password,
+      );
+      return res.status(200).send({
+        status: 'ok',
+        msg: 'Reset password success',
       });
     } catch (error) {
       next(error);

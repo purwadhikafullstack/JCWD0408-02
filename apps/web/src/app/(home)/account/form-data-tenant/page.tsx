@@ -1,6 +1,5 @@
-import DesainFormData from "@/components/DesainFormData";
-import React from "react";
 import FormikFormTenant from "./_components/FormikFormTenant";
+import DesainFormData from "../_components/DesainFormData";
 
 const FormDataTenant = () => {
   return (

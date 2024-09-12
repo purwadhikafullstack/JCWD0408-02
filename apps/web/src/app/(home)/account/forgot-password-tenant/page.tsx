@@ -1,8 +1,11 @@
-import React from 'react'
+import DesainForgotPassword from '../_components/DesainForgotPassword'
+import FormikForgotPassTenant from './_components/FormikForgotPass'
 
 const ForgotPassTenant = () => {
   return (
-    <div>ForgotPassTenant</div>
+    <DesainForgotPassword>
+      <FormikForgotPassTenant/>
+    </DesainForgotPassword>
   )
 }
 
