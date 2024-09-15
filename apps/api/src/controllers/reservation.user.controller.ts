@@ -77,11 +77,19 @@ export class ReservationController {
   }
   async updateStatusTrans(req: Request, res: Response) {
     try {
+      const { transaction_status } = req.body;
+      const order_id = +req.body.order_id.replace('ORDERID-', '');
+      if (transaction_status == 'settlement')
+        await prisma.reservation.update({
+          data: { statusRes: 'PAID' },
+          where: { id: order_id },
+        });
+
       return res.status(200).send({
-        msg:'success update status reservation'
-      })
+        msg: 'success update status reservation',
+      });
     } catch (error) {
-      responseError(res,error)
+      responseError(res, error);
     }
   }
 }
