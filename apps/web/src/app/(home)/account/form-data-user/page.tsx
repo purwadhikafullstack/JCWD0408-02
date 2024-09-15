@@ -1,4 +1,4 @@
-import DesainFormData from "@/components/DesainFormData";
+import DesainFormData from "../_components/DesainFormData";
 import FormikFormUser from "./_components/FormikFormUser";
 
 const FormDataUser = () => {

@@ -1,9 +1,12 @@
-import React from 'react'
+import DesainForgotPassword from "../_components/DesainForgotPassword";
+import FormikForgotPassUser from "./_components/FormikForgotPass";
 
 const ForgotPassUser = () => {
   return (
-    <div>ForgotPassUser</div>
-  )
-}
+    <DesainForgotPassword>
+      <FormikForgotPassUser />
+    </DesainForgotPassword>
+  );
+};
 
-export default ForgotPassUser
+export default ForgotPassUser;

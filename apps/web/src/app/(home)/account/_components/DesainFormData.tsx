@@ -1,5 +1,5 @@
 import React from "react";
-import { Logo } from "./Logo";
+import { Logo } from "../../../../components/Logo";
 
 const DesainFormData = ({ children }: { children: React.ReactNode }) => {
   return (

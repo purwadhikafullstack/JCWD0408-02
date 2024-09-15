@@ -67,3 +67,26 @@ export const loginTenant = async (payload: LoginType) => {
   );
   return res;
 };
+
+export const forgotPasswordTenant = async (payload: UserType) => {
+  const res = await axiosInstance.post("/api/tenant/forgot-password", {
+    email: payload.email,
+  });
+
+  return res
+};
+
+export const resetPasswordTenant = async (password: string, token: string) => {
+  const res = await axiosInstance.patch(
+    "/api/tenant/reset-password",
+    {
+      password,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return res;
+};

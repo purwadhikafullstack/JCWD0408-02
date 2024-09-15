@@ -1,8 +1,10 @@
 import prisma from '@/prisma';
 import {
+  forgotPasswordUserServices,
   getUserServices,
   loginUserServices,
   registerServicesUser,
+  resetPasswordUserServices,
   updateDatauserServices,
   verifyOtpServices,
 } from '@/services/account/user.services';
@@ -65,6 +67,33 @@ export class UserController {
         msg: 'Login succes',
         user,
         token,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async forgotPasswordUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      await forgotPasswordUserServices(req.body.email);
+      return res.status(200).send({
+        status: 'ok',
+        msg: 'Send email success, please check your email',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async resetPasswordUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await resetPasswordUserServices(
+        Number(req.user?.id),
+        req.body.password,
+      );
+      return res.status(200).send({
+        status: 'ok',
+        msg: 'Reset password success',
       });
     } catch (error) {
       next(error);
