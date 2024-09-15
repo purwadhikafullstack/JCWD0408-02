@@ -1,6 +1,9 @@
-import axios from 'axios';
+import { midTransLink } from '@/helper/fetchingMidtrans';
 
-export const createPaymentLink = async (orderId: string,totalPrice: number,) => {
+export const createPaymentLink = async (
+  orderId: string,
+  totalPrice: number,
+) => {
   const data = {
     transaction_details: {
       order_id: `ORDERID-${orderId}`,
@@ -11,15 +14,7 @@ export const createPaymentLink = async (orderId: string,totalPrice: number,) => 
       duration: 120,
     },
   };
-  const midTrans = await axios.post(
-    'https://app.sandbox.midtrans.com/snap/v1/transactions',
-    data,
-    {
-      headers: {
-        Authorization: `Basic ${process.env.MIDTRANS_SERVER_KEY}`,
-      },
-    },
-  );
-  const midTransData = await midTrans.data;
+
+  const midTransData = await midTransLink(data);
   return midTransData;
 };
