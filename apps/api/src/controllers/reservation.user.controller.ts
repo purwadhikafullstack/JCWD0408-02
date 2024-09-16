@@ -2,7 +2,7 @@ import { responseError } from '@/helper/ResponseError';
 import prisma from '@/prisma';
 import { createPaymentLink } from '@/services/reservation.service';
 import { Request, Response } from 'express';
-
+const base_url = process.env.NEXT_PUBLIC_BASE_API_URL;
 export class ReservationController {
   async createReservationVA(req: Request, res: Response) {
     try {
@@ -75,6 +75,8 @@ export class ReservationController {
       console.log(error);
     }
   }
+
+  //MENGUPDATE STATUS TRANS MENJADI PAID
   async updateStatusTrans(req: Request, res: Response) {
     try {
       const { transaction_status } = req.body;
@@ -88,6 +90,39 @@ export class ReservationController {
       return res.status(200).send({
         msg: 'success update status reservation',
       });
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
+
+  async createReservationTF(req: Request, res: Response) {
+    try {
+      const { price, user_Id, room_Id } = req.body;
+      const startDate = new Date(req.body.startDate);
+      const endDate = new Date(req.body.endDate);
+      const now = Date.now();
+      const dateNow = new Date(now);
+      const reservation = await prisma.reservation.create({
+        data: {
+          price,
+          startDate,
+          endDate,
+          paymentLink: '',
+          user_Id: user_Id,
+          room_Id: room_Id,
+        },
+      });
+      res.status(200).send();
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
+
+  async uploadPaymentProof(req: Request, res: Response) {
+    try {
+      console.log(req.body);
+      console.log(req.file);
+      res.status(200).send("OKE");
     } catch (error) {
       responseError(res, error);
     }
