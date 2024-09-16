@@ -16,7 +16,7 @@ export const uploader = (
     file: Express.Multer.File,
     cb: FileFilterCallback,
   ) => {
-    const extAllowed = /\.(jpg|jpeg|png)$/;
+    const extAllowed = /\.(jpg|png)$/;
     const isExMatch = file.originalname.toLocaleLowerCase().match(extAllowed);
     if (isExMatch) {
       cb(null, true);
