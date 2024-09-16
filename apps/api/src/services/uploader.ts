@@ -47,5 +47,5 @@ export const uploader = (
     },
   });
   const limits = { fileSize: filelimit || 1 * 1024 * 1024 };
-  return multer({ storage: storage, fileFilter, limits });
+  return multer({ storage: storage, fileFilter: fileFilter, limits });
 };
