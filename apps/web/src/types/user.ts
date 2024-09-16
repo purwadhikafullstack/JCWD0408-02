@@ -22,6 +22,7 @@ export interface UserState {
   role: string;
   token: string;
   avatar: string;
+  isVerify: boolean;
   provider: Provider | null;
 }
 

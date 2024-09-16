@@ -28,10 +28,10 @@ export const LogoScroll = ({ size, scrolled }: LogoScroll) => {
   return (
     <div className={`flex ${size}`}>
       <GiHummingbird
-        className={`transition-colors duration-300 ${scrolled ? "text-white" : "text-btn"} h-6 w-6`}
+        className={`transition-colors duration-300 ${scrolled ? "text-btn" : "text-gray-100"} h-6 w-6`}
       />
       <p
-        className={`left-[16px] top-2 -translate-x-2 translate-y-2 text-xl font-semibold transition-colors duration-300 ${scrolled ? "text-hitam" : "text-white"}`}
+        className={`left-[16px] top-2 -translate-x-2 translate-y-2 text-xl font-semibold transition-colors duration-300 ${scrolled? "text-hitam" : "text-gray-100"} `}
       >
         Nezztar
       </p>

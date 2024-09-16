@@ -1,0 +1,8 @@
+import Profilepage from "@/app/(home)/(profilePage)/profile/_components/Index";
+
+const Profile = () => {
+  
+  return <Profilepage />;
+};
+
+export default Profile;
