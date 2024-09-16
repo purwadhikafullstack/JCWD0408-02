@@ -1,5 +1,6 @@
-import { MouseEventHandler } from 'react';
-import { MdOutlinePayment } from 'react-icons/md';
+import { MouseEventHandler } from "react";
+import { MdOutlinePayment } from "react-icons/md";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
 
 interface IProps {
   drop: boolean;
@@ -16,16 +17,16 @@ export default function DropdownPay({
   paymentTF,
 }: IProps) {
   return (
-    <div>
-      <h1 className="font-semibold pb-4 text-xl">Bayar Menggunakan</h1>
+    <div className="">
+      <h1 className="pb-4 text-xl font-semibold">Bayar Menggunakan</h1>
       <button
         onClick={setDrop}
-        className="w-full text-lg hover:text-white border-2 border-btn text-btn hover:bg-btn   font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center  "
+        className="inline-flex w-full items-center rounded-lg border-2 border-btn px-5 py-2.5 text-center text-lg font-medium text-btn duration-300 hover:bg-btn hover:text-white"
         type="button"
       >
         {payMethod}
         <svg
-          className="w-2.5 h-2.5 ms-3"
+          className="ms-3 h-2.5 w-2.5"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -41,14 +42,13 @@ export default function DropdownPay({
         </svg>
       </button>
 
-      <div className={`z-10 ${drop ? 'block' : 'hidden'} w-full bg-abu  divide-y rounded-lg shadow `}
+      <div
+        className={`z-10 ${drop ? "block" : "hidden"} w-full divide-y rounded-lg bg-abu shadow`}
       >
-        <ul
-          className="py-2 text-sm  bg-white "
-        >
-          <li className="border-b-2 bg-w">
+        <ul className="bg-white py-2 text-sm duration-300">
+          <li className="bg-w border-b-2">
             <button
-              className="flex  items-center gap-5 text-lg px-4 py-2"
+              className="flex items-center gap-5 px-4 py-2 text-lg"
               onClick={paymentVA}
             >
               <MdOutlinePayment />
@@ -57,15 +57,16 @@ export default function DropdownPay({
           </li>
           <li>
             <button
-              className="flex items-center gap-5 text-lg px-4 py-2"
+              className="flex items-center gap-5 px-4 py-2 text-lg"
               onClick={paymentTF}
             >
-              <MdOutlinePayment />
+              <FaMoneyBillTransfer />
               <p>Transfer Bank</p>
             </button>
           </li>
         </ul>
       </div>
+      <div></div>
     </div>
   );
 }
