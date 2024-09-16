@@ -5,12 +5,18 @@ import { useEffect, useState } from "react";
 import { LogoScroll } from "./Logo";
 import { useAppSelector } from "@/Redux/Hooks";
 import { useDispatch } from "react-redux";
-import { logoutAction } from "@/Redux/slices/userSlice";
+import { IoPerson } from "react-icons/io5";
+import { RiServiceFill } from "react-icons/ri";
+import Image from "next/image";
+import ModalPartnert from "./homepageComp/ModalPartnert";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const { username, token } = useAppSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const [modalPartner, setModalPartnert] = useState(false);
+  const { username, token, avatar } = useAppSelector((state) => state.user);
+  const onCloseModal = () => {
+    setModalPartnert(!modalPartner);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,44 +31,92 @@ const Navbar = () => {
   }, []);
   return (
     <nav
-      className={`fixed z-10 w-full transition-colors duration-300 ${scrolled ? "bg-btnhover" : "bg-transparent"}`}
+      className={`fixed z-10 w-full transition-all duration-300 ${scrolled ? "border-b-2 bg-white" : "bg-transparant"}`}
     >
-      <main className="mx-auto max-w-7xl px-3 py-2 md:px-8 lg:px-10">
-        <div className="flex justify-between">
-          <Link href={"/"}>
+      <main className="mx-auto max-w-7xl px-2 py-2 md:px-16 lg:px-20">
+        <div className="flex items-center justify-between">
+          <Link href={"/home"}>
             <LogoScroll scrolled={scrolled} size="scale-100" />
           </Link>
 
-          {token ? (
-            <div>
-              <Link href={"/profile"}>{username}</Link>
-              <h3 onClick={() => dispatch(logoutAction())}>Logout</h3>
-            </div>
-          ) : (
-            <div
-              className={`flex gap-3 border-2 ${scrolled ? "border-white text-white" : "border-btn text-white"} rounded-full px-2 py-2 font-semibold`}
+          <div
+            className={`flex items-center gap-5 font-medium ${scrolled ? "text-hitam" : "text-gray-100"} `}
+          >
+            <button
+              onClick={onCloseModal}
+              type="submit"
+              className="flex items-center gap-1 rounded-md px-1 py-2 transition-all duration-200 hover:bg-black/50"
             >
-              <Link
-                href={"/account/register"}
-                className="text-white transition-colors duration-150 hover:text-gray-300"
-              >
-                Daftar
-              </Link>
+              <RiServiceFill className="h-5 w-5" />
+              <p>Jadi Partner Nezztar</p>
+            </button>
+            <Link
+              href={"/profile/myorder"}
+              className="rounded-md px-1 py-2 transition-all duration-200 hover:bg-black/50"
+            >
+              Cek Pesanan
+            </Link>
 
-              {/* Style line start */}
-              <p
-                className={`h-full w-[1px] ${scrolled ? "bg-white" : "bg-btn"} `}
-              ></p>
-              {/* Style line end */}
-
+            {token ? (
               <Link
-                href={"/account/login"}
-                className="text-white transition-colors duration-150 hover:text-gray-300"
+                href={"/profile"}
+                className="flex cursor-pointer items-center justify-center rounded-full border-2 border-btn px-1 transition-all duration-200 hover:bg-black/50"
               >
-                Masuk
+                {avatar !== null ? (
+                  <div className="flex items-center gap-2 px-1 py-1">
+                    <Image
+                      src={"/uiotp.svg"}
+                      alt="profile"
+                      width={40}
+                      height={40}
+                      className="h-7 w-7 rounded-full bg-btn object-cover"
+                    />
+                    <p>{username}</p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 px-1 py-1">
+                    <IoPerson
+                      className={`h-7 w-7 rounded-full border-2 bg-btn text-white`}
+                    />
+                    <p>{username}</p>
+                  </div>
+                )}
               </Link>
-            </div>
-          )}
+            ) : (
+              <div
+                className={`flex gap-3 border-2 ${scrolled ? "border-white text-white" : "border-btn text-white"} rounded-full px-2 py-2 font-semibold`}
+              >
+                <Link
+                  href={"/account/register"}
+                  className="text-white transition-colors duration-150 hover:text-gray-300"
+                >
+                  Daftar
+                </Link>
+
+                {/* Style line start */}
+                <div
+                  className={`w-[2px] rounded-full ${scrolled ? "bg-white" : "bg-btn"} `}
+                ></div>
+                {/* Style line end */}
+
+                <Link
+                  href={"/account/login"}
+                  className="text-white transition-colors duration-150 hover:text-gray-300"
+                >
+                  Masuk
+                </Link>
+              </div>
+            )}
+
+            {modalPartner && (
+              <section
+                onClick={onCloseModal}
+                className="fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/30"
+              >
+                <ModalPartnert onCloseModal={onCloseModal} />
+              </section>
+            )}
+          </div>
         </div>
       </main>
     </nav>

@@ -36,7 +36,7 @@ const FormikComp = () => {
       dispatch(loginAction(userData));
       toast.success(res.data.msg);
       action.resetForm();
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data);

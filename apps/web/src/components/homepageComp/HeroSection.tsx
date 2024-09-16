@@ -11,7 +11,7 @@ const HeroSection = () => {
         alt="Hero"
         width={1000}
         height={600}
-        className="h-[640px] w-screen object-cover object-bottom"
+        className="h-[500px] w-screen object-cover object-bottom"
       />
 
       {/* Searching bar start */}

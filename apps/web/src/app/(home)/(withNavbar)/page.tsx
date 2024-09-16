@@ -1,9 +1,12 @@
-import HeroSection from "@/components/homepageComp/HeroSection";
+import HeroSection from '@/components/homepageComp/HeroSection'
+import React from 'react'
 
-export default function Home() {
+const Home = () => {
   return (
-    <div className="bg-latar">
-      <HeroSection />
+    <div>
+      <HeroSection/>
     </div>
-  );
+  )
 }
+
+export default Home
