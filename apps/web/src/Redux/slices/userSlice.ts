@@ -9,6 +9,7 @@ const initialState: UserState = {
   role: "",
   token: "",
   avatar: "",
+  isVerify: false,
   provider: null,
 };
 
@@ -23,7 +24,8 @@ export const userSlice = createSlice({
       state.phone = action.payload.phone;
       state.role = action.payload.role;
       state.token = action.payload.token;
-      state.avatar = action.payload.token;
+      state.avatar = action.payload.avatar;
+      state.isVerify = action.payload.isVerify;
       state.provider = action.payload.provider;
     },
     logoutAction: (state) => {
@@ -34,6 +36,7 @@ export const userSlice = createSlice({
       state.role = "";
       state.token = "";
       state.avatar = "";
+      state.isVerify = false;
       state.provider = null;
     },
   },

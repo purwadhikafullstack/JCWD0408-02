@@ -6,11 +6,9 @@ import React from "react";
 
 export default function AuthGuard(Components: any) {
   return function IsAuth(props: any) {
-    const { token, role } = useAppSelector((state) => state.user);
+    const { token } = useAppSelector((state) => state.user);
     if (!token) {
-      return navigate("/");
-    } else if (role !== "user") {
-      return navigate("/dashboard");
+      return navigate("/account/login");
     }
 
     return <Components {...props} />;
