@@ -41,3 +41,10 @@ export const resetPassSchema = Yup.object().shape({
     .required("Konfirmasi password diperlukan")
     .oneOf([Yup.ref("password")], "Password Anda tidak cocok"),
 });
+
+export const updateDataProfile = Yup.object().shape({
+  username: Yup.string().required("Masukkan username baru"),
+  phone: Yup.string()
+    .required("Masukkan nomor telephone baru")
+    .matches(/^\d+$/),
+});

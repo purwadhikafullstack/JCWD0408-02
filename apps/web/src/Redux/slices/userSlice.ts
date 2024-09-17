@@ -8,7 +8,8 @@ const initialState: UserState = {
   phone: "",
   role: "",
   token: "",
-  avatar: "",
+  avatar: null,
+  createdAt: "",
   isVerify: false,
   provider: null,
 };
@@ -25,6 +26,7 @@ export const userSlice = createSlice({
       state.role = action.payload.role;
       state.token = action.payload.token;
       state.avatar = action.payload.avatar;
+      state.createdAt = action.payload.createdAt;
       state.isVerify = action.payload.isVerify;
       state.provider = action.payload.provider;
     },
@@ -35,7 +37,8 @@ export const userSlice = createSlice({
       state.phone = "";
       state.role = "";
       state.token = "";
-      state.avatar = "";
+      state.avatar = null;
+      state.createdAt = "";
       state.isVerify = false;
       state.provider = null;
     },

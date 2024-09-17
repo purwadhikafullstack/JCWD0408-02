@@ -32,3 +32,12 @@ export function formatDateReservation(date: Date | null) {
   const year = date ? date.getFullYear() : null;
   return `${dayName},${day} ${monthName} ${year}`;
 }
+
+export const formatDateCreateAccount = (datestr: string) => {
+  const date = new Date(datestr)
+  const formatter = new Intl.DateTimeFormat("id-ID", {
+      dateStyle: "medium",
+  })
+
+  return formatter.format(date)
+}
