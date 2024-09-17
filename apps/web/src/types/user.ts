@@ -21,8 +21,9 @@ export interface UserState {
   phone: string;
   role: string;
   token: string;
-  avatar: string;
+  avatar: File | null;
   isVerify: boolean;
+  createdAt: string;
   provider: Provider | null;
 }
 
@@ -31,4 +32,10 @@ enum Provider {
   TWITTER,
   FACEBOOK,
   CREDENTIAL,
+}
+
+export interface UpdateDataUser {
+  username: string;
+  phone: string;
+  avatar: File | null;
 }

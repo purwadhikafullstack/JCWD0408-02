@@ -8,10 +8,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { IconType } from "react-icons";
-import { HiClipboardList } from "react-icons/hi";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { IoPerson, IoSettingsSharp } from "react-icons/io5";
 import { MdOutlineRateReview } from "react-icons/md";
-import { RiFileList3Fill, RiLogoutCircleLine } from "react-icons/ri";
+import { RiDashboardFill, RiLogoutCircleLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 
 interface MenuDashboard {
@@ -20,9 +20,8 @@ interface MenuDashboard {
   icon: IconType;
 }
 
-const SideBarProfile = () => {
+const SideBarDashboard = () => {
   const dispatch = useDispatch();
-
   const onLogout = () => {
     dispatch(logoutAction());
     deleteCookie("token");
@@ -30,18 +29,19 @@ const SideBarProfile = () => {
   };
   const pathname = usePathname();
   const { username, avatar } = useAppSelector((state) => state.user);
+
   const menuBar: MenuDashboard[] = [
-    { href: "/profile/myorder", text: "Pesanan saya", icon: HiClipboardList },
+    { href: "/dashboard", text: "Dashboard", icon: RiDashboardFill },
     {
-      href: "/profile/purchase",
-      text: "Daftar pembelian",
-      icon: RiFileList3Fill,
+      href: "/dashboard/transaction",
+      text: "Transaksi",
+      icon: FaMoneyBillTransfer,
     },
-    { href: "/profile/review", text: "Review", icon: MdOutlineRateReview },
+    { href: "/dashboard/review", text: "Review", icon: MdOutlineRateReview },
   ];
 
   const menuAcc = [
-    { href: "/profile", text: "Akun saya", icon: IoSettingsSharp },
+    { href: "/dashboard/profile", text: "Akun anda", icon: IoSettingsSharp },
   ];
 
   return (
@@ -67,7 +67,7 @@ const SideBarProfile = () => {
 
           <div className="hidden text-xs text-gray-500 lg:block">
             <h1 className="text-base font-semibold text-hitam">{username}</h1>
-            <h1>User</h1>
+            <h1>Tenant</h1>
           </div>
         </div>
         {/* Profile end */}
@@ -117,4 +117,4 @@ const SideBarProfile = () => {
   );
 };
 
-export default SideBarProfile;
+export default SideBarDashboard;

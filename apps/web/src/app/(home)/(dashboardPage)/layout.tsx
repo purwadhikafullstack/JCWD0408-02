@@ -1,6 +1,6 @@
+import NavBar from "./dashboard/_components/NavBar";
+import SideBarDashboard from "./dashboard/_components/SideBar";
 import "./globals.css";
-import NavBarProfile from "./profile/_components/Navbarprofile";
-import SideBarProfile from "./profile/_components/SideBar";
 
 export default function RootLayout({
   children,
@@ -10,9 +10,9 @@ export default function RootLayout({
   return (
     <main className="w-full">
       <div className="mx-auto flex w-full justify-between">
-        <SideBarProfile />
+        <SideBarDashboard />
         <main className="flex-1 bg-latar/40 px-5">
-          <NavBarProfile />
+          <NavBar />
           {children}
         </main>
       </div>

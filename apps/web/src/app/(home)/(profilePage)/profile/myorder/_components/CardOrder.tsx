@@ -4,16 +4,16 @@ import { IoStar } from "react-icons/io5";
 
 const CardOrder = () => {
   return (
-    <div className="h-[340px] w-[360px] overflow-hidden rounded-lg border bg-slate-50 shadow-md md:w-[340px] lg:w-[250px]">
+    <div className="w-full overflow-hidden rounded-lg border bg-slate-50 shadow-md md:h-[340px]">
       <Image
         src={"/dummy/kamar.jpg"}
         alt="Order image"
         width={100}
         height={100}
-        className="h-[180px] w-full rounded-lg object-cover"
+        className="h-[140px] w-full rounded-lg object-cover md:h-[180px]"
       />
       <section className="h-full px-3 py-2">
-        <main className="flex items-center gap-6">
+        <main className="flex items-center gap-6 text-sm md:text-base">
           <div className="flex items-center gap-1">
             <FaLocationDot className="text-btn" />
             <p className="font-medium text-hitam">Jakarta</p>
@@ -24,15 +24,15 @@ const CardOrder = () => {
           </div>
         </main>
 
-        <main className="my-4 h-[60px]">
-          <p className="font-semibold text-hitam">
+        <main className="my-4 h-[60px] text-sm md:text-base">
+          <p className="font-semibold line-clamp-2 text-hitam">
             D'Valley View Lembang RedPartner
           </p>
         </main>
 
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between text-sm md:text-base">
           <h3 className="font-medium text-hitam">Rp2.767.715</h3>
-          <h3 className="text-sm text-gray-500">1 Kamar</h3>
+          <h3 className="text-xs text-gray-500 md:text-sm">1 Kamar</h3>
         </div>
       </section>
     </div>

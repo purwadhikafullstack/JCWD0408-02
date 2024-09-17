@@ -1,25 +1,27 @@
 "use client";
-
 import Image from "next/image";
 import React from "react";
 
 interface ProfileProps {
-  image: File | null;
+  avatar: File | null;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 
-const ProfilePreview: React.FC<ProfileProps> = ({ image }) => {
-  const [imageUrl, setImageUrl] = React.useState<string | null>(null);
+const ProfilePreview: React.FC<ProfileProps> = ({ avatar, setFieldValue }) => {
+  const [imageUrl, setImageUrl] = React.useState<string | null>(null)
+    React.useEffect(() => {
+        if (avatar) {
+            const objectUrl = URL.createObjectURL(avatar);
+            setImageUrl(objectUrl)
 
-  React.useEffect(() => {
-    if (image) {
-      const objectUrl = URL.createObjectURL(image);
-      setImageUrl(objectUrl);
-      return () => URL.revokeObjectURL(objectUrl);
-    } else {
-      setImageUrl(null);
-    }
-  }, [image]);
-  if (!imageUrl) return null;
+            return () => URL.revokeObjectURL(objectUrl)
+        } else {
+            setImageUrl(null)
+        }
+
+    }, [avatar])
+
+    if (!imageUrl) return null
 
   return (
     <div>

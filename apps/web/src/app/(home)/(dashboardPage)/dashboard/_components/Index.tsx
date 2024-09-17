@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
 import TenantGuard from "@/hoc/TenantGuard";
 
 const Dashboardpage = () => {
-  return <div>Dashboardpage</div>;
+  return <div className="w-full">Dashboardphe</div>;
 };
 
 export default TenantGuard(Dashboardpage);
