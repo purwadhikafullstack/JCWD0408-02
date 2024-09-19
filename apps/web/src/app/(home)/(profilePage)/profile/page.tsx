@@ -1,7 +1,6 @@
-import Profilepage from "@/app/(home)/(profilePage)/profile/_components/Index";
+import Profilepage from "./_components/Index";
 
 const Profile = () => {
-  
   return <Profilepage />;
 };
 

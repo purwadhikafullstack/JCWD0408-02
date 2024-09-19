@@ -1,4 +1,4 @@
-import MyOrderpage from "@/app/(home)/(profilePage)/profile/myorder/_components/Index";
+import MyOrderpage from "./_components/Index";
 
 const MyOrder = () => {
   return <MyOrderpage />;

@@ -23,8 +23,8 @@ interface MenuDashboard {
 const SideBarDashboard = () => {
   const dispatch = useDispatch();
   const onLogout = () => {
-    dispatch(logoutAction());
     deleteCookie("token");
+    dispatch(logoutAction());
     navigate("/");
   };
   const pathname = usePathname();
