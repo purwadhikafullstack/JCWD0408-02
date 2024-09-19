@@ -1,6 +1,5 @@
 "use client";
 
-import UserGuard from "@/hoc/UserGuard";
 import ListCardOrder from "./ListCardOrder";
 
 const MyOrderpage = () => {
@@ -16,4 +15,4 @@ const MyOrderpage = () => {
   );
 };
 
-export default UserGuard(MyOrderpage);
+export default MyOrderpage;

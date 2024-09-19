@@ -1,9 +1,7 @@
-import React from 'react'
+import CreatePropertyPage from "./_components/Index";
 
 const CreateProperty = () => {
-  return (
-    <div>CreateProperty</div>
-  )
-}
+  return <CreatePropertyPage />;
+};
 
-export default CreateProperty
+export default CreateProperty;

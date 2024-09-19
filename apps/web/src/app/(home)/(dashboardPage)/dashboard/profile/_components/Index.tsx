@@ -9,9 +9,8 @@ import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
 import { UpdateDataUser } from "@/types/user";
 import Image from "next/image";
 import { updateDataProfile } from "@/Schemas/Schema";
-import ProfilePreview from "@/app/(home)/(profilePage)/profile/_components/ProfilePreview";
 import ChangeEmailTenant from "./EmailChangeTenant";
-import TenantGuard from "@/hoc/TenantGuard";
+import ProfilePreview from "@/app/(home)/(profilePage)/profile/_components/ProfilePreview";
 
 const Profilepage = () => {
   const [isHover, setIsHover] = useState(false);
@@ -205,4 +204,4 @@ const Profilepage = () => {
   );
 };
 
-export default TenantGuard(Profilepage);
+export default Profilepage;

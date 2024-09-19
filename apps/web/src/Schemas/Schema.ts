@@ -48,3 +48,20 @@ export const updateDataProfile = Yup.object().shape({
     .required("Masukkan nomor telephone baru")
     .matches(/^\d+$/),
 });
+
+export const FormProperty = Yup.object().shape({
+  name: Yup.string().required("Masukkan nama properti"),
+  description: Yup.string().required("Masukkan deskripsi"),
+  category: Yup.string().required("Pilih kategori"),
+  location: Yup.string().required("Masukkan lokasi properti"),
+  thumbnail: Yup.string().required("Masukkan thumbnail"),
+});
+
+export const FormRoom = Yup.object().shape({
+  type: Yup.string().required("Pilih type untuk room"),
+  price: Yup.string().required("Masukkan harga normal").matches(/^\d+$/),
+  pricediscount: Yup.string().required("Masukkan harga normal").matches(/^\d+$/),
+  capacity: Yup.string().required("Masukkan jumlah kapasitas"),
+  description: Yup.string().required("Masukkan deskripsi untuk kamar"),
+  facility: Yup.string().required("Pilih fasilitas untuk room"),
+});

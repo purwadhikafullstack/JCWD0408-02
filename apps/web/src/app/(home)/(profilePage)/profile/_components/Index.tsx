@@ -1,6 +1,5 @@
 "use client";
 
-import UserGuard from "@/hoc/UserGuard";
 import { useState } from "react";
 import { IoPerson } from "react-icons/io5";
 import { FiEdit } from "react-icons/fi";
@@ -205,4 +204,4 @@ const Profilepage = () => {
   );
 };
 
-export default UserGuard(Profilepage);
+export default Profilepage;
