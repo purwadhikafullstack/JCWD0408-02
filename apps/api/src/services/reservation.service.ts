@@ -11,7 +11,7 @@ export const createPaymentLink = async (
     },
     expiry: {
       unit: 'minutes',
-      duration: 120,
+      duration: 60,
     },
   };
 
