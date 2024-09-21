@@ -1,7 +1,6 @@
 import { MouseEventHandler } from "react";
 import { MdOutlinePayment } from "react-icons/md";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
-
 interface IProps {
   drop: boolean;
   setDrop: MouseEventHandler<HTMLButtonElement>;
