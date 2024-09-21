@@ -1,6 +1,6 @@
 "use client";
 
-import ButtonComp from "@/components/ButtonComp";
+import { ButtonComp } from "@/components/ButtonComp";
 import { InputErr } from "@/components/Input";
 import { forgotPasswordTenant } from "@/libs/fetch/tenant";
 import { RegisterSchema } from "@/Schemas/Schema";

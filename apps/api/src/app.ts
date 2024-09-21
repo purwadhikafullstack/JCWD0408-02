@@ -14,6 +14,7 @@ import { TenantRouter } from './routers/tenant.router';
 import { ReservationRouter } from './routers/reservation.user.router';
 import { DecodeTokenRouter } from './routers/decode.route';
 import { PropertyRouter } from './routers/property.route';
+import path from "path"
 
 export default class App {
   private app: Express;
@@ -29,6 +30,7 @@ export default class App {
     this.app.use(cors());
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
+    this.app.use('/api/public', express.static(path.join(__dirname, '../public')))
   }
 
   private handleError(): void {

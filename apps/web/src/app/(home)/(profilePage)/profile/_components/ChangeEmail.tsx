@@ -1,6 +1,6 @@
 "use client";
 
-import ButtonComp from "@/components/ButtonComp";
+import { ButtonComp } from "@/components/ButtonComp";
 import { useAppSelector } from "@/Redux/Hooks";
 import { RegisterSchema } from "@/Schemas/Schema";
 import { ErrorMessage, Field, Form, Formik } from "formik";
