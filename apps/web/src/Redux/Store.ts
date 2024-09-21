@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import userReducer from "./slices/userSlice";
+import stepReducer from "./slices/stepSlice";
 
 const createNoopStorage = () => {
   return {
@@ -31,12 +32,13 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userReducer,
+  step: stepReducer,
 });
 
-const makeConfiguredStore = () => 
+const makeConfiguredStore = () =>
   configureStore({
-    reducer: rootReducer
-  })
+    reducer: rootReducer,
+  });
 
 export const makeStore = () => {
   const isServer = typeof window === "undefined";

@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { IoPerson } from "react-icons/io5";
 import { FiEdit } from "react-icons/fi";
-import ProfilePreview from "./ProfilePreview";
 import { useAppSelector } from "@/Redux/Hooks";
 import ButtonComp from "@/components/ButtonComp";
 import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
 import { UpdateDataUser } from "@/types/user";
 import Image from "next/image";
-import ChangeEmailUser from "./ChangeEmail";
 import { updateDataProfile } from "@/Schemas/Schema";
+import ChangeEmailTenant from "./EmailChangeTenant";
+import ProfilePreview from "@/app/(home)/(profilePage)/profile/_components/ProfilePreview";
 
 const Profilepage = () => {
   const [isHover, setIsHover] = useState(false);
@@ -35,7 +35,7 @@ const Profilepage = () => {
   };
 
   return (
-    <div className="mt-6 pb-7 lg:mt-0 lg:px-5">
+    <div className="pb-7 lg:px-5">
       <p className="text-xl font-semibold lg:text-2xl">Pengaturan Akun</p>
       <div className="relative mt-5 border-b-2 px-4 pb-1">
         <p className="font-semibold text-btn">Informasi Akun</p>
@@ -199,7 +199,7 @@ const Profilepage = () => {
           );
         }}
       </Formik>
-      <ChangeEmailUser />
+      <ChangeEmailTenant />
     </div>
   );
 };

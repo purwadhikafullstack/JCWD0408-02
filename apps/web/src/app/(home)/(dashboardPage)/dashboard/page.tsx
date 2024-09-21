@@ -1,4 +1,5 @@
-import Dashboardpage from "@/app/(home)/dashboard/_components/Index";
+import Dashboardpage from "./_components/Index";
+
 
 const Dashboard = () => {
   return <Dashboardpage />;

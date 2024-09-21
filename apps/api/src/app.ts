@@ -15,6 +15,8 @@ import { ReservationRouter } from './routers/reservation.user.router';
 import { TenantTransactionRouter } from './routers/tenant.transaction.router';
 import { ReviewRouter } from './routers/review.router';
 import { ReservationInfoRouter } from './routers/reservation.info.router';
+import { DecodeTokenRouter } from './routers/decode.route';
+import { PropertyRouter } from './routers/property.route';
 
 export default class App {
   private app: Express;
@@ -62,6 +64,8 @@ export default class App {
     const tenantTransactionRouter = new TenantTransactionRouter();
     const reviewRouter = new ReviewRouter();
     const reservationInfoRouter = new ReservationInfoRouter();
+    const decodeTokenRouter = new DecodeTokenRouter();
+    const propertyRouter = new PropertyRouter()
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
@@ -71,9 +75,10 @@ export default class App {
     this.app.use('/api/tenant', tenantRouter.getRouter());
     this.app.use('/api/reservation', reservationRouter.getRouter());
     this.app.use('/api/reservation', tenantTransactionRouter.getRouter());
-
     this.app.use('/api/review', reviewRouter.getRouter());
     this.app.use('/api/info', reservationInfoRouter.getRouter());
+    this.app.use('/api/decode', decodeTokenRouter.getRouter());
+    this.app.use('/api/property', propertyRouter.getRouter());
   }
 
   public start(): void {

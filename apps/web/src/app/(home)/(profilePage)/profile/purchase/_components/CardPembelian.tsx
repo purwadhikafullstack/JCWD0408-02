@@ -3,7 +3,7 @@ import React from "react";
 
 const CardPembelian = () => {
   return (
-    <div className="h-[60px] w-[370px] overflow-hidden rounded-lg border bg-slate-50 shadow-md md:w-[340px] lg:w-[250px]">
+    <div className="h-[60px] w-full overflow-hidden rounded-lg border bg-slate-50 shadow-md">
       <div className="flex h-full items-center gap-3 px-2 py-1">
         <Image
           src={"/dummy/kamar.jpg"}
