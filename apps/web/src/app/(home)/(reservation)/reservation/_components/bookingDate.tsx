@@ -1,6 +1,7 @@
 "use client";
 import { formatDateId } from "@/utils/formatDate";
 import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,6 +13,8 @@ const BookingDate: React.FC = () => {
   const [buttonVisible, setButtonVissible] = useState<boolean>(false);
   const [dateOpen, setDateOpen] = useState<boolean>(false);
   const router = useRouter();
+  const params = useParams();
+  const id = params.id;
 
   const onChange: any = (dates: DateRange) => {
     const [start, end] = dates;
@@ -21,7 +24,7 @@ const BookingDate: React.FC = () => {
   };
   const onClick: any = () => {
     const query = `?checkin=${startDate}&checkout=${endDate}`;
-    router.push(`/reservation${query}`);
+    router.push(`/reservation/${id}${query}`);
     setButtonVissible(false);
     setDateOpen(false);
   };
@@ -64,5 +67,4 @@ const BookingDate: React.FC = () => {
     </div>
   );
 };
-
 export default BookingDate;

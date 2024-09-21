@@ -5,7 +5,7 @@ import React from "react";
 interface ProfileProps {
   image: File | null;
 }
-const ProfilePreview: React.FC<ProfileProps> = ({ image }) => {
+const ProofPreview: React.FC<ProfileProps> = ({ image }) => {
   const [imageUrl, setImageUrl] = React.useState<string | null>(null);
   React.useEffect(() => {
     if (image) {
@@ -25,10 +25,10 @@ const ProfilePreview: React.FC<ProfileProps> = ({ image }) => {
         alt="Profile Preview"
         width={100}
         height={100}
-        className="h-28 w-28 rounded-full object-cover"
+        className="lg:h-[200px] lg:w-[500px] rounded-xl object-cover"
       />
     </div>
   );
 };
 
-export default ProfilePreview;
+export default ProofPreview;
