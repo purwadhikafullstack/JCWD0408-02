@@ -1,6 +1,5 @@
 "use client";
 
-import ButtonComp from "@/components/ButtonComp";
 import { InputErr } from "@/components/Input";
 import { RegisterSchema } from "@/Schemas/Schema";
 import { UserType } from "@/types/user";
@@ -11,6 +10,7 @@ import toast from "react-hot-toast";
 import InputOtpRegisterUser from "./InputOtp";
 import { createCookie } from "@/libs/server";
 import { registerAxios } from "@/libs/fetch/user";
+import { ButtonComp } from "@/components/ButtonComp";
 
 const FormikComp = () => {
   const [loading, setLoading] = useState(false);

@@ -11,7 +11,11 @@ import toast from "react-hot-toast";
 import { TbBuildingCommunity } from "react-icons/tb";
 import { IoImageOutline, IoLocationOutline } from "react-icons/io5";
 import { MdOutlineCategory, MdOutlineDescription } from "react-icons/md";
-import ButtonComp from "@/components/ButtonComp";
+import { createPropertyfetch } from "@/libs/fetch/property";
+import { AxiosError } from "axios";
+import { navigate } from "@/libs/server";
+import { ButtonComp } from "@/components/ButtonComp";
+import LoadingComp from "@/components/LoadingComp";
 
 const maxFileSize = 1 * 1024 * 1024;
 
@@ -24,12 +28,26 @@ const FormikProperty: FC<PropsFormik> = ({ nextButton }) => {
   const [isHover, setIsHover] = useState(false);
   const [laoding, setLoading] = useState(false);
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: PropertyForm) => {
     setLoading(true);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("category", data.category);
+    formData.append("description", data.description);
+    formData.append("location", data.location);
+    if (data.thumbnail) {
+      formData.append("thumbnail", data.thumbnail);
+    }
     try {
+      const res = await createPropertyfetch(formData);
+      console.log(res);
+      toast.success(res.data.msg);
+      navigate(`/dashboard/create-property/${res.data.result.id}`);
       nextButton();
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data);
+      }
     } finally {
       setLoading(false);
     }
@@ -49,6 +67,10 @@ const FormikProperty: FC<PropsFormik> = ({ nextButton }) => {
       }
     }
   };
+
+  if (laoding) {
+    return <div>Loading...</div>
+  }
   const initialValues: PropertyForm = {
     name: "",
     description: "",
@@ -62,8 +84,8 @@ const FormikProperty: FC<PropsFormik> = ({ nextButton }) => {
       initialValues={initialValues}
       validationSchema={FormProperty}
       onSubmit={(value) => {
-        alert(JSON.stringify(value));
-        nextButton();
+        onSubmit(value);
+        console.log(value);
       }}
     >
       {({ setFieldValue, values, dirty, errors }) => {

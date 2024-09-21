@@ -2,16 +2,20 @@
 
 import { FC, useState } from "react";
 import { FiEdit } from "react-icons/fi";
-import CardCreateRoom from "./CardCreateRoom";
-import FormikRoom from "./FormikRoom";
-import ButtonComp from "@/components/ButtonComp";
+import FormikRoom from "../_components/FormikRoom";
+import ListCardRoom from "../_components/ListCardRoom";
 
 interface PropsFormik {
   nextButton: () => void;
   prevButton: () => void;
+  params?: { id: string };
 }
 
-const DesignRoom: FC<PropsFormik> = ({ nextButton, prevButton }) => {
+const DesignRoom: FC<PropsFormik> = ({
+  nextButton,
+  prevButton,
+  params,
+}) => {
   const [isRoom, setIsRoom] = useState(false);
   const onRoomClick = () => {
     setIsRoom(!isRoom);
@@ -35,17 +39,11 @@ const DesignRoom: FC<PropsFormik> = ({ nextButton, prevButton }) => {
             onRoomClick={onRoomClick}
             nextButton={nextButton}
             prevButton={prevButton}
+            id={params!.id}
           />
         ) : (
           <div>
-            <div className="mb-5 grid grid-cols-1 place-items-center px-2 py-2">
-              <CardCreateRoom />
-            </div>
-            <div className="flex w-full justify-end">
-              <div onClick={nextButton} className="w-fit">
-                <ButtonComp text="Selanjutnya" />
-              </div>
-            </div>
+            <ListCardRoom id={params?.id!} />
           </div>
         )}
       </section>

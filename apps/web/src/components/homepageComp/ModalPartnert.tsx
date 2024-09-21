@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import ButtonComp from "../ButtonComp";
 import Link from "next/link";
+import { ButtonComp } from "../ButtonComp";
 
 const data = [
   {
