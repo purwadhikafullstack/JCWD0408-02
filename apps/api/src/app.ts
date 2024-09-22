@@ -14,7 +14,7 @@ import { TenantRouter } from './routers/tenant.router';
 import { ReservationRouter } from './routers/reservation.user.router';
 import { DecodeTokenRouter } from './routers/decode.route';
 import { PropertyRouter } from './routers/property.route';
-import path from "path"
+import path from 'path';
 
 export default class App {
   private app: Express;
@@ -30,7 +30,10 @@ export default class App {
     this.app.use(cors());
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
-    this.app.use('/api/public', express.static(path.join(__dirname, '../public')))
+    this.app.use(
+      '/api/public',
+      express.static(path.join(__dirname, '../public')),
+    );
   }
 
   private handleError(): void {
@@ -60,6 +63,8 @@ export default class App {
     const userRouter = new UserRouter();
     const tenantRouter = new TenantRouter();
     const reservationRouter = new ReservationRouter();
+    const decodeTokenRouter = new DecodeTokenRouter();
+    const propertyRouter = new PropertyRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
@@ -68,6 +73,8 @@ export default class App {
     this.app.use('/api/users', userRouter.getRouter());
     this.app.use('/api/tenant', tenantRouter.getRouter());
     this.app.use('/api/reservation', reservationRouter.getRouter());
+    this.app.use('/api/decode', decodeTokenRouter.getRouter());
+    this.app.use('/api/property', propertyRouter.getRouter());
   }
 
   public start(): void {
