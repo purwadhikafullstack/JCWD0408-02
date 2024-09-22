@@ -4,13 +4,13 @@ import { useState } from "react";
 import { IoPerson } from "react-icons/io5";
 import { FiEdit } from "react-icons/fi";
 import { useAppSelector } from "@/Redux/Hooks";
-import ButtonComp from "@/components/ButtonComp";
 import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
 import { UpdateDataUser } from "@/types/user";
 import Image from "next/image";
 import { updateDataProfile } from "@/Schemas/Schema";
 import ChangeEmailTenant from "./EmailChangeTenant";
 import ProfilePreview from "@/app/(home)/(profilePage)/profile/_components/ProfilePreview";
+import { ButtonComp } from "@/components/ButtonComp";
 
 const Profilepage = () => {
   const [isHover, setIsHover] = useState(false);
