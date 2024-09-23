@@ -1,6 +1,6 @@
 import React from "react";
 import CardPembelian from "./CardPembelian";
-import ButtonComp from "@/components/ButtonComp";
+import { ButtonComp } from "@/components/ButtonComp";
 
 const ListCardPembelian = () => {
   return (

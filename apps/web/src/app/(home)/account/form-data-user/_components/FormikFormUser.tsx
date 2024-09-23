@@ -1,6 +1,6 @@
 "use client";
 
-import ButtonComp from "@/components/ButtonComp";
+import { ButtonComp } from "@/components/ButtonComp";
 import { InputErr } from "@/components/Input";
 import { updateDataUser } from "@/libs/fetch/user";
 import { deleteCookie, navigate } from "@/libs/server";

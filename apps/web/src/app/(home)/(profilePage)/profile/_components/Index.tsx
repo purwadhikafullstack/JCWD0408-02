@@ -5,12 +5,12 @@ import { IoPerson } from "react-icons/io5";
 import { FiEdit } from "react-icons/fi";
 import ProfilePreview from "./ProfilePreview";
 import { useAppSelector } from "@/Redux/Hooks";
-import ButtonComp from "@/components/ButtonComp";
 import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
 import { UpdateDataUser } from "@/types/user";
 import Image from "next/image";
 import ChangeEmailUser from "./ChangeEmail";
 import { updateDataProfile } from "@/Schemas/Schema";
+import { ButtonComp } from "@/components/ButtonComp";
 
 const Profilepage = () => {
   const [isHover, setIsHover] = useState(false);

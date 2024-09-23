@@ -15,18 +15,23 @@ import {
 import { FaMinus, FaPlus, FaRestroom, FaWifi } from "react-icons/fa6";
 import { RiHotelLine } from "react-icons/ri";
 import { IoPricetagsOutline } from "react-icons/io5";
-import ButtonComp from "@/components/ButtonComp";
+import { createRoomfetch } from "@/libs/fetch/property";
+import toast from "react-hot-toast";
+import { AxiosError } from "axios";
+import { ButtonComp } from "@/components/ButtonComp";
 
 interface PropsFormik {
   nextButton: () => void;
   prevButton: () => void;
   onRoomClick: () => void;
+  id: string
 }
 
 const FormikRoom: FC<PropsFormik> = ({
   nextButton,
   prevButton,
   onRoomClick,
+  id
 }) => {
   const [loading, setLoading] = useState(false);
   const initialValues: RoomForm = {
@@ -38,11 +43,19 @@ const FormikRoom: FC<PropsFormik> = ({
     facility: "",
   };
 
-  const onSumbitRoom = () => {
+  const onSumbitRoom = async (data: RoomForm) => {
+    console.log("form data", data);
+
     setLoading(true);
     try {
-    } catch (error) {
+      const res = await createRoomfetch(data, id);
+      console.log("INI HASIL RES", res);
+      toast.success(res.data.msg);
       onRoomClick();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data);
+      }
     } finally {
       setLoading(false);
     }
@@ -53,8 +66,10 @@ const FormikRoom: FC<PropsFormik> = ({
       initialValues={initialValues}
       validationSchema={FormRoom}
       onSubmit={(value) => {
-        alert(JSON.stringify(value));
-        onRoomClick();
+        console.log("ini formik", value);
+        onSumbitRoom(value);
+        // alert(JSON.stringify(value));
+        // onRoomClick();
       }}
     >
       {({ values, setFieldValue, errors, dirty }) => {
@@ -362,14 +377,9 @@ const FormikRoom: FC<PropsFormik> = ({
                   !!errors.pricediscount ||
                   !!errors.type
                 }
-                text="Buat"
+                text={loading ? "Loading..." : "Buat"}
               />
             </div>
-
-            {/* <div className="flex gap-5">
-              <button onClick={prevButton}>Prev</button>
-              <button onClick={nextButton}>Next</button>
-            </div> */}
           </Form>
         );
       }}

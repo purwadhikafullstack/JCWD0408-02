@@ -65,6 +65,7 @@ model Property {
   category    Category
   thumbnail   String
   location    String
+  isActive    Boolean       @default(false)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt()
   tenant_Id   Int
@@ -89,22 +90,23 @@ enum Type {
 }
 
 model Room {
-  id           Int           @id @default(autoincrement())
-  type         Type          @default(Standard)
-  price        Float
-  capacity     Int           @default(1)
-  description  String
-  facility     String        @default("")
-  availability Boolean       @default(true)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt()
-  property_Id  Int
-  tenant_Id    Int
-  tenant       Tenant        @relation(fields: [tenant_Id], references: [id])
-  property     Property      @relation(fields: [property_Id], references: [id])
-  RoomPic      RoomPic[]
-  Review       Review[]
-  Reservation  Reservation[]
+  id            Int           @id @default(autoincrement())
+  type          Type          @default(Standard)
+  price         Float
+  capacity      Int           @default(1)
+  description   String
+  facility      String        @default("")
+  pricediscount Float
+  availability  Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt()
+  property_Id   Int
+  tenant_Id     Int
+  tenant        Tenant        @relation(fields: [tenant_Id], references: [id])
+  property      Property      @relation(fields: [property_Id], references: [id])
+  RoomPic       RoomPic[]
+  Review        Review[]
+  Reservation   Reservation[]
 }
 
 model RoomPic {

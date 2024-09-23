@@ -1,10 +1,9 @@
 "use client";
 
-import ButtonComp from "@/components/ButtonComp";
+import { ButtonComp } from "@/components/ButtonComp";
 import { InputErr } from "@/components/Input";
 import { forgotPasswordUser } from "@/libs/fetch/user";
 import { RegisterSchema } from "@/Schemas/Schema";
-import { UserType } from "@/types/user";
 import { AxiosError } from "axios";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
