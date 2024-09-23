@@ -16,22 +16,23 @@ export class ReservationRouter {
   }
 
   private initializeRoutes(): void {
-    this.router.post(
-      '/VA',
-      this.authMiddleware.verifyTokenOtp,
-      this.reservationController.createReservationVA,
-    );
+    
     this.router.post(
       '/VA/status',
       this.reservationController.updateStatusTrans,
     );
     this.router.post(
-      '/TF',
+      '/VA/:room_id',
+      this.authMiddleware.verifyTokenOtp,
+      this.reservationController.createReservationVA,
+    );
+    this.router.post(
+      '/TF/:id',
       this.authMiddleware.verifyTokenOtp,
       this.reservationController.createReservationTF,
     );
     this.router.post(
-      '/TF/proof',
+      '/TF/proof/:reservation_id',
       this.authMiddleware.verifyTokenOtp,
       uploader('proof', '/proof').single('media'),
       this.reservationController.uploadPaymentProof,

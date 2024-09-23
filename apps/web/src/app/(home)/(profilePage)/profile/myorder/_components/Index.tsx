@@ -1,5 +1,3 @@
-"use client";
-
 import ListCardOrder from "./ListCardOrder";
 
 const MyOrderpage = () => {

@@ -1,5 +1,5 @@
 import PriceDetail from "../_components/priceDetail";
-import ReservationDetail from "../_components/reservationDetail";
+import ReservationDetail from "../_components";
 import ReservationNav from "../../_components/reservationNav";
 import { IoChevronBackOutline } from "react-icons/io5";
 export default function Reservation() {
