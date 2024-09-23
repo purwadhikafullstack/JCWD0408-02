@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import ProofPreview from "./imagePreview";
 import { CiImageOn } from "react-icons/ci";
-import ButtonComp from "@/components/ButtonComp";
+import {ButtonComp} from "@/components/ButtonComp";
 import { axiosInstance } from "@/libs/axios";
 import Cookies from "js-cookie";
 import { useParams } from "next/navigation";

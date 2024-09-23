@@ -12,12 +12,12 @@ import { PORT } from './config';
 import { UserRouter } from './routers/user.router';
 import { TenantRouter } from './routers/tenant.router';
 import { ReservationRouter } from './routers/reservation.user.router';
-import { TenantTransactionRouter } from './routers/tenant.transaction.router';
-import { ReviewRouter } from './routers/review.router';
-import { ReservationInfoRouter } from './routers/reservation.info.router';
 import { DecodeTokenRouter } from './routers/decode.route';
 import { PropertyRouter } from './routers/property.route';
 import path from 'path';
+import { TenantTransactionRouter } from './routers/tenant.transaction.router';
+import { ReviewRouter } from './routers/review.router';
+import { ReservationInfoRouter } from './routers/reservation.info.router';
 
 export default class App {
   private app: Express;
@@ -66,11 +66,11 @@ export default class App {
     const userRouter = new UserRouter();
     const tenantRouter = new TenantRouter();
     const reservationRouter = new ReservationRouter();
+    const decodeTokenRouter = new DecodeTokenRouter();
+    const propertyRouter = new PropertyRouter();
     const tenantTransactionRouter = new TenantTransactionRouter();
     const reviewRouter = new ReviewRouter();
     const reservationInfoRouter = new ReservationInfoRouter();
-    const decodeTokenRouter = new DecodeTokenRouter();
-    const propertyRouter = new PropertyRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
