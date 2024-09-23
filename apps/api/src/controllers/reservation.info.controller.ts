@@ -8,11 +8,17 @@ export class ReservationInfoController {
     try {
       const data = await prisma.reservation.findMany({
         where: { user_Id: req.user?.id },
+        include: {
+          room: { include: { property: true } },
+        },
       });
-      res.status(200).send(data);
+
+      res.status(200).send({
+        status: 'OK',
+        data: data,
+      });
     } catch (error) {
       responseError(res, error);
     }
   }
-
 }

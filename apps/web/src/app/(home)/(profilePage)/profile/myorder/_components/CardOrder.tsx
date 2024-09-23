@@ -1,10 +1,18 @@
+'use client';
+import { navigate } from "@/libs/server";
 import Image from "next/image";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoStar } from "react-icons/io5";
+interface IOrderlist {
+  location: String;
+  name: String;
+  price: number;
+  reservation_id: number;
+}
 
-const CardOrder = () => {
+const CardOrder = ({ location, name, price, reservation_id }: IOrderlist) => {
   return (
-    <div className="w-full overflow-hidden rounded-lg border bg-slate-50 shadow-md md:h-[340px]">
+    <div className="w-full overflow-hidden rounded-lg border bg-slate-50 py-2 shadow-md">
       <Image
         src={"/dummy/kamar.jpg"}
         alt="Order image"
@@ -16,23 +24,28 @@ const CardOrder = () => {
         <main className="flex items-center gap-6 text-sm md:text-base">
           <div className="flex items-center gap-1">
             <FaLocationDot className="text-btn" />
-            <p className="font-medium text-hitam">Jakarta</p>
+            <p className="font-medium text-hitam">{location}</p>
           </div>
           <div className="flex items-center gap-1">
             <IoStar className="text-yellow-500" />
             <p className="font-medium text-hitam">4.5</p>
           </div>
         </main>
-
         <main className="my-4 h-[60px] text-sm md:text-base">
-          <p className="font-semibold line-clamp-2 text-hitam">
-            D'Valley View Lembang RedPartner
-          </p>
+          <p className="line-clamp-2 font-semibold text-hitam">{name}</p>
+          <h3 className="text-xs text-gray-500 md:text-sm">1 Kamar</h3>
         </main>
 
         <div className="flex items-center justify-between text-sm md:text-base">
-          <h3 className="font-medium text-hitam">Rp2.767.715</h3>
-          <h3 className="text-xs text-gray-500 md:text-sm">1 Kamar</h3>
+          <h3 className="font-medium text-hitam">Rp {price}</h3>
+          <div>
+            <button
+              onClick={() => navigate(`/reservation-detail/${reservation_id}`)}
+              className="rounded-md bg-btn px-2 py-2 text-white duration-300 hover:bg-btnhover"
+            >
+              Booking Details
+            </button>
+          </div>
         </div>
       </section>
     </div>

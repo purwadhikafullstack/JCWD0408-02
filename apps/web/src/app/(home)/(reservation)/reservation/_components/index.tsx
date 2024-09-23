@@ -6,6 +6,10 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
+import { paymentVA } from "@/libs/fetch/reservation";
+import { IReservation } from "@/types/reservation";
+import { navigate } from "@/libs/server";
 export default function ReservationDetail() {
   const [drop, setDrop] = useState<boolean>(false);
   const [payMethod, setPayMethod] = useState<string>("Virtual Account");
@@ -25,11 +29,18 @@ export default function ReservationDetail() {
   };
   const token = Cookies.get("token");
   const price: number = 300000;
-  const room_id: number = 1;
+  const params = useParams();
+  const data: IReservation = {
+    price: price,
+    startDate: startDate,
+    endDate: endDate,
+  };
+  const room_id: number = +params.id;
+  // const handlePaymentVa = async () => await paymentVA(data, room_id, token!);
   const handlePaymentVa = async () => {
     try {
       const res = await axios.post(
-        `https://lemur-rare-eft.ngrok-free.app/api/reservation/VA`,
+        `https://lemur-rare-eft.ngrok-free.app/api/reservation/VA/${room_id}`,
         {
           price: price,
           startDate: startDate,
@@ -43,10 +54,12 @@ export default function ReservationDetail() {
           },
         },
       );
+
       toast.success("Reservation Created");
-      // navigate(res.data)
+      navigate(res.data.URL);
     } catch (error) {
       console.log(error);
+      toast.error('transaksi error');
     }
   };
 

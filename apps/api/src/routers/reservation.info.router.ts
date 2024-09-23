@@ -15,9 +15,11 @@ export class ReservationInfoRouter {
   }
 
   private initalizeRoutes(): void {
-    this.router.get('/',
+    this.router.get(
+      '/',
       this.authMiddleware.verifyTokenOtp,
-      this.reservationInfoController.getAllReservation);
+      this.reservationInfoController.getAllReservation,
+    );
   }
   getRouter(): Router {
     return this.router;
