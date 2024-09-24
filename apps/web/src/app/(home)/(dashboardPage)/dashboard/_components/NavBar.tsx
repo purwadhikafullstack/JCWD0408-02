@@ -28,7 +28,7 @@ const NavBar = () => {
   return (
     <nav className="py-8">
       <section className="flex items-center justify-between border-b pb-3">
-        <main className="hidden text-xl font-bold text-hitam md:flex">
+        <main className="hidden text-xl font-bold text-hitam md:block">
           <h1>Dashboard</h1>
           {/* <p className="text-xs font-normal text-gray-500">{createAccount}</p> */}
         </main>

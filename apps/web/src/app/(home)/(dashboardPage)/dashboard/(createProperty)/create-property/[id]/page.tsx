@@ -11,11 +11,7 @@ interface PropsFormik {
   params?: { id: string };
 }
 
-const DesignRoom: FC<PropsFormik> = ({
-  nextButton,
-  prevButton,
-  params,
-}) => {
+const DesignRoom: FC<PropsFormik> = ({ nextButton, prevButton, params }) => {
   const [isRoom, setIsRoom] = useState(false);
   const onRoomClick = () => {
     setIsRoom(!isRoom);
@@ -35,12 +31,7 @@ const DesignRoom: FC<PropsFormik> = ({
       </button>
       <section className="mb-8 mt-3 rounded-md border px-5 py-3">
         {isRoom ? (
-          <FormikRoom
-            onRoomClick={onRoomClick}
-            nextButton={nextButton}
-            prevButton={prevButton}
-            id={params!.id}
-          />
+          <FormikRoom onRoomClick={onRoomClick} id={params!.id} />
         ) : (
           <div>
             <ListCardRoom id={params?.id!} />

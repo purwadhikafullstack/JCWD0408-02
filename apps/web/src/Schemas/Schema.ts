@@ -63,5 +63,5 @@ export const FormRoom = Yup.object().shape({
   pricediscount: Yup.string().required("Masukkan harga normal").matches(/^\d+$/),
   capacity: Yup.string().required("Masukkan jumlah kapasitas"),
   description: Yup.string().required("Masukkan deskripsi untuk kamar"),
-  facility: Yup.string().required("Pilih fasilitas untuk room"),
+  facility: Yup.array().required("Pilih fasilitas untuk room").min(1,"Minimal satu fasilitas"),
 });

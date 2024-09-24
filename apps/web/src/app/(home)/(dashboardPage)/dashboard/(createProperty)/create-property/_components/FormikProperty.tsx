@@ -15,7 +15,6 @@ import { createPropertyfetch } from "@/libs/fetch/property";
 import { AxiosError } from "axios";
 import { navigate } from "@/libs/server";
 import { ButtonComp } from "@/components/ButtonComp";
-import LoadingComp from "@/components/LoadingComp";
 
 const maxFileSize = 1 * 1024 * 1024;
 
@@ -47,6 +46,7 @@ const FormikProperty: FC<PropsFormik> = ({ nextButton }) => {
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data);
+        setIsActiveImage(false)
       }
     } finally {
       setLoading(false);
