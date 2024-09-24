@@ -34,39 +34,11 @@ export const createPropertyServices = async (
   } catch (error) {
     throw error;
   }
-};
-
-export const createRoomServices = async (
-  propertyId: string,
-  tenantId: number,
-  body: Room,
-) => {
-  try {
-    const { price, pricediscount, capacity, description, facility, type } =
-      body;
-    const rooms = await prisma.room.create({
-      data: {
-        price,
-        pricediscount,
-        capacity,
-        description,
-        facility,
-        type,
-        property_Id: +propertyId,
-        tenant_Id: tenantId,
-      },
-    });
-
-    return rooms;
-  } catch (error) {
-    throw error;
-  }
-};
-
+}
 export const publishPropertyServices = async (propertyId: string) => {
   try {
     const updateProperti = await prisma.property.update({
-      where: { id: +propertyId },
+      where: { id: propertyId },
       data: {
         isActive: true,
       },
@@ -77,7 +49,6 @@ export const publishPropertyServices = async (propertyId: string) => {
     throw error;
   }
 };
-
 export const getPropertyActiveServices = async () => {
   try {
     const property = await prisma.property.findMany({
@@ -89,12 +60,11 @@ export const getPropertyActiveServices = async () => {
   } catch (error) {
     throw error;
   }
-};
-
+}
 export const getPropertyByidServices = async (propertyId: string) => {
   try {
     const property = await prisma.property.findFirst({
-      where: { id: +propertyId },
+      where: { id: propertyId },
       include: { Room: true },
     });
 
@@ -103,14 +73,101 @@ export const getPropertyByidServices = async (propertyId: string) => {
     throw error;
   }
 };
-
-export const getRoomServices = async (propertyId: string) => {
+export const getPropertyByTenantIdServices = async (tenantId: number) => {
   try {
-    const room = await prisma.room.findMany({
-      where: { property_Id: +propertyId},
+    const property = await prisma.property.findMany({
+      where: { tenant_Id: tenantId },
+      include: { Room: true },
+      orderBy: { createdAt: 'desc' },
     });
 
-    return  room
+    return property;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getPropertyPublishServices = async (tenantId: number) => {
+  try {
+    const property = await prisma.property.findMany({
+      where: { tenant_Id: tenantId, isActive: true },
+      include: { Room: true },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return property;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getPropertyDraftServices = async (tenantId: number) => {
+  try {
+    const property = await prisma.property.findMany({
+      where: { tenant_Id: tenantId, isActive: false },
+      include: { Room: true },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return property;
+  } catch (error) {
+    throw error;
+  }
+};
+export const deletePropertyServices = async (propertyId: string) => {
+  try {
+    await prisma.room.deleteMany({
+      where: { property_Id: propertyId },
+    });
+
+    const property = await prisma.property.delete({
+      where: { id: propertyId },
+    });
+    return property;
+  } catch (error) {
+    throw error;
+  }
+};
+export const unpublishServices = async (propertyId: string) => {
+  try {
+    const unpublish = await prisma.property.update({
+      where: { id: propertyId },
+      data: {
+        isActive: false,
+      },
+    });
+    return unpublish;
+  } catch (error) {
+    throw error;
+  }
+};
+export const editPropertyServices = async (
+  propertyId: string,
+  tenant_Id: number,
+  body: Property,
+  file?: string,
+) => {
+  try {
+    const { name, location, description, category } = body;
+    const existingProperty = await prisma.property.findUnique({
+      where: { id: propertyId, tenant_Id },
+    });
+    if (!existingProperty) {
+      throw new Error('Property not found');
+    }
+    const image = file
+      ? `${base_url}/public/property/${file}`
+      : existingProperty.thumbnail;
+
+    const property = await prisma.property.update({
+      where: { id: propertyId, tenant_Id },
+      data: {
+        name,
+        location,
+        description,
+        category,
+        thumbnail: image,
+      },
+    });
+    return property;
   } catch (error) {
     throw error;
   }

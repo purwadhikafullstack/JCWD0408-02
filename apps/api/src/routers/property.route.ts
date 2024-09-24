@@ -23,13 +23,37 @@ export class PropertyRouter {
       uploader('property', '/property').single('thumbnail'),
       this.propertyController.createPropertyController,
     );
-    this.router.post("/publish/:id", this.propertyController.publishProperty)
-    this.router.get("/:id", this.propertyController.getPropertyByid)
-    this.router.get('/get-room/:id', this.propertyController.getRoom);
-    this.router.post(
-      '/create-room/:id',
+    this.router.get(
+      '/getbytenant',
       this.authMiddleware.verifyTokenOtp,
-      this.propertyController.createRoomController,
+      this.propertyController.getPropertyByTenantId,
+    );
+    this.router.get(
+      '/get-publish',
+      this.authMiddleware.verifyTokenOtp,
+      this.propertyController.getPropertyActiveTenant,
+    );
+    this.router.get(
+      '/get-draft',
+      this.authMiddleware.verifyTokenOtp,
+      this.propertyController.getPropertyDraftTenant,
+    );
+    this.router.post('/publish/:id', this.propertyController.publishProperty);
+    this.router.get('/:id', this.propertyController.getPropertyByid);
+    
+    this.router.delete(
+      '/delete-property/:id',
+      this.propertyController.deleteProperty,
+    );
+    this.router.patch(
+      '/unpublish/:id',
+      this.propertyController.unPublishProperty,
+    );
+    this.router.patch(
+      '/edit/:id',
+      this.authMiddleware.verifyTokenOtp,
+      uploader('property', '/property').single('thumbnail'),
+      this.propertyController.editProperty,
     );
   }
 

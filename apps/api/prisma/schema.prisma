@@ -59,7 +59,7 @@ enum Category {
 }
 
 model Property {
-  id          Int           @id @default(autoincrement())
+  id          String        @id @default(cuid())
   name        String        @unique
   description String        @db.LongText()
   category    Category
@@ -79,7 +79,7 @@ model PropertyPic {
   url         String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt()
-  property_Id Int
+  property_Id String
   property    Property @relation(fields: [property_Id], references: [id])
 }
 
@@ -95,18 +95,25 @@ model Room {
   price         Float
   capacity      Int           @default(1)
   description   String
-  facility      String        @default("")
   pricediscount Float
   availability  Boolean       @default(true)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt()
-  property_Id   Int
+  property_Id   String
   tenant_Id     Int
   tenant        Tenant        @relation(fields: [tenant_Id], references: [id])
   property      Property      @relation(fields: [property_Id], references: [id])
+  facility      Facility[]
   RoomPic       RoomPic[]
   Review        Review[]
   Reservation   Reservation[]
+}
+
+model Facility {
+  id     Int    @id @default(autoincrement())
+  name   String
+  roomId Int?
+  Room   Room?  @relation(fields: [roomId], references: [id])
 }
 
 model RoomPic {
