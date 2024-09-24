@@ -2,11 +2,14 @@ import { responseError } from '@/helper/ResponseError';
 import prisma from '@/prisma';
 import { createPaymentLink } from '@/services/reservation.service';
 import { Request, Response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 const base_url = process.env.NEXT_PUBLIC_BASE_API_URL;
 export class ReservationController {
   async createReservationVA(req: Request, res: Response) {
     try {
-      const { price, room_id } = req.body;
+      const { price } = req.body;
+      const { room_id } = req.params;
+
       const startDate = new Date(req.body.startDate);
       const endDate = new Date(req.body.endDate);
       const now = Date.now();
@@ -37,6 +40,7 @@ export class ReservationController {
       });
       if (roomReserved) throw 'Room has ben reserved';
       await prisma.$transaction(async (tx) => {
+        const id = uuidv4();
         const reservation = await tx.reservation.create({
           data: {
             price,
@@ -44,7 +48,7 @@ export class ReservationController {
             endDate,
             paymentLink: '',
             user_Id: +req.user?.id!,
-            room_Id: room.id,
+            room_Id: +room_id,
           },
         });
 
@@ -95,16 +99,18 @@ export class ReservationController {
 
   async createReservationTF(req: Request, res: Response) {
     try {
-      const { price, room_Id } = req.body;
+      const { price } = req.body;
+      const { room_id } = req.params;
       const startDate = new Date(req.body.startDate);
       const endDate = new Date(req.body.endDate);
       const now = Date.now();
       const dateNow = new Date(now);
       if (startDate >= endDate)
         throw 'The check-in date cannot be greater than or equal to the check-out date.';
-      const room = await prisma.room.findUnique({ where: { id: +room_Id } });
+      const room = await prisma.room.findUnique({ where: { id: +room_id } });
       if (!room) {
-        return res.status(404).json({ message: 'Room not found' });
+        // return res.status(404).json({ message: 'Room not found' });
+        throw 'Room not found !';
       }
       if (startDate < dateNow)
         throw 'Waktu Check-in tidak valid (sudah melewati tanggal hari ini)';
@@ -134,7 +140,7 @@ export class ReservationController {
           statusRes: 'CONFIRMATION',
           user_Id: +req.user?.id!,
 
-          room_Id: room_Id,
+          room_Id: +room_id,
         },
       });
       res.status(200).send(reservation);
@@ -145,15 +151,15 @@ export class ReservationController {
 
   async uploadPaymentProof(req: Request, res: Response) {
     try {
-      const { order_id } = req.body;
+      const { reservation_id } = req.params;
       let media = null;
       if (req.file) {
-        media = `${base_url}/public/proof/${req.file?.filename}`;
+        media = `${base_url}/api/public/proof/${req.file?.filename}`;
+        
       }
-
       await prisma.reservation.update({
         data: { paymentProof: media },
-        where: { id: +order_id },
+        where: { id: +reservation_id },
       });
       res.status(200).send('OKE');
     } catch (error) {

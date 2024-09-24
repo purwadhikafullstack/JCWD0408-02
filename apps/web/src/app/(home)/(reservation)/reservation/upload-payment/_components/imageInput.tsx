@@ -3,7 +3,11 @@ import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import ProofPreview from "./imagePreview";
 import { CiImageOn } from "react-icons/ci";
-import ButtonComp from "@/components/ButtonComp";
+import {ButtonComp} from "@/components/ButtonComp";
+import { axiosInstance } from "@/libs/axios";
+import Cookies from "js-cookie";
+import { useParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 const ImageInput = () => {
   const [selectImage, setSelectImage] = useState<File | null>(null);
@@ -14,6 +18,28 @@ const ImageInput = () => {
     setIsActiveImage(!false);
     if (file) {
       setSelectImage(file);
+    }
+  };
+  const token = Cookies.get("token");
+  const params = useParams();
+  const reservation_id = +params.id;
+  const handleSubmit = async (image: File) => {
+    const formData = new FormData();
+    formData.append("media", image);
+    try {
+      const res = await axiosInstance.post(
+        `/api/reservation/TF/proof/${reservation_id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
+      );
+      toast.success("success");
+      console.log("suces");
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -67,7 +93,7 @@ const ImageInput = () => {
         </label>
       )}
 
-      <div className="mt-2 lg:w-fit" onClick={() => alert(selectImage?.name)}>
+      <div className="mt-2 lg:w-fit" onClick={() => handleSubmit(selectImage!)}>
         <ButtonComp text="Kirim" disable={selectImage ? false : true} />
       </div>
     </div>

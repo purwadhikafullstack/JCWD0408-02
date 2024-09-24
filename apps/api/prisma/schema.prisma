@@ -132,11 +132,17 @@ enum StatusRes {
   CANCEL
 }
 
+enum Method {
+  VA
+  TF
+}
+
 model Reservation {
   id           Int       @id @default(autoincrement())
   price        Float
   startDate    DateTime
   endDate      DateTime
+  method       Method    @default(VA)
   paymentProof String?
   paymentLink  String?
   statusRes    StatusRes @default(PENDING)
