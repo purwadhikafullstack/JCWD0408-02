@@ -7,17 +7,17 @@ export class TenantTransactionController {
     const { id } = req.body;
     try {
       const statusPaid = await prisma.reservation.findFirst({
-        where: { id: +id, statusRes: 'PAID' },
+        where: { id: id, statusRes: 'PAID' },
       });
       const statusCancel = await prisma.reservation.findFirst({
-        where: { id: +id, statusRes: 'CANCEL' },
+        where: { id: id, statusRes: 'CANCEL' },
       });
       if (statusPaid) throw 'Transaction already accepted';
       if (statusCancel) throw 'Transaction already canceled';
 
       await prisma.reservation.update({
         data: { statusRes: 'PAID' },
-        where: { id: +id },
+        where: { id: id },
       });
       res.status(200).send({ status: 'OK', msg: 'Transaction Accepted' });
     } catch (error) {
@@ -28,12 +28,12 @@ export class TenantTransactionController {
     try {
       const { id } = req.body;
       const statusAcc = await prisma.reservation.findFirst({
-        where: { id: +id, statusRes: 'PAID' },
+        where: { id: id, statusRes: 'PAID' },
       });
       if (statusAcc) throw 'Transaksi Sudah di Diterima! ';
       await prisma.reservation.update({
         data: { statusRes: 'PENDING' },
-        where: { id: +id },
+        where: { id: id },
       });
 
       res.status(200).send({ status: 'OK', msg: 'Transaction Rejected' });
@@ -54,12 +54,12 @@ export class TenantTransactionController {
     try {
       const { id } = req.body;
       const reservation = await prisma.reservation.findFirst({
-        where: { id: +id },
+        where: { id: id },
       });
       if (reservation?.paymentProof)
         throw 'Error, user sudah mengupload bukti pembayaran !';
       await prisma.reservation.update({
-        where: { id: +id },
+        where: { id: id },
         data: { statusRes: 'CANCEL' },
       });
       res.status(200).send({

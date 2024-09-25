@@ -3,11 +3,12 @@ import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import ProofPreview from "./imagePreview";
 import { CiImageOn } from "react-icons/ci";
-import {ButtonComp} from "@/components/ButtonComp";
+import { ButtonComp } from "@/components/ButtonComp";
 import { axiosInstance } from "@/libs/axios";
 import Cookies from "js-cookie";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { navigate } from "@/libs/server";import { v4 as uuidv4 } from 'uuid';
 
 const ImageInput = () => {
   const [selectImage, setSelectImage] = useState<File | null>(null);
@@ -22,7 +23,7 @@ const ImageInput = () => {
   };
   const token = Cookies.get("token");
   const params = useParams();
-  const reservation_id = +params.id;
+  const reservation_id = params.reservation_id;
   const handleSubmit = async (image: File) => {
     const formData = new FormData();
     formData.append("media", image);
@@ -37,9 +38,9 @@ const ImageInput = () => {
         },
       );
       toast.success("success");
-      console.log("suces");
+      navigate(`  /summary/${reservation_id}`);
     } catch (error) {
-      console.log(error);
+      toast.error("file too large")
     }
   };
   return (

@@ -1,6 +1,6 @@
 "use client";
 import { getReservation } from "@/libs/fetch/reservation";
-import CardOrder from "./CardOrder";
+import CardOrder, { ReservationStatus } from "./CardOrder";
 import { axiosInstance } from "@/libs/axios";
 import { getCookie } from "@/libs/server";
 import { Booking, DataResponse } from "@/types/reservation";
@@ -28,10 +28,12 @@ const ListCardOrder = () => {
       <div className="grid grid-cols-1 place-items-center px-2 py-2 md:grid-cols-2 md:gap-3 md:px-3 lg:grid-cols-3 lg:gap-4 lg:px-5">
         {orderData.map((item: Booking, idx: number) => (
           <CardOrder
+            key={idx}
             location={item.room.property.location}
             name={item.room.type}
             price={item.price}
             reservation_id={item.id}
+            status={item.statusRes as ReservationStatus}
           />
         ))}
       </div>
