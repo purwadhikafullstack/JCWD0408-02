@@ -1,20 +1,13 @@
-/*
-  Warnings:
-
-  - You are about to drop the `samples` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE `samples`;
-
 -- CreateTable
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(191) NOT NULL,
-    `username` VARCHAR(191) NOT NULL,
-    `phone` VARCHAR(191) NOT NULL,
+    `username` VARCHAR(191) NULL,
+    `phone` VARCHAR(191) NULL,
     `password` VARCHAR(191) NULL,
     `isVerify` BOOLEAN NOT NULL DEFAULT false,
+    `otp` VARCHAR(191) NULL,
+    `otpExpired` DATETIME(3) NULL,
     `provider` ENUM('GOOGLE', 'TWITTER', 'FACEBOOK', 'CREDENTIAL') NOT NULL DEFAULT 'CREDENTIAL',
     `avatar` VARCHAR(191) NULL,
     `role` VARCHAR(191) NOT NULL DEFAULT 'user',
@@ -30,10 +23,12 @@ CREATE TABLE `User` (
 CREATE TABLE `Tenant` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(191) NOT NULL,
-    `username` VARCHAR(191) NOT NULL,
-    `phone` VARCHAR(191) NOT NULL,
+    `username` VARCHAR(191) NULL,
+    `phone` VARCHAR(191) NULL,
     `password` VARCHAR(191) NULL,
     `isVerify` BOOLEAN NOT NULL DEFAULT false,
+    `otp` VARCHAR(191) NULL,
+    `otpExpired` DATETIME(3) NULL,
     `provider` ENUM('GOOGLE', 'TWITTER', 'FACEBOOK', 'CREDENTIAL') NOT NULL DEFAULT 'CREDENTIAL',
     `avatar` VARCHAR(191) NULL,
     `role` VARCHAR(191) NOT NULL DEFAULT 'tenant',
@@ -53,6 +48,7 @@ CREATE TABLE `Property` (
     `category` ENUM('Hotel', 'Villa') NOT NULL,
     `thumbnail` VARCHAR(191) NOT NULL,
     `location` VARCHAR(191) NOT NULL,
+    `isActive` BOOLEAN NOT NULL DEFAULT false,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `tenant_Id` INTEGER NOT NULL,
@@ -79,6 +75,9 @@ CREATE TABLE `Room` (
     `price` DOUBLE NOT NULL,
     `capacity` INTEGER NOT NULL DEFAULT 1,
     `description` VARCHAR(191) NOT NULL,
+    `facility` VARCHAR(191) NOT NULL DEFAULT '',
+    `pricediscount` DOUBLE NOT NULL,
+    `availability` BOOLEAN NOT NULL DEFAULT true,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `property_Id` INTEGER NOT NULL,
@@ -104,6 +103,9 @@ CREATE TABLE `Reservation` (
     `price` DOUBLE NOT NULL,
     `startDate` DATETIME(3) NOT NULL,
     `endDate` DATETIME(3) NOT NULL,
+    `method` ENUM('VA', 'TF') NOT NULL DEFAULT 'VA',
+    `paymentProof` VARCHAR(191) NULL,
+    `paymentLink` VARCHAR(191) NULL,
     `statusRes` ENUM('PENDING', 'CONFIRMATION', 'PAID', 'CANCEL') NOT NULL DEFAULT 'PENDING',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -120,9 +122,9 @@ CREATE TABLE `Review` (
     `ratings` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `feedBack` LONGTEXT NULL,
     `user_Id` INTEGER NOT NULL,
     `room_Id` INTEGER NOT NULL,
-    `property_Id` INTEGER NOT NULL,
     `reservation_Id` INTEGER NOT NULL,
 
     UNIQUE INDEX `Review_reservation_Id_key`(`reservation_Id`),
@@ -155,9 +157,6 @@ ALTER TABLE `Review` ADD CONSTRAINT `Review_user_Id_fkey` FOREIGN KEY (`user_Id`
 
 -- AddForeignKey
 ALTER TABLE `Review` ADD CONSTRAINT `Review_room_Id_fkey` FOREIGN KEY (`room_Id`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Review` ADD CONSTRAINT `Review_property_Id_fkey` FOREIGN KEY (`property_Id`) REFERENCES `Property`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Review` ADD CONSTRAINT `Review_reservation_Id_fkey` FOREIGN KEY (`reservation_Id`) REFERENCES `Reservation`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

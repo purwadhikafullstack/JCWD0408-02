@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import { paymentVA } from "@/libs/fetch/reservation";
 import { IReservation } from "@/types/reservation";
 import { navigate } from "@/libs/server";
+import { axiosInstance } from "@/libs/axios";
 export default function ReservationDetail() {
   const [drop, setDrop] = useState<boolean>(false);
   const [payMethod, setPayMethod] = useState<string>("Virtual Account");
@@ -59,7 +60,32 @@ export default function ReservationDetail() {
       navigate(res.data.URL);
     } catch (error) {
       console.log(error);
-      toast.error('transaksi error');
+      toast.error("transaksi error");
+    }
+  };
+  const handlePaymentTf = async () => {
+    try {
+      const res = await axios.post(
+        `http://localhost:8000/api/reservation/TF/${room_id}`,
+        {
+          price: price,
+          startDate: startDate,
+          room_id: room_id,
+          endDate: endDate,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        },
+      );
+
+      toast.success("Reservation Created");
+      navigate(`/reservation/upload-payment/${res.data.id}`);
+    } catch (error) {
+      console.log(error);
+      toast.error("transaksi error");
     }
   };
 
@@ -130,7 +156,9 @@ export default function ReservationDetail() {
         bertanggung jawab atas kerusakan.
       </p>
       <button
-        onClick={handlePaymentVa}
+        onClick={
+          payMethod == "Virtual Account" ? handlePaymentVa : handlePaymentTf
+        }
         className="mt-4 rounded-xl bg-btn px-6 py-4 text-lg font-semibold text-white duration-300 hover:bg-btnhover"
       >
         Lanjutkan dan Bayar

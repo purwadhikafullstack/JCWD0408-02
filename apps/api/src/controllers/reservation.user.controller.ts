@@ -9,9 +9,9 @@ export class ReservationController {
     try {
       const { price } = req.body;
       const { room_id } = req.params;
-
       const startDate = new Date(req.body.startDate);
       const endDate = new Date(req.body.endDate);
+      const payload = { price, startDate, endDate };
       const now = Date.now();
       const dateNow = new Date(now);
       if (startDate >= endDate)
@@ -30,10 +30,12 @@ export class ReservationController {
             {
               startDate: { lt: endDate },
               endDate: { gt: startDate },
+              statusRes: { not: 'CANCEL' },
             },
             {
               startDate: { gte: startDate },
               endDate: { lte: endDate },
+              statusRes: { not: 'CANCEL' },
             },
           ],
         },
@@ -43,6 +45,7 @@ export class ReservationController {
         const id = uuidv4();
         const reservation = await tx.reservation.create({
           data: {
+            id,
             price,
             startDate,
             endDate,
@@ -82,10 +85,15 @@ export class ReservationController {
   async updateStatusTrans(req: Request, res: Response) {
     try {
       const { transaction_status } = req.body;
-      const order_id = +req.body.order_id.replace('ORDERID-', '');
+      const order_id = req.body.order_id.replace('ORDERID-', '');
       if (transaction_status == 'settlement')
         await prisma.reservation.update({
           data: { statusRes: 'PAID' },
+          where: { id: order_id },
+        });
+      if (transaction_status == 'expired')
+        await prisma.reservation.update({
+          data: { statusRes: 'CANCEL' },
           where: { id: order_id },
         });
 
@@ -122,24 +130,26 @@ export class ReservationController {
             {
               startDate: { lt: endDate },
               endDate: { gt: startDate },
+              statusRes: { not: 'CANCEL' },
             },
             {
               startDate: { gte: startDate },
               endDate: { lte: endDate },
+              statusRes: { not: 'CANCEL' },
             },
           ],
         },
       });
       if (roomReserved) throw 'Room has ben reserved';
-
       const reservation = await prisma.reservation.create({
         data: {
+          id: uuidv4(),
           price,
           startDate,
           endDate,
+          method: 'TF',
           statusRes: 'CONFIRMATION',
           user_Id: +req.user?.id!,
-
           room_Id: +room_id,
         },
       });
@@ -155,22 +165,23 @@ export class ReservationController {
       let media = null;
       if (req.file) {
         media = `${base_url}/api/public/proof/${req.file?.filename}`;
-        
       }
       await prisma.reservation.update({
         data: { paymentProof: media },
-        where: { id: +reservation_id },
+        where: { id: reservation_id },
       });
+      console.log(media);
       res.status(200).send('OKE');
     } catch (error) {
       responseError(res, error);
+      console.log(error);
     }
   }
   async cancelOrder(req: Request, res: Response) {
     try {
-      const { reservation_id } = req.body;
+      const { reservation_id } = req.params;
       await prisma.reservation.update({
-        where: { id: +reservation_id },
+        where: { id: reservation_id },
         data: { statusRes: 'CANCEL' },
       });
       res.status(200).send('Transaction Canceled');

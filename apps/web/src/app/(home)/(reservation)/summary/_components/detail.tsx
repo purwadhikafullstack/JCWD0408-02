@@ -10,7 +10,7 @@ export default function Detail() {
   const params = useParams();
   const bookingId = params.reservation_id as string;
   return (
-    <div className="rounded-xl bg-white p-4 shadow-md ">
+    <div className="rounded-xl bg-white p-4 shadow-md w-[100%]">
       <Room />
       {/* Status Konfirmasi */}
       <div className="my-2 flex flex-col items-center gap-2 rounded-xl bg-promo/25 p-2 lg:min-h-[100px] lg:flex-row">

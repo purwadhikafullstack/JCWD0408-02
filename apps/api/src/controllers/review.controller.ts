@@ -10,7 +10,7 @@ export class ReviewController {
       const now: Date = new Date(Date.now());
 
       const room = await prisma.reservation.findFirst({
-        where: { id: +reservation_id },
+        where: { id: reservation_id },
       });
       if (now > room?.endDate!)
         throw 'Belum bisa memberikan review sebelum menginap';
@@ -18,7 +18,7 @@ export class ReviewController {
       const data = await prisma.review.create({
         data: {
           content,
-          reservation_Id: +reservation_id,
+          reservation_Id: reservation_id,
           user_Id: +req.user?.id!,
           ratings: ratings,
           room_Id: room?.room_Id!,

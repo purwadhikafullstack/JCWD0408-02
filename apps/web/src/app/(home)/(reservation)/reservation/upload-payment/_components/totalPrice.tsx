@@ -1,4 +1,7 @@
-import TimerComp from "./proofTimer"
+
+import ModalCancel from "./modalCancel";
+import TimerComp from "./proofTimer";
+
 
 export default function TotalPrice() {
   return (
@@ -16,7 +19,8 @@ export default function TotalPrice() {
         <p className="text-lg font-semibold text-btn">Total</p>
         <p className="text-4xl font-bold">IDR. 200.000</p>
       </div>
-      <TimerComp/>
+      <TimerComp />
+      <ModalCancel/>
     </div>
   );
 }

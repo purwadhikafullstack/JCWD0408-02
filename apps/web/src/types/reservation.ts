@@ -33,7 +33,7 @@ export interface Room {
 }
 
 export interface Booking {
-  id: number;
+  id: string;
   price: number;
   startDate: string;
   endDate: string;

@@ -15,6 +15,7 @@ const userGuard = [
   "/profile/myorder",
   "/profile/purchase",
   "/profile/review",
+  "/profile/reservation",
 ];
 const authGuard = [
   "/reservasi",
@@ -32,9 +33,19 @@ const authGuard = [
   "/account/form-data-tenant",
 ];
 
+const dynamicReservationPattern = /^\/reservation\/.+/;
+
 export async function middleware(request: NextRequest) {
   const token = await getCookie("token");
   const url = request.nextUrl.pathname;
+
+  //Kalau dynamic
+  if (dynamicReservationPattern.test(url)) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/account/login", request.url));
+    }
+  }
+
   if (authGuard.includes(url)) {
     if (!token) {
       return NextResponse.redirect(new URL("/account/register", request.url));
