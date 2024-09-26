@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 export default function TimerComp() {
   const [time, setTime] = useState<number>(3600);
-
   useEffect(() => {
     if (time > 0) {
       const timer = setInterval(() => {

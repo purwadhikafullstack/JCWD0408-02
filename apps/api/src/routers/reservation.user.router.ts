@@ -27,7 +27,7 @@ export class ReservationRouter {
       this.reservationController.createReservationVA,
     );
     this.router.post(
-      '/TF/:id',
+      '/TF/:room_id',
       this.authMiddleware.verifyTokenOtp,
       this.reservationController.createReservationTF,
     );
@@ -38,7 +38,7 @@ export class ReservationRouter {
       this.reservationController.uploadPaymentProof,
     );
     this.router.patch(
-      '/TF/cancel',
+      '/TF/cancel/:reservation_id',
       this.authMiddleware.verifyTokenOtp,
       this.reservationController.cancelOrder,
     );

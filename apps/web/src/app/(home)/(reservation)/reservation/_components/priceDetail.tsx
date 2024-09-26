@@ -19,10 +19,14 @@ export default function PriceDetail({
   price,
 }: IReservation) {
   const searchParams = useSearchParams();
-  const startDate = new Date(searchParams.get("checkin")!);
-  const endDate = new Date(searchParams.get("checkout")!);
+  const startDate: any = new Date(searchParams.get("checkin")!);
+  const endDate: any = new Date(searchParams.get("checkout")!);
   const checkin = formatDateReservation(startDate!);
   const checkout = formatDateReservation(endDate!);
+  const millisecondsPerNight = 24 * 60 * 60 * 1000;
+  const nights = Math.round((endDate - startDate) / millisecondsPerNight);
+  console.log(nights);
+
   return (
     <div className="flex h-max w-full flex-col gap-4 border-b-2 border-btn bg-white px-6 py-5 text-hitam lg:sticky lg:top-8 lg:w-[30%] lg:rounded-xl lg:border-2">
       <div className="flex flex-col justify-start gap-2 lg:flex-row lg:items-center">
@@ -36,14 +40,14 @@ export default function PriceDetail({
         />
         <div className="flex flex-col">
           <h1 className="text-xl font-bold">{propertyName}</h1>
-          <h2 className="text-sm text-btn">{tenantName}</h2>
+          <h2 className=" font-semibold text-btn">{tenantName}</h2>
           <h2 className="text-sm font-semibold">{location}</h2>
         </div>
       </div>
       <hr className="text-abu" />
       <div>
         <p className="">{`${checkin} - ${checkout}`}</p>
-        <p className="text-sm">2 Malam • 1 Kamar</p>
+        <p className="text-sm">{nights} Malam • 1 Kamar</p>
       </div>
       <div className="flex flex-col">
         <p className="font-bold">Tipe Kamar</p>
@@ -55,7 +59,7 @@ export default function PriceDetail({
         <p>IDR {String(price)} </p>
         <p className="pr-5 text-end">x 2 malam</p>
         <p className="font-semibold">TOTAL(IDR)</p>
-        <p className="pr-5 text-end">IDR 994.000</p>
+        <p className="pr-5 text-end">IDR 600000</p>
       </div>
     </div>
   );

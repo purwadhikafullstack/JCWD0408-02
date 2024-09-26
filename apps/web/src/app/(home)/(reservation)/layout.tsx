@@ -1,4 +1,5 @@
 import ReservationNav from "./_components/reservationNav";
+import StepReservation from "./_components/stepReservation";
 
 export default function RootLayout({
   children,
