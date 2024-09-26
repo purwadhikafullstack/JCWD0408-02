@@ -27,7 +27,8 @@ const ListCardRoom = ({ id }: { id: string }) => {
 
     fetchRoomData();
   }, [id]);
-
+  console.log(roomData);
+  
   const handleNext = () => {
     setLoading(true);
     try {

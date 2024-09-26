@@ -1,81 +1,39 @@
+"use client";
+
 import { RoomData } from "@/types/property";
 import ConvertToIDR from "@/utils/convertIDR";
-import Image from "next/image";
-import { FaRestroom, FaWifi } from "react-icons/fa6";
+import { FaRestroom } from "react-icons/fa6";
 import {
   MdAttachMoney,
   MdMergeType,
-  MdOutlineBedroomChild,
-  MdOutlineBedroomParent,
   MdOutlineDescription,
   MdOutlineDiscount,
-  MdOutlineFreeBreakfast,
-  MdOutlineShower,
 } from "react-icons/md";
+import GridCardRooms from "./roomsComp/GridCardRooms";
+import FacilityCard from "./roomsComp/FacilityCard";
+import { useState } from "react";
 
 const CardCreateRoom = ({ data }: { data: RoomData }) => {
+  const [isActiveDes, setIsActiveDes] = useState(false);
   return (
-    <div className="flex h-[213px] w-full gap-2 overflow-hidden rounded-lg bg-slate-50/50 shadow-lg">
-      <Image
-        src={"/dummy/kamar.jpg"}
-        alt="Image room"
-        width={300}
-        height={300}
-        className="h-[213px] object-cover"
-      />
-
-      <main className="flex w-full px-3 py-2">
-        <section className="flex w-1/2 flex-col gap-3">
+    <section className="w-full rounded-md border p-5">
+      <GridCardRooms data={data} />
+      <main className="mt-7">
+        <div className="flex items-center justify-between gap-12">
           <div>
-            <h1 className="flex items-center text-lg font-medium">
+            <h1 className="flex items-center font-medium">
               <MdMergeType className="h-5 w-5" /> Tipe Kamar
             </h1>
             <p className="text-sm text-gray-500">{data.type}</p>
           </div>
           <div>
-            <h1 className="flex items-center gap-1 text-lg font-medium">
-              <FaRestroom /> Kapasitas kamar
-            </h1>
-            <p className="text-sm text-gray-500">{data.capacity} Orang</p>
-          </div>
-          <div>
-            <h1 className="flex items-center gap-1 text-lg font-medium">
-              <MdOutlineBedroomChild /> Fasilitas kamar
-            </h1>
-            <main className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
-              <div className="flex items-center gap-1">
-                <MdOutlineBedroomChild />
-                <p>Single bed</p>
-              </div>
-              <div className="flex items-center gap-1">
-                <MdOutlineBedroomParent />
-                <p>Double bed</p>
-              </div>
-              <div className="flex items-center gap-1">
-                <FaWifi />
-                <p>Wifi</p>
-              </div>
-              <div className="flex items-center gap-1">
-                <MdOutlineFreeBreakfast />
-                <p>Breakfast</p>
-              </div>
-              <div className="flex items-center gap-1">
-                <MdOutlineShower />
-                <p>Shower</p>
-              </div>
-            </main>
-          </div>
-        </section>
-
-        <section className="flex w-1/2 flex-col gap-3">
-          <div>
-            <h1 className="flex items-center gap-1 text-lg font-medium">
+            <h1 className="flex items-center gap-1 font-medium">
               <MdAttachMoney /> Harga normal
             </h1>
             <p className="text-sm text-gray-500">{ConvertToIDR(data.price)}</p>
           </div>
           <div>
-            <h1 className="flex items-center gap-1 text-lg font-medium">
+            <h1 className="flex items-center gap-1 font-medium">
               <MdOutlineDiscount /> Harga diskon
             </h1>
             <p className="text-sm text-gray-500">
@@ -84,15 +42,29 @@ const CardCreateRoom = ({ data }: { data: RoomData }) => {
           </div>
           <div>
             <h1 className="flex items-center gap-1 text-lg font-medium">
-              <MdOutlineDescription /> Deskripsi kamar
+              <FaRestroom /> Kapasitas kamar
             </h1>
-            <p className="line-clamp-2 text-sm text-gray-500">
+            <p className="text-sm text-gray-500">{data.capacity} Orang</p>
+          </div>
+        </div>
+        <div className="mt-6">
+          <FacilityCard data={data} />
+        </div>
+        <div className="mt-6">
+          <h1 className="flex items-center gap-1 text-lg font-medium">
+            <MdOutlineDescription /> Deskripsi kamar
+          </h1>
+          <div className="min-h-44 rounded-md border p-4 text-sm text-gray-500">
+            <p
+              onClick={() => setIsActiveDes(!isActiveDes)}
+              className={`${isActiveDes ? "line-clamp-none" : "line-clamp-[7]"} `}
+            >
               {data.description}
             </p>
           </div>
-        </section>
+        </div>
       </main>
-    </div>
+    </section>
   );
 };
 

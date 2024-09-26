@@ -12,6 +12,7 @@ import { ButtonComp, ButtonCompStroke } from "@/components/ButtonComp";
 import { navigate } from "@/libs/server";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import CardCreateRoom from "../../../_components/CardCreateRoom";
 
 const Cardcomp = ({ id }: { id: string }) => {
   const dispatch = useDispatch();
@@ -104,7 +105,7 @@ const Cardcomp = ({ id }: { id: string }) => {
 
       <main className="mb-10 flex w-full flex-col gap-7 pt-3">
         {propertyData?.Room.map((item) => {
-          return <CardRoomReview data={item} />;
+          return <CardCreateRoom data={item} />;
         })}
       </main>
 

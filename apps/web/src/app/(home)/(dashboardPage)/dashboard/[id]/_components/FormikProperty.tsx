@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Input, InputErr } from "@/components/Input";
+import { Input } from "@/components/Input";
 import { DataProperty, PropertyForm } from "@/types/property";
-import { ErrorMessage, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import toast from "react-hot-toast";
