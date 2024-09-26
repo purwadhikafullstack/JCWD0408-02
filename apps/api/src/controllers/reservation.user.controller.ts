@@ -16,7 +16,7 @@ export class ReservationController {
       const dateNow = new Date(now);
       if (startDate >= endDate)
         throw 'The check-in date cannot be greater than or equal to the check-out date.';
-      const room = await prisma.room.findFirst({ where: { id: +room_id } });
+      const room = await prisma.room.findFirst({ where: { id: room_id } });
       if (!room) {
         return res.status(404).json({ message: 'Room not found' });
       }
@@ -48,7 +48,7 @@ export class ReservationController {
             endDate,
             paymentLink: '',
             user_Id: +req.user?.id!,
-            room_Id: +room_id,
+            room_Id: room_id,
           },
         });
 
@@ -107,7 +107,7 @@ export class ReservationController {
       const dateNow = new Date(now);
       if (startDate >= endDate)
         throw 'The check-in date cannot be greater than or equal to the check-out date.';
-      const room = await prisma.room.findUnique({ where: { id: +room_id } });
+      const room = await prisma.room.findUnique({ where: { id: room_id } });
       if (!room) {
         // return res.status(404).json({ message: 'Room not found' });
         throw 'Room not found !';
@@ -140,7 +140,7 @@ export class ReservationController {
           statusRes: 'CONFIRMATION',
           user_Id: +req.user?.id!,
 
-          room_Id: +room_id,
+          room_Id: room_id,
         },
       });
       res.status(200).send(reservation);

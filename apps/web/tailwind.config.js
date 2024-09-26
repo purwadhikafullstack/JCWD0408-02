@@ -19,6 +19,10 @@ module.exports = {
         abu: "#e3e3e3",
         promo: "#e52424",
       },
+      lineClamp: {
+        7: "7",
+        8: "8",
+      },
     },
   },
   plugins: [],
