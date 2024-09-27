@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LogoScroll } from "./Logo";
 import { useAppSelector } from "@/Redux/Hooks";
-import { useDispatch } from "react-redux";
 import { IoPerson } from "react-icons/io5";
 import { RiServiceFill } from "react-icons/ri";
 import Image from "next/image";
 import ModalPartnert from "./homepageComp/ModalPartnert";
+import MenuMobile from "./MenuMobile";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -31,16 +31,16 @@ const Navbar = () => {
   }, []);
   return (
     <nav
-      className={`fixed z-10 w-full transition-all duration-300 ${scrolled ? "border-b-2 bg-white" : "bg-transparant"}`}
+      className={`fixed z-20 w-full py-2 rounded-b-3xl transition-all duration-300 ${scrolled ? "border-b-2 bg-white" : "bg-transparant"}`}
     >
       <main className="mx-auto max-w-7xl px-2 py-2 md:px-16 lg:px-20">
         <div className="flex items-center justify-between">
-          <Link href={"/home"}>
-            <LogoScroll scrolled={scrolled} size="scale-100" />
+          <Link href={"/"}>
+            <LogoScroll scrolled={scrolled} size="scale-80 md:scale-100" />
           </Link>
 
           <div
-            className={`flex items-center gap-5 font-medium ${scrolled ? "text-hitam" : "text-gray-100"} `}
+            className={`hidden items-center gap-5 font-medium md:flex ${scrolled ? "text-hitam" : "text-gray-100"} `}
           >
             <button
               onClick={onCloseModal}
@@ -117,6 +117,7 @@ const Navbar = () => {
               </section>
             )}
           </div>
+          <MenuMobile scrolled={scrolled} />
         </div>
       </main>
     </nav>

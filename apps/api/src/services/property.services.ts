@@ -53,7 +53,26 @@ export const getPropertyActiveServices = async () => {
   try {
     const property = await prisma.property.findMany({
       where: { isActive: true },
-      include: { Room: true },
+      include: {
+        tenant: {
+          select: { email: true, username: true, avatar: true, id: true },
+        },
+        Room: {
+          select: {
+            id: true,
+            capacity: true,
+            description: true,
+            availability: true,
+            price: true,
+            pricediscount: true,
+            type: true,
+            facility: { select: { name: true } },
+            RoomPic: { select: { url: true } },
+          },
+          orderBy: { price: 'asc' },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
     });
 
     return property;

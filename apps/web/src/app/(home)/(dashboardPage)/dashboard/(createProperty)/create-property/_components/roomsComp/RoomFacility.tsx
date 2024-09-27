@@ -35,23 +35,6 @@ const RoomFacilities = () => {
             </label>
           );
         })}
-        {/* {facilityOptions.map((facility) => (
-              <label key={facility.value} className="flex items-center gap-2 text-sm cursor-pointer">
-                <input
-                  type="checkbox"
-                  value={facility.value}
-                  checked={facilities.some(f => f.name === facility.value)}
-                  onChange={(e) => {
-                    const newFacilities = e.target.checked
-                      ? [...facilities, { id: Date.now(), name: facility.value }]
-                      : facilities.filter(f => f.name !== facility.value);
-                    setFieldValue("facility", newFacilities);
-                  }}
-                />
-                {facility.icon}
-                <p>{facility.label}</p>
-              </label>
-            ))} */}
       </div>
       <ErrorMessage
         name="facility"

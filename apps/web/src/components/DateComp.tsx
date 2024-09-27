@@ -11,7 +11,7 @@ const DateComp = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [startDateOpen, setStartDateOpen] = useState(false);
-  const [endDateOpen, setEndDateOpen] = useState(false);
+  const [endDateOpen, setEndDateOpen] = useState(false);  
 
   const handleDateChange = (date: Date | null) => {
     setStartDate(date);
@@ -22,10 +22,10 @@ const DateComp = () => {
   };
 
   return (
-    <section className="flex items-center gap-4">
+    <section className="relative flex items-center gap-4">
       <div
         onClick={() => setStartDateOpen(!startDateOpen)}
-        className="relative border-r-2 border-r-btn pr-3"
+        className="border-r-2 border-r-btn pr-3"
       >
         <div className="cursor-pointer text-start text-base">
           <p className="font-semibold text-black">Check-in </p>
@@ -33,7 +33,7 @@ const DateComp = () => {
         </div>
       </div>
       {startDateOpen && (
-        <div className="absolute left-[31%] top-12 z-10">
+        <div className="absolute left-[-150px] top-10 z-10">
           <DatePicker
             onChange={handleDateChange}
             minDate={new Date()}
@@ -52,7 +52,7 @@ const DateComp = () => {
           <p className="text-xs text-hitam">{formatDateId(endDate)}</p>
         </div>
         {endDateOpen && (
-          <div className="absolute right-[11%] top-12 z-10">
+          <div className="absolute right-[-120px] top-10 z-10">
             <DatePicker
               onChange={(date) => setEndDate(date)}
               minDate={startDate ? addDays(startDate, 1) : new Date()}
