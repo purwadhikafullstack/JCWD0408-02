@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 export default function Room() {
   return (
-    <div className="flex gap-4 rounded-xl border-2 px-2 py-2 lg:px-4 lg:max-w-[50%]">
+    <div className="lg:flex-row flex-col flex gap-4 rounded-xl border-2 px-2 py-2 lg:px-4 lg:max-w-[50%]">
       <Image
         src={"/dummy/kamar.jpg"}
         width={500}

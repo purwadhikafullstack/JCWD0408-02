@@ -4,13 +4,19 @@ import DetailProps from "./detailProps";
 import Room from "./room";
 import { RxCross1 } from "react-icons/rx";
 import { useParams } from "next/navigation";
+import { navigate } from "@/libs/server";
+import toast from "react-hot-toast";
 
 export default function Detail() {
   const { username, phone, email } = useAppSelector((state) => state.user);
   const params = useParams();
   const bookingId = params.reservation_id as string;
+  const handleBackHome = () => {
+    navigate("/");
+    toast.success("Silahkan melihat status reservasi di profil anda");
+  };
   return (
-    <div className="rounded-xl bg-white p-4 shadow-md w-[100%]">
+    <div className="w-[100%] rounded-xl bg-white p-4 shadow-md">
       <Room />
       {/* Status Konfirmasi */}
       <div className="my-2 flex flex-col items-center gap-2 rounded-xl bg-promo/25 p-2 lg:min-h-[100px] lg:flex-row">
@@ -22,8 +28,8 @@ export default function Detail() {
             Menunggu konfirmasi dari Tenant
           </p>
           <p className="text-center text-sm lg:text-start">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae,
-            maiores.
+            Pesanan akan di-check oleh tenant, silahkan melihat status pemesanan
+            di profil anda nanti
           </p>
         </div>
       </div>
@@ -31,7 +37,7 @@ export default function Detail() {
 
       <div className="flex flex-col gap-4 px-2">
         <h1 className="text-lg font-bold">Detail Booking</h1>
-        <div className="grid grid-cols-3 gap-y-10">
+        <div className="grid max-w-full grid-cols-2 gap-y-10 lg:grid-cols-3">
           <DetailProps detail="GUEST" content={username} />
           <DetailProps detail="CHECK-IN" content="Sun,22 May" />
           <DetailProps detail="CHEC-OUT" content="Wed,24 May" />
@@ -41,6 +47,12 @@ export default function Detail() {
           <DetailProps detail="BOOKING-ID" content={bookingId} />
         </div>
       </div>
+      <button
+        onClick={() => handleBackHome()}
+        className="mt-4 w-full rounded-lg bg-btn py-2 font-bold text-white hover:bg-btnhover"
+      >
+        Kembali ke Home
+      </button>
     </div>
   );
 }

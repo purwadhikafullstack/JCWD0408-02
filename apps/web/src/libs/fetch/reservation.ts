@@ -22,15 +22,17 @@ export const createReservationVA = async (
   );
   return res.json();
 };
-export const getReservation = async () => {
+export const getReservation = async (booking_id?: string) => {
   const token = await getCookie("token");
-
-  const res = await axios.get(`http://localhost:8000/api/reservationInfo`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `${token?.value}`,
+  const res = await axios.get(
+    `http://localhost:8000/api/reservationInfo${booking_id ? `?booking_id=${booking_id}` : ""}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token?.value}`,
+      },
     },
-  });
+  );
   return res.data;
 };
 
@@ -79,25 +81,4 @@ export const cancelResersvationUser = async (reservation_id: string) => {
   }
 };
 
-// export const cancelResersvationUser = async (
-//   reservation_id: string,
-// ) => {
-//   try {
-//     const token = await getCookie("token");
-//     console.log(token);
 
-//     const res = await axios.patch(
-//       `http://localhost:8000/api/reservation/TF/cancel/${reservation_id}`,
-//       {
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `${token?.value}`,
-//           // Authorization: `${token}`,
-//         },
-//       },
-//     );
-//     toast.success("reservasi dibatalkan");
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };

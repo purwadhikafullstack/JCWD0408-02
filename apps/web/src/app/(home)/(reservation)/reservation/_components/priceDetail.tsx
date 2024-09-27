@@ -25,10 +25,8 @@ export default function PriceDetail({
   const checkout = formatDateReservation(endDate!);
   const millisecondsPerNight = 24 * 60 * 60 * 1000;
   const nights = Math.round((endDate - startDate) / millisecondsPerNight);
-  console.log(nights);
-
   return (
-    <div className="flex h-max w-full flex-col gap-4 border-b-2 border-btn bg-white px-6 py-5 text-hitam lg:sticky lg:top-8 lg:w-[30%] lg:rounded-xl lg:border-2">
+    <div className="flex h-max w-full flex-col gap-4 border-b-2 shadow-md bg-white px-6 py-5 text-hitam lg:sticky lg:top-8 lg:w-[30%] lg:rounded-xl lg:border-2">
       <div className="flex flex-col justify-start gap-2 lg:flex-row lg:items-center">
         <Image
           src={"/dummy/kamar.jpg"}
@@ -40,7 +38,7 @@ export default function PriceDetail({
         />
         <div className="flex flex-col">
           <h1 className="text-xl font-bold">{propertyName}</h1>
-          <h2 className=" font-semibold text-btn">{tenantName}</h2>
+          <h2 className="font-semibold text-btn">{tenantName}</h2>
           <h2 className="text-sm font-semibold">{location}</h2>
         </div>
       </div>
