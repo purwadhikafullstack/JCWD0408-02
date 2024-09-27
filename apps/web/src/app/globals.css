@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-    scroll-behavior: smooth;
+* {
+  scroll-behavior: smooth;
 }
+
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  scrollbar-width: none;
+}
+
+/* .main-content {
+  overflow-y: auto;
+  height: 100vh;
+} */

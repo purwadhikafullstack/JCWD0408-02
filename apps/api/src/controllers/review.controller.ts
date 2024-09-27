@@ -36,7 +36,7 @@ export class ReviewController {
   async getReview(req: Request, res: Response) {
     try {
       const data = await prisma.review.findMany({
-        where: { room_Id: +req.body.room_id },
+        where: { room_Id: req.body.room_id },
       });
       res.status(200).send({ status: 'ok', data });
     } catch (error) {

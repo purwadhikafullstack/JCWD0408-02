@@ -90,11 +90,11 @@ enum Type {
 }
 
 model Room {
-  id            Int           @id @default(autoincrement())
+  id            String        @id @default(uuid())
   type          Type          @default(Standard)
   price         Float
   capacity      Int           @default(1)
-  description   String
+  description   String        @db.LongText()
   pricediscount Float
   availability  Boolean       @default(true)
   createdAt     DateTime      @default(now())
@@ -110,10 +110,10 @@ model Room {
 }
 
 model Facility {
-  id     Int    @id @default(autoincrement())
+  id     Int     @id @default(autoincrement())
   name   String
-  roomId Int?
-  Room   Room?  @relation(fields: [roomId], references: [id])
+  roomId String?
+  Room   Room?   @relation(fields: [roomId], references: [id])
 }
 
 model RoomPic {
@@ -121,7 +121,7 @@ model RoomPic {
   url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
-  room_Id   Int
+  room_Id   String
   room      Room     @relation(fields: [room_Id], references: [id])
 }
 
@@ -150,7 +150,7 @@ model Reservation {
   updatedAt    DateTime  @updatedAt()
   Review       Review?
   user_Id      Int
-  room_Id      Int
+  room_Id      String
   room         Room      @relation(fields: [room_Id], references: [id])
   user         User      @relation(fields: [user_Id], references: [id])
 }
@@ -163,8 +163,8 @@ model Review {
   updatedAt      DateTime    @updatedAt()
   feedBack       String?     @db.LongText()
   user_Id        Int
-  room_Id        Int
-  reservation_Id String         @unique
+  room_Id        String
+  reservation_Id String      @unique
   user           User        @relation(fields: [user_Id], references: [id])
   room           Room        @relation(fields: [room_Id], references: [id])
   reservation    Reservation @relation(fields: [reservation_Id], references: [id])

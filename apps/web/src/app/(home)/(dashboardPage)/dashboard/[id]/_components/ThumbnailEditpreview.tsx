@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 
 interface ProfileProps {
-  thumbnail: File | string | null; // Gunakan 'string' bukan 'String'
+  thumbnail: File | string | null;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 
@@ -16,14 +16,10 @@ const ThumbnailPreview: React.FC<ProfileProps> = ({
 
   React.useEffect(() => {
     if (typeof thumbnail === "string") {
-      // Jika thumbnail adalah string (URL dari backend)
       setImageUrl(thumbnail);
     } else if (thumbnail instanceof File) {
-      // Jika thumbnail adalah File yang diunggah oleh user
       const objectUrl = URL.createObjectURL(thumbnail);
       setImageUrl(objectUrl);
-
-      // Clean up URL object setelah tidak digunakan lagi
       return () => URL.revokeObjectURL(objectUrl);
     } else {
       setImageUrl(null);

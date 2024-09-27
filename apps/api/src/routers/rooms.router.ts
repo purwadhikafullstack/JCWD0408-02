@@ -17,7 +17,9 @@ export class RoomRouter {
   }
 
   private initializeRoutes(): void {
+    this.router.get('/get-roombyid/:id', this.roomController.getRoomById);
     this.router.get('/get-room/:id', this.roomController.getRoom);
+    this.router.delete('/delete/:id', this.roomController.deleteRoom);
     this.router.post(
       '/create-room/:id',
       this.authMiddleware.verifyTokenOtp,

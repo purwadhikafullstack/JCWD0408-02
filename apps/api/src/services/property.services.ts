@@ -34,7 +34,7 @@ export const createPropertyServices = async (
   } catch (error) {
     throw error;
   }
-}
+};
 export const publishPropertyServices = async (propertyId: string) => {
   try {
     const updateProperti = await prisma.property.update({
@@ -53,19 +53,52 @@ export const getPropertyActiveServices = async () => {
   try {
     const property = await prisma.property.findMany({
       where: { isActive: true },
-      include: { Room: true },
+      include: {
+        tenant: {
+          select: { email: true, username: true, avatar: true, id: true },
+        },
+        Room: {
+          select: {
+            id: true,
+            capacity: true,
+            description: true,
+            availability: true,
+            price: true,
+            pricediscount: true,
+            type: true,
+            facility: { select: { name: true } },
+            RoomPic: { select: { url: true } },
+          },
+          orderBy: { price: 'asc' },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
     });
 
     return property;
   } catch (error) {
     throw error;
   }
-}
+};
 export const getPropertyByidServices = async (propertyId: string) => {
   try {
     const property = await prisma.property.findFirst({
       where: { id: propertyId },
-      include: { Room: true },
+      include: {
+        Room: {
+          select: {
+            id: true,
+            capacity: true,
+            description: true,
+            availability: true,
+            price: true,
+            pricediscount: true,
+            type: true,
+            facility: { select: { name: true } },
+            RoomPic: { select: { url: true } },
+          },
+        },
+      },
     });
 
     return property;
@@ -112,14 +145,20 @@ export const getPropertyDraftServices = async (tenantId: number) => {
     throw error;
   }
 };
-export const deletePropertyServices = async (propertyId: string) => {
+export const deletePropertyServices = async (property_Id: string) => {
   try {
+    await prisma.facility.deleteMany({
+      where: { Room: { property_Id } },
+    });
+    await prisma.roomPic.deleteMany({
+      where: { room: { property_Id } },
+    });
     await prisma.room.deleteMany({
-      where: { property_Id: propertyId },
+      where: { property_Id: property_Id },
     });
 
     const property = await prisma.property.delete({
-      where: { id: propertyId },
+      where: { id: property_Id },
     });
     return property;
   } catch (error) {

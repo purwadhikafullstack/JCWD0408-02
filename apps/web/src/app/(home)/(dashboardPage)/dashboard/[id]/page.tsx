@@ -1,8 +1,15 @@
-import React from "react";
+"use client"
+
+import React, { useEffect, useState } from "react";
 import FormikPropertyEdit from "./_components/FormikProperty";
 import FormikEditRoom from "./_components/FormikEditRoom";
+import { DataProperty } from "@/types/property";
+import { getPropertyByid } from "@/libs/fetch/property";
+import ListCardEditRooms from "./_components/ListCardEditRooms";
 
 const PropertyEdit = ({ params }: { params: { id: string } }) => {
+
+  
   return (
     <div>
       <h1 className="text-xl font-semibold text-hitam lg:text-2xl">
@@ -18,7 +25,7 @@ const PropertyEdit = ({ params }: { params: { id: string } }) => {
       <h4 className="text-sm font-light text-gray-500">
         Edit informasi dan aktivitas tentang room anda
       </h4>
-      <FormikEditRoom />
+      <ListCardEditRooms id={params.id}/>
     </div>
   );
 };
