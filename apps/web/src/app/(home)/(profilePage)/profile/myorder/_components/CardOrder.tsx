@@ -29,7 +29,7 @@ const CardOrder = ({
   const statusMessage = reservasi[status] || "status tidak diketahui";
 
   return (
-    <div className="w-full overflow-hidden rounded-lg border bg-slate-50 px-2 py-2 shadow-md">
+    <div className="w-full overflow-hidden rounded-lg border bg-slate-50 px-2 py-2 shadow-md h-full flex flex-col">
       <p className="pt-2 font-bold">Booking Id: </p>
       <p className="pb-2 text-sm font-bold text-btn">{reservation_id}</p>
       <Image
@@ -39,18 +39,18 @@ const CardOrder = ({
         height={100}
         className="h-[140px] w-full rounded-lg object-cover md:h-[180px]"
       />
-      <section className="h-full px-3 py-2">
+      <section className="h-full px-3 py-2 flex flex-col justify-between">
         <main className="flex items-center justify-between gap-6 text-sm md:text-base">
           <div className="flex items-center gap-1">
             <FaLocationDot className="text-btn" />
             <p className="font-medium text-hitam">{location}</p>
-          </div>
           <div className="flex items-center gap-1">
             <IoStar className="text-yellow-500" />
             <p className="font-medium text-hitam">4.5</p>
           </div>
+          </div>
           <p
-            className={`self-end border-b-2  ${status == "PENDING" ? "bg-yellow-400/70" : status == "PAID" ? "border-green-500/70" : status == "CONFIRMATION" ? "border-yellow-400/70":  "rounded-md bg-red-600/70"} px-2 text-end text-[12px] font-semibold`}
+            className={`self-end border-b-2  ${status == "PENDING" ? "border-yellow-500/70" : status == "PAID" ? "border-green-500/70" : status == "CONFIRMATION" ? "border-yellow-400/70":  "rounded-md bg-red-600/70"} px-2 text-end text-[12px] font-semibold`}
           >
             {statusMessage}
           </p>
@@ -60,7 +60,7 @@ const CardOrder = ({
           <h3 className="text-xs text-gray-500 md:text-sm">1 Kamar</h3>
         </main>
 
-        <div className="flex items-center justify-between text-sm md:text-base">
+        <div className="flex items-center justify-between text-sm md:text-base justify-self-end">
           <h3 className="font-medium text-hitam">Rp {price}</h3>
           <div>
             <button

@@ -1,8 +1,11 @@
 import React from 'react'
+import TransactionList from './_components'
 
 const Transaction = () => {
   return (
-    <div>Transaction</div>
+    <div className=''>
+      <TransactionList/>
+    </div>
   )
 }
 

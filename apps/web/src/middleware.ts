@@ -34,24 +34,22 @@ const authGuard = [
 ];
 
 const dynamicReservationPattern = /^\/reservation\/.+/;
-
 export async function middleware(request: NextRequest) {
   const token = await getCookie("token");
   const url = request.nextUrl.pathname;
 
   //Kalau dynamic
   if (dynamicReservationPattern.test(url)) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/account/login", request.url));
+    const data = await decodeToken(token?.value!);
+    if (!token || data.data.user.role == "tenant") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   }
-
   if (authGuard.includes(url)) {
     if (!token) {
       return NextResponse.redirect(new URL("/account/register", request.url));
     }
   }
-
   if (tenantGuard.includes(url)) {
     const data = await decodeToken(token?.value!);
     if (data.data.user.role !== "tenant") {

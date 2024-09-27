@@ -1,35 +1,37 @@
 import { responseError } from '@/helper/ResponseError';
 import prisma from '@/prisma';
+import { reservationInfoServices } from '@/services/reservationInfo.services';
+import { IReservationUser, IStatus } from '@/types/reservationInfo';
 import { Request, Response } from 'express';
 const base_url = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 export class ReservationInfoController {
   async getReservationUser(req: Request, res: Response) {
     try {
-      interface IFilterQuery {
-        AND: any[];
-      }
-
-      const { booking_id } = req.query;
-      const filterQuery: IFilterQuery = {
-        AND: [{ user_Id: req.user?.id }],
-      };
-      if (booking_id) {
-        filterQuery.AND.push({ id: booking_id });
-      }
-      const data = await prisma.reservation.findMany({
-        where: filterQuery,
-        include: {
-          room: { include: { property: true } },
-        },
-        orderBy: { createdAt: 'desc' },
-      });
+      const { booking_id } = req.query as { booking_id?: string };
+      const user_id = req.user?.id!;
+      const payload: IReservationUser = { booking_id, user_id };
+      const data = await reservationInfoServices.getReservationUser(payload);
       res.status(200).send({
         status: 'OK',
-        data: data,
+        data,
       });
     } catch (error) {
       responseError(res, error);
     }
+  }
+  async getReservationByTenant(req: Request, res: Response) {
+    try {
+      const { status } = req.query as IStatus;
+      const tenant_id = req.user?.id;
+      const statusString = typeof status === 'string' ? status : undefined;
+      const payload = { statusString, tenant_id };
+      const data =
+        await reservationInfoServices.getReservationByTenant(payload);
+      res.status(200).send({
+        status: 'OK',
+        data,
+      });
+    } catch (error) {}
   }
 }
