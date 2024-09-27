@@ -2,6 +2,7 @@ import { responseError } from '@/helper/ResponseError';
 import {
   createRoomServices,
   deleteRoomServices,
+  getRoomsByIdServices,
   getRoomServices,
 } from '@/services/rooms.services';
 import { NextFunction, Request, Response } from 'express';
@@ -59,10 +60,22 @@ export class RoomController {
       await deleteRoomServices(req.params.id);
       return res.status(200).send({
         status: 'OK',
-        msg: "Room deleted"
+        msg: 'Room deleted',
       });
     } catch (error) {
       responseError(res, error);
+    }
+  }
+
+  async getRoomById(req: Request, res: Response) {
+    try {
+      const room = await getRoomsByIdServices(req.params.id);
+      return res.status(200).send({
+        status: 'OK',
+        room,
+      });
+    } catch (error) {
+      responseError(res, error)
     }
   }
 }

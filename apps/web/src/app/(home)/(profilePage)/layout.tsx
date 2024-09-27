@@ -8,14 +8,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="w-full">
-      <div className="mx-auto flex w-full justify-between">
-        <SideBarProfile />
-        <main className="flex-1 bg-latar/40 px-5">
-          <NavBarProfile />
-          {children}
-        </main>
+    <div className="flex w-full">
+      <SideBarProfile />
+      <div className="flex-1 overflow-y-auto bg-latar/40 px-5">
+        <NavBarProfile />
+        {children}
       </div>
-    </main>
+    </div>
   );
 }

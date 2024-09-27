@@ -19,6 +19,7 @@ export class PropertyControler {
       const property = await getPropertyActiveServices();
       return res.status(200).send({
         status: 'OK',
+        total: property.length,
         property,
       });
     } catch (error) {

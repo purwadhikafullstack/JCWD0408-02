@@ -15,25 +15,29 @@ export const createPropertyfetch = async (formData: FormData) => {
   return res;
 };
 
-export const createRoomfetch = async (payload: RoomForm, id: string, files: File[]) => {
+export const createRoomfetch = async (
+  payload: RoomForm,
+  id: string,
+  files: File[],
+) => {
   const token = await getCookie("token");
-  const formData = new FormData()
-  formData.append('type', payload.type);
-  formData.append('price', payload.price);
-  formData.append('pricediscount', payload.pricediscount);
-  formData.append('capacity', payload.capacity.toString());
-  formData.append('description', payload.description);
-  formData.append('facility', payload.facility.join(','));
+  const formData = new FormData();
+  formData.append("type", payload.type);
+  formData.append("price", payload.price);
+  formData.append("pricediscount", payload.pricediscount);
+  formData.append("capacity", payload.capacity.toString());
+  formData.append("description", payload.description);
+  formData.append("facility", payload.facility.join(","));
 
   files.forEach((file) => {
-    formData.append('roompic', file);
+    formData.append("roompic", file);
   });
   const res = await axiosInstance.post(
     `/api/rooms/create-room/${id}`,
-    formData, 
+    formData,
     {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token?.value}`,
       },
     },
@@ -106,4 +110,9 @@ export const editProperty = async (id: string, formData: FormData) => {
     },
   });
   return res;
+};
+
+export const getAllProperty = async () => {
+  const res = await axiosInstance.get("/api/property/get");
+  return res
 };

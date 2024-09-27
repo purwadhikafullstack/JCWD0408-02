@@ -88,3 +88,26 @@ export const deleteRoomServices = async (id: string) => {
     throw error;
   }
 };
+
+export const getRoomsByIdServices = async (room_Id: string) => {
+  try {
+    const room = await prisma.room.findMany({
+      where: { id: room_Id },
+      include: {
+        RoomPic: {
+          select: {
+            url: true,
+          },
+        },
+        facility: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    return room;
+  } catch (error) {
+    throw error;
+  }
+};

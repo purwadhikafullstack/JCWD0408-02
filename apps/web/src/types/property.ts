@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> a5f823b000086b9cf2db8f51800701ee10923c65
 export interface RoomForm {
   type: string;
   price: string;
@@ -40,7 +36,6 @@ export interface DataProperty {
   isActive: boolean;
   location: string;
   Room: RoomData[];
-<<<<<<< HEAD
 }
 
 export interface RoomPic {
@@ -49,6 +44,4 @@ export interface RoomPic {
 
 export interface FacilityType {
   name: string;
-=======
->>>>>>> a5f823b000086b9cf2db8f51800701ee10923c65
 }
