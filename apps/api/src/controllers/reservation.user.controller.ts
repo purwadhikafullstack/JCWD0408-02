@@ -166,11 +166,11 @@ export class ReservationController {
       if (req.file) {
         media = `${base_url}/api/public/proof/${req.file?.filename}`;
       }
+      console.log(media);
       await prisma.reservation.update({
         data: { paymentProof: media },
         where: { id: reservation_id },
       });
-      console.log(media);
       res.status(200).send('OKE');
     } catch (error) {
       responseError(res, error);

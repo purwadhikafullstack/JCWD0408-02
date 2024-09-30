@@ -104,6 +104,7 @@ export const getRoomsByIdServices = async (room_Id: string) => {
             name: true,
           },
         },
+        property: true,
       },
     });
     return room;

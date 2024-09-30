@@ -16,17 +16,17 @@ export class TenantTransactionRouter {
 
   private initializeRoutes(): void {
     this.router.patch(
-      '/confirm',
+      '/confirm/:reservation_id',
       this.authMiddleware.verifyTokenOtp,
       this.tenantTransactionController.confirmPayment,
     );
     this.router.patch(
-      '/reject',
+      '/reject/:reservation_id',
       this.authMiddleware.verifyTokenOtp,
       this.tenantTransactionController.rejectPayment,
     );
     this.router.patch(
-      '/cancel',
+      '/cancel/:reservation_id',
       this.authMiddleware.verifyTokenOtp,
       this.tenantTransactionController.cancelUserOrder,
     );

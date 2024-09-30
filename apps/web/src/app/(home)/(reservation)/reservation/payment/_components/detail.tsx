@@ -1,11 +1,11 @@
 "use client";
 import { useAppSelector } from "@/Redux/Hooks";
 import DetailProps from "./detailProps";
-import Room from "./room";
-import { RxCross1 } from "react-icons/rx";
+
 import { useParams } from "next/navigation";
 import { navigate } from "@/libs/server";
 import toast from "react-hot-toast";
+import Info from "./info";
 
 export default function Detail() {
   const { username, phone, email } = useAppSelector((state) => state.user);
@@ -16,10 +16,10 @@ export default function Detail() {
     toast.success("Silahkan melihat status reservasi di profil anda");
   };
   return (
-    <div className="w-[100%] rounded-xl bg-white p-4 shadow-md">
-      <Room />
+    <div className="flex w-[100%] flex-col items-center rounded-xl bg-white p-4">
+      <Info />
       {/* Status Konfirmasi */}
-      <div className="my-2 flex flex-col items-center gap-2 rounded-xl bg-promo/25 p-2 lg:min-h-[100px] lg:flex-row">
+      {/* <div className="my-2 flex flex-col items-center gap-2 rounded-xl bg-promo/25 p-2 lg:min-h-[100px] lg:flex-row">
         <div className="flex min-h-[50px] items-center justify-center rounded-xl bg-white px-4 lg:min-w-[80px]">
           <RxCross1 className="text-promo" />
         </div>
@@ -32,7 +32,7 @@ export default function Detail() {
             di profil anda nanti
           </p>
         </div>
-      </div>
+      </div> */}
       {/* Status Konfirmasi */}
 
       <div className="flex flex-col gap-4 px-2">
@@ -47,12 +47,6 @@ export default function Detail() {
           <DetailProps detail="BOOKING-ID" content={bookingId} />
         </div>
       </div>
-      <button
-        onClick={() => handleBackHome()}
-        className="mt-4 w-full rounded-lg bg-btn py-2 font-bold text-white hover:bg-btnhover"
-      >
-        Kembali ke Home
-      </button>
     </div>
   );
 }
