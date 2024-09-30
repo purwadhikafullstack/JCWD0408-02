@@ -25,6 +25,10 @@ export class ReservationInfoRouter {
       this.authMiddleware.verifyTokenOtp,
       this.reservationInfoController.getReservationByTenant,
     );
+    this.router.get(
+      '/:reservation_id',
+      this.reservationInfoController.getReservationById,
+    );
   }
   getRouter(): Router {
     return this.router;

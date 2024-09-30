@@ -28,8 +28,6 @@ export class reservationInfoService {
   }
   async getReservationByTenant(payload: any) {
     try {
-      // const filter = AND[{}]
-      // status ? { statusRes: status } : {};
       interface IFilterQuery {
         AND: any[];
       }
@@ -58,6 +56,30 @@ export class reservationInfoService {
               type: true,
               tenant_Id: true,
               property: { select: { name: true } },
+            },
+          },
+        },
+      });
+      return data;
+    } catch (error) {
+      throw new Error('Gagal Mendapatkan Data Reservasi');
+    }
+  }
+  async getReservationById(reservation_id: string) {
+    try {
+      const data = await prisma.reservation.findFirst({
+        where: { id: reservation_id },
+        include: {
+          user: { select: { username: true, phone: true, email: true } },
+          room: {
+            select: {
+              price: true,
+              capacity: true,
+              type: true,
+              pricediscount: true,
+              property: {
+                select: { name: true, category: true, location: true },
+              },
             },
           },
         },

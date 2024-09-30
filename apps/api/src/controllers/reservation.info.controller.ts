@@ -32,6 +32,21 @@ export class ReservationInfoController {
         status: 'OK',
         data,
       });
-    } catch (error) {}
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
+  async getReservationById(req: Request, res: Response) {
+    try {
+      const { reservation_id } = req.params;
+      const data =
+        await reservationInfoServices.getReservationById(reservation_id);
+      res.status(200).send({
+        msg: 'ok',
+        data,
+      });
+    } catch (error) {
+      responseError(res, error);
+    }
   }
 }

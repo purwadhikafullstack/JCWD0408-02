@@ -2,9 +2,7 @@ export interface IReservation {
   price: number;
   startDate: Date;
   endDate: Date;
- 
 }
-
 export interface Property {
   id: number;
   name: string;

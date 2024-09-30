@@ -17,13 +17,13 @@ export default function TimerComp() {
   const second = time % 60;
   const minutes: number = Math.floor(time / 60 / (hour + 1));
   return (
-    <div>
+    <div className="flex flex-col items-center">
+       <p className="text-xl font-semibold text-btn ">
+          Batas waktu pembayaran :
+        </p>
       {time > 0 ? (
-        <p className="font-bold text-hitam">
-          Waktu Verifikasi :{" "}
-          <span className="text-btn">
-            {minutes} menit :{ second < 10 ? ` 0${second}` :` ${second}`} detik
-          </span>
+        <p className="text-4xl py-2 font-bold text-hitam mb-5">
+          00: {minutes} :{second < 10 ? ` 0${second}` : ` ${second}`}
         </p>
       ) : (
         <p className="text-sm font-bold text-hitam">

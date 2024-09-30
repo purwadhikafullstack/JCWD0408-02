@@ -3,7 +3,7 @@ import { Logo } from "./Logo";
 
 export default function Footer() {
   return (
-    <div className="w-full bg-hitam py-5">
+    <div className="w-full bg-hitam py-5 justify-self-end">
       <div className="mx-auto max-w-7xl px-10">
         <main className="flex flex-col md:flex-row md:justify-between rounded-sm border-b-2 border-gray-600 pb-12">
           <div className="md:w-1/2 text-sm grayscale">

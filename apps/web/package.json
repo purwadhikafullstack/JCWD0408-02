@@ -10,6 +10,7 @@
     "test": "npx cypress verify & cypress run --component"
   },
   "dependencies": {
+    "@next/font": "^14.2.13",
     "@reduxjs/toolkit": "^2.2.7",
     "@supabase/supabase-js": "^2.45.4",
     "axios": "^1.7.7",

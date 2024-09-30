@@ -11,6 +11,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        raleway: ["Raleway", "sans-serif"],
+
+      },
       colors: {
         latar: "#DDEEFF",
         btn: "#5BA5A5",
