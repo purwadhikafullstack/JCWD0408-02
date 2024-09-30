@@ -3,7 +3,7 @@ export default function DetailProps(props: {
   content: string;
 }) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="text-sm lg:text-base flex flex-col gap-1 w-max">
       <p className=" text-btn">{props.detail}</p>
       <p className="">{props.content}</p>
     </div>

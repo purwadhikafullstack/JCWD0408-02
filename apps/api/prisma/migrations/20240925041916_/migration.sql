@@ -42,7 +42,7 @@ CREATE TABLE `Tenant` (
 
 -- CreateTable
 CREATE TABLE `Property` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `description` LONGTEXT NOT NULL,
     `category` ENUM('Hotel', 'Villa') NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE `PropertyPic` (
     `url` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
-    `property_Id` INTEGER NOT NULL,
+    `property_Id` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -75,13 +75,21 @@ CREATE TABLE `Room` (
     `price` DOUBLE NOT NULL,
     `capacity` INTEGER NOT NULL DEFAULT 1,
     `description` VARCHAR(191) NOT NULL,
-    `facility` VARCHAR(191) NOT NULL DEFAULT '',
     `pricediscount` DOUBLE NOT NULL,
     `availability` BOOLEAN NOT NULL DEFAULT true,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
-    `property_Id` INTEGER NOT NULL,
+    `property_Id` VARCHAR(191) NOT NULL,
     `tenant_Id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Facility` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `roomId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -99,7 +107,7 @@ CREATE TABLE `RoomPic` (
 
 -- CreateTable
 CREATE TABLE `Reservation` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `price` DOUBLE NOT NULL,
     `startDate` DATETIME(3) NOT NULL,
     `endDate` DATETIME(3) NOT NULL,
@@ -125,7 +133,7 @@ CREATE TABLE `Review` (
     `feedBack` LONGTEXT NULL,
     `user_Id` INTEGER NOT NULL,
     `room_Id` INTEGER NOT NULL,
-    `reservation_Id` INTEGER NOT NULL,
+    `reservation_Id` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Review_reservation_Id_key`(`reservation_Id`),
     PRIMARY KEY (`id`)
@@ -142,6 +150,9 @@ ALTER TABLE `Room` ADD CONSTRAINT `Room_tenant_Id_fkey` FOREIGN KEY (`tenant_Id`
 
 -- AddForeignKey
 ALTER TABLE `Room` ADD CONSTRAINT `Room_property_Id_fkey` FOREIGN KEY (`property_Id`) REFERENCES `Property`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Facility` ADD CONSTRAINT `Facility_roomId_fkey` FOREIGN KEY (`roomId`) REFERENCES `Room`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `RoomPic` ADD CONSTRAINT `RoomPic_room_Id_fkey` FOREIGN KEY (`room_Id`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

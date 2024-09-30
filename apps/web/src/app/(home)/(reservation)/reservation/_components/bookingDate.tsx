@@ -1,6 +1,6 @@
 "use client";
 import { formatDateId } from "@/utils/formatDate";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
@@ -15,6 +15,11 @@ const BookingDate: React.FC = () => {
   const router = useRouter();
   const params = useParams();
   const id = params.id;
+  const query = useSearchParams();
+  const queryMulai = query.get("checkin");
+  const mulai = new Date(queryMulai!) || "pilih tanggal mulai";
+  const querySelesai = query.get("checkout");
+  const selesai = new Date(querySelesai!) || "pilih tanggal selesai";
 
   const onChange: any = (dates: DateRange) => {
     const [start, end] = dates;
@@ -33,11 +38,11 @@ const BookingDate: React.FC = () => {
       <div className="flex flex-col gap-4">
         <div>
           <p className="text-lg font-semibold">Tanggal Check-in</p>
-          <p>{formatDateId(startDate!)}</p>
+          <p>{formatDateId(mulai)}</p>
         </div>
         <div>
           <p className="text-lg font-semibold">Tanggal Check-out</p>
-          <p>{formatDateId(endDate!)}</p>
+          <p>{formatDateId(selesai!)}</p>
         </div>
         <button
           onClick={() => setDateOpen(!dateOpen)}
@@ -53,7 +58,7 @@ const BookingDate: React.FC = () => {
         </button>
       </div>
       {dateOpen && (
-        <div className="flex py-2">
+        <div className="flex bg-white py-2">
           <DatePicker
             selected={startDate}
             onChange={onChange}
@@ -61,6 +66,7 @@ const BookingDate: React.FC = () => {
             endDate={endDate!}
             selectsRange
             inline
+            className="bg-white"
           />
         </div>
       )}
