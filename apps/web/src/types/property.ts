@@ -45,3 +45,13 @@ export interface RoomPic {
 export interface FacilityType {
   name: string;
 }
+
+export type RoomsQuery = {
+  priceRange: number[];
+  category: string;
+  sortBy: string;
+  sortOrder: "asc" | "desc";
+  propertyName: string;
+  page: number;
+  pageSize: number;
+};

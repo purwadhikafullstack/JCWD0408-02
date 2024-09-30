@@ -27,7 +27,7 @@ const CardPropertyHome = ({ data }: { data: DataProperty }) => {
         <div>
           <h1 className="line-clamp-2 h-[50px]">{data.name}</h1>
           <p className="text-sm font-medium text-gray-500">
-            Mulai dari {ConvertToIDR(data.Room[0].price)}
+            Mulai dari {ConvertToIDR(data.Room[0].price) || "Rp100.000"}
           </p>
         </div>
       </div>

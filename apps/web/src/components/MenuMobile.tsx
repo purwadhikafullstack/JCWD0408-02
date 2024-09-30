@@ -36,11 +36,11 @@ const MenuMobile = ({ scrolled }: { scrolled: boolean }) => {
         </Link>
       ) : (
         <div
-          className={`flex gap-3 border-2 text-sm ${scrolled ? "border-white text-white" : "border-btn text-white"} rounded-full px-2 py-2 font-semibold`}
+          className={`flex gap-3 border-2 text-sm ${scrolled ? "border-hitam text-hitam" : "border-btn text-white"} rounded-full px-2 py-2 font-semibold`}
         >
           <Link
             href={"/account/register"}
-            className="text-white transition-colors duration-150 hover:text-gray-300"
+            className="transition-colors duration-150"
           >
             Daftar
           </Link>
@@ -53,7 +53,7 @@ const MenuMobile = ({ scrolled }: { scrolled: boolean }) => {
 
           <Link
             href={"/account/login"}
-            className="text-white transition-colors duration-150 hover:text-gray-300"
+            className="transition-colors duration-150"
           >
             Masuk
           </Link>

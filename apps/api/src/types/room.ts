@@ -5,3 +5,17 @@ export interface IRooms {
   description: string;
   type: string;
 }
+
+export interface GetRoomsParams {
+  sortBy?: 'name' | 'price';
+  sortOrder?: 'asc' | 'desc';
+  propertyName?: string;
+  category?: string;
+  location?: string;
+  page?: number;
+  take?: number;
+  startDate?: Date;
+  endDate?: Date;
+  minPrice: number;
+  maxPrice: number;
+}

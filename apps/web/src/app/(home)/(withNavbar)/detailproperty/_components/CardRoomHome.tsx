@@ -41,7 +41,7 @@ const CardRoomHome = ({ data }: { data: RoomData }) => {
 
           <div className="flex w-1/2 flex-col items-center justify-center">
             <Link
-              href={`/detailroom/${data.id}`}
+              href={`/search/room/${data.id}`}
               className="rounded-md bg-btn px-9 py-1 font-semibold text-white transition-colors duration-300 hover:bg-btn"
             >
               Pilih

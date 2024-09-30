@@ -31,7 +31,7 @@ const Navbar = () => {
   }, []);
   return (
     <nav
-      className={`fixed z-20 w-full py-2 rounded-b-3xl transition-all duration-300 ${scrolled ? "border-b-2 bg-white" : "bg-transparant"}`}
+      className={`fixed z-20 w-full rounded-b-3xl py-2 transition-all duration-300 ${scrolled ? "border-b-2 bg-white" : "bg-transparant"}`}
     >
       <main className="mx-auto max-w-7xl px-2 py-2 md:px-16 lg:px-20">
         <div className="flex items-center justify-between">
@@ -84,24 +84,24 @@ const Navbar = () => {
               </Link>
             ) : (
               <div
-                className={`flex gap-3 border-2 ${scrolled ? "border-white text-white" : "border-btn text-white"} rounded-full px-2 py-2 font-semibold`}
+                className={`flex gap-3 border-2 ${scrolled ? "border-hitam text-hitam" : "border-btn text-white"} rounded-full px-2 py-2 font-semibold`}
               >
                 <Link
                   href={"/account/register"}
-                  className="text-white transition-colors duration-150 hover:text-gray-300"
+                  className="transition-colors duration-150"
                 >
                   Daftar
                 </Link>
 
                 {/* Style line start */}
                 <div
-                  className={`w-[2px] rounded-full ${scrolled ? "bg-white" : "bg-btn"} `}
+                  className={`w-[2px] rounded-full ${scrolled ? "bg-hitam" : "bg-btn"} `}
                 ></div>
                 {/* Style line end */}
 
                 <Link
                   href={"/account/login"}
-                  className="text-white transition-colors duration-150 hover:text-gray-300"
+                  className="transition-colors duration-150"
                 >
                   Masuk
                 </Link>
