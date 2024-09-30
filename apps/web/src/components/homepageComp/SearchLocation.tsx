@@ -4,17 +4,17 @@ import React from "react";
 
 const SearchLocation = () => {
   const location = [
-    { img: "/herosec/heroimg3.jpg", name: "Jakarta", href: "/" },
-    { img: "/herosec/heroimg1.jpg", name: "Bandung", href: "/" },
-    { img: "/herosec/heroimg2.jpg", name: "Bali", href: "/" },
-    { img: "/herosec/heroimg4.jpg", name: "Yogyakarta", href: "/" },
-    { img: "/herosec/heroimg5.jpg", name: "Surabaya", href: "/" },
+    { img: "/herosec/heroimg3.jpg", name: "Jakarta", href: "/search?location=Jakarta" },
+    { img: "/herosec/heroimg1.jpg", name: "Bandung", href: "/search?location=Bandung" },
+    { img: "/herosec/heroimg2.jpg", name: "Bali", href: "/search?location=Bali" },
+    { img: "/herosec/heroimg4.jpg", name: "Yogyakarta", href: "/search?location=Yogyakarta" },
+    { img: "/herosec/heroimg5.jpg", name: "Surabaya", href: "/search?location=Surabaya" },
   ];
   return (
     <div>
       <h1 className="text-2xl font-semibold text-hitam md:text-4xl">
         Tujuan Populer
-      </h1>
+      </h1> 
       <main className="mt-5 flex items-center gap-5 md:gap-7">
         {location.map((item, idx) => {
           return (

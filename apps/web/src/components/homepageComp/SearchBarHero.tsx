@@ -1,8 +1,16 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import DateComp from "../DateComp";
 import { IoIosSearch } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 const SearchBarHero = () => {
+  const [location, setLocation] = useState("");
+  const router = useRouter();
+  const handleSearch = () => {
+    router.push(`/search?location=${location}`);
+  };
   return (
     <main className="absolute left-1/2 top-1/2 hidden w-full -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-center md:flex">
       <p className="font-semibold text-white md:text-3xl">
@@ -15,6 +23,8 @@ const SearchBarHero = () => {
             <input
               type="text"
               placeholder="Masukkan lokasi"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
               className="pl-5 text-lg focus:outline-none"
             />
           </section>
@@ -24,6 +34,7 @@ const SearchBarHero = () => {
           </section>
           {/* Search start */}
           <button
+            onClick={handleSearch}
             type="submit"
             className="flex h-full items-center gap-2 rounded-full bg-btn px-2 font-semibold text-white"
           >

@@ -2,6 +2,7 @@ import { responseError } from '@/helper/ResponseError';
 import {
   createRoomServices,
   deleteRoomServices,
+  getAllRoomsServices,
   getRoomsByIdServices,
   getRoomServices,
 } from '@/services/rooms.services';
@@ -75,7 +76,27 @@ export class RoomController {
         room,
       });
     } catch (error) {
-      responseError(res, error)
+      responseError(res, error);
+    }
+  }
+
+  async getAllRooms(req: Request, res: Response) {
+    try {
+      const { sortBy, sortOrder, propertyName, category, page, take, location, minPrice, maxPrice } = req.query;
+      const room = await getAllRoomsServices({
+        sortBy: (sortBy as string) as 'name' | 'price',
+        sortOrder: sortOrder as 'asc' | 'desc',
+        propertyName: propertyName as string,
+        category: category as string, 
+        location: location as string,
+        page: Number(page as string) || 1,
+        take: Number(take as string) || 10,
+        minPrice: Number(minPrice as string) || 0,
+        maxPrice: Number(maxPrice as string) || 5000000
+      });
+      return res.status(200).send(room);
+    } catch (error) {
+      responseError(res, error);
     }
   }
 }
