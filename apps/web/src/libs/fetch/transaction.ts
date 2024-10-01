@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { axiosInstance } from "../axios";
 import { getCookie } from "../server";
 
@@ -25,19 +26,23 @@ export const getTransactionById = async (reservation_id: String) => {
 };
 
 export const confirmPayment = async (reservation_id: String) => {
-  const token = await getCookie("token");
-  // console.log("TOKENN", token?.value);
-  const res = await axiosInstance.patch(
-    `/api/transaction/confirm/${reservation_id}`,
-    {},
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${token?.value}`,
+  try {
+    const token = await getCookie("token");
+    // console.log("TOKENN", token?.value);
+    await axiosInstance.patch(
+      `/api/transaction/confirm/${reservation_id}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token?.value}`,
+        },
       },
-    },
-  );
-  return res;
+    );
+    toast.success("Transaksi Dikonfirmasi");
+  } catch (error) {
+    return error;
+  }
 };
 
 export const rejectPayment = async (reservation_id: String) => {

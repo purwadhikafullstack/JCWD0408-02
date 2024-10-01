@@ -1,49 +1,61 @@
 import { Request, Response } from 'express';
 import { responseError } from '@/helper/ResponseError';
 import prisma from '@/prisma';
+import { reviewServices } from '@/services/review.service';
+import { ICreateReview } from '@/types/review';
 
 export class ReviewController {
   //MEMBUAT REVIEW
   async createReview(req: Request, res: Response) {
     try {
-      const { reservation_id, room_id, content, ratings } = req.body;
-      const now: Date = new Date(Date.now());
-
-      const room = await prisma.reservation.findFirst({
-        where: { id: reservation_id },
-      });
-      if (now > room?.endDate!)
-        throw 'Belum bisa memberikan review sebelum menginap';
-
-      const data = await prisma.review.create({
-        data: {
-          content,
-          reservation_Id: reservation_id,
-          user_Id: +req.user?.id!,
-          ratings: ratings,
-          room_Id: room?.room_Id!,
-        },
-      });
+      const { content, ratings } = req.body;
+      const { reservation_id } = req.params;
+      const payload: ICreateReview = { ratings, content, reservation_id };
+      const data = await reviewServices.createReview(payload);
       res.status(201).send({
         status: 'OK',
         data,
       });
-    } catch (error) {
-      responseError(res, error);
+    } catch (error: any) {
+      console.log(error);
+      res.status(400).send({
+        status: 'ERROR',
+        message: error.message,
+      });
     }
   }
-  //GET REVIEW
-  async getReview(req: Request, res: Response) {
+  //GET REVIEW By Tenant
+  async getReviewbyTenant(req: Request, res: Response) {
     try {
-      const data = await prisma.review.findMany({
-        where: { room_Id: req.body.room_id },
-      });
+      const  tenant_id  = req.user?.id;
+      const data = await reviewServices.getReviewbyTenant(+tenant_id!);
       res.status(200).send({ status: 'ok', data });
     } catch (error) {
       responseError(res, error);
     }
   }
 
+  //GET REVIEW BY RESERVATION ID
+  async getReviewByReservation(req: Request, res: Response) {
+    try {
+      const { reservation_id } = req.params;
+      const data = await reviewServices.getReviewByReservation(reservation_id);
+      res.status(200).send({ status: 'ok', data });
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
+
+  //GET REVIW BY PROPERTY
+  async getReviewByProperty(req: Request, res: Response) {
+    try {
+      const { reservation_id } = req.params;
+      const data = await reviewServices.getReviewByProperty(reservation_id);
+      res.status(200).send({ status: 'ok', data });
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
   //FEEDBACK
   async feedBackReview(req: Request, res: Response) {
     try {

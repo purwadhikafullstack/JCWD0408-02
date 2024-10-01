@@ -15,14 +15,26 @@ export class ReviewRouter {
   }
 
   private initializeRoutes(): void {
-    this.router.get('/', this.reviewController.getReview);
+    this.router.get(
+      '/tenant/',
+      this.authMiddleware.verifyTokenOtp,
+      this.reviewController.getReviewbyTenant,
+    );
+    this.router.get(
+      '/reservation/:reservation_id',
+      this.reviewController.getReviewByReservation,
+    );
+    this.router.get(
+      '/reservation/:property_id',
+      this.reviewController.getReviewByProperty,
+    );
     this.router.patch(
       '/feedback',
       this.authMiddleware.verifyTokenOtp,
       this.reviewController.feedBackReview,
     );
     this.router.post(
-      '/create',
+      '/create/:reservation_id',
       this.authMiddleware.verifyTokenOtp,
       this.reviewController.createReview,
     );

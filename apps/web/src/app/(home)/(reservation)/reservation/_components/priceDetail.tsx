@@ -26,25 +26,28 @@ export default function PriceDetail({
   const checkout = formatDateReservation(endDate!);
   const millisecondsPerNight = 24 * 60 * 60 * 1000;
   const hargaKamar = formatRupiah(price as number);
-  const pajak = formatRupiah((price as number) * 0.15);
-  const total = formatRupiah((price as number) + (price as number) * 0.15);
-  console.log(formatRupiah(500000));
-
   const nights = Math.round((endDate - startDate) / millisecondsPerNight);
+  const priceNight = (price as number) * nights;
+  const total = (priceNight as number) + (priceNight as number) * 0.15;
+  const pajak = formatRupiah((total as number) * 0.15);
   return (
     <div className="flex h-max w-full flex-col gap-4 border-b-2 bg-white py-5 text-hitam lg:sticky lg:top-8 lg:w-[25%] lg:rounded-xl lg:border-b-0 lg:px-6 lg:shadow-md">
-      <div className="flex flex-col justify-start gap-2 ">
+      <div className="flex flex-col justify-start gap-2">
         <Image
           src={"/dummy/kamar.jpg"}
           width={500}
           height={30}
           alt="kamar"
-          className="rounded-xl lg:h-[150px] object-cover"
+          className="rounded-xl object-cover lg:h-[150px]"
           priority
         />
-        <div className="flex flex-col ">
-          <h1 className="text- font-bold">{propertyName} - {location}</h1>
-          <h2 className="font-semibold text-sm text-btn"><span className="text-black">by : </span> {tenantName}</h2>
+        <div className="flex flex-col">
+          <h1 className="text- font-bold">
+            {propertyName} - {location}
+          </h1>
+          <h2 className="text-sm font-semibold text-btn">
+            <span className="text-black">by : </span> {tenantName}
+          </h2>
           {/* <h2 className="text-sm font-semibold">{location}</h2> */}
         </div>
       </div>
@@ -55,7 +58,7 @@ export default function PriceDetail({
             <td className="font-semibold">Check-in</td>
             <td className="text-end font-semibold">Check-out</td>
           </tr>
-          <tr >
+          <tr>
             <td className="text-sm">{`${checkin}`}</td>
             <td className="text-end text-sm">{`${checkout}`}</td>
           </tr>
@@ -86,7 +89,7 @@ export default function PriceDetail({
         </tr>
         <tr>
           <td className="">Total</td>
-          <td className="text-end font-semibold">{` ${total}`}</td>
+          <td className="text-end font-semibold">{` ${formatRupiah(total)}`}</td>
         </tr>
       </table>
     </div>

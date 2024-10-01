@@ -26,16 +26,16 @@ export class ReservationController {
       const roomReserved = await prisma.reservation.findFirst({
         //BOLEH DI HARI USER LAIN CHECKOUT
         where: {
+          room_Id: room_id,
+          statusRes: { not: 'CANCEL' },
           OR: [
             {
               startDate: { lt: endDate },
               endDate: { gt: startDate },
-              statusRes: { not: 'CANCEL' },
             },
             {
               startDate: { gte: startDate },
               endDate: { lte: endDate },
-              statusRes: { not: 'CANCEL' },
             },
           ],
         },

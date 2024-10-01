@@ -17,8 +17,20 @@ export default function ReservationDetail({ price }: IProps) {
   const [drop, setDrop] = useState<boolean>(false);
   const [payMethod, setPayMethod] = useState<string>("Virtual Account");
   const searchParams = useSearchParams();
-  const startDate = new Date(searchParams.get("checkin")!);
-  const endDate = new Date(searchParams.get("checkout")!);
+  const startDate: any = new Date(searchParams.get("checkin")!);
+  const endDate: any = new Date(searchParams.get("checkout")!);
+  const params = useParams();
+  const room_id: string = params.id as string;
+
+  const millisecondsPerNight = 24 * 60 * 60 * 1000;
+
+  const nights = Math.round((endDate - startDate) / millisecondsPerNight);
+  console.log(nights);
+
+  const priceNight = (price as number) * nights;
+  const total = (priceNight as number) + (priceNight as number) * 0.15;
+  console.log(total);
+
   const handleDropdownVA = () => {
     setPayMethod("Virtual Account");
     setDrop(false);
@@ -31,20 +43,14 @@ export default function ReservationDetail({ price }: IProps) {
     setDrop(!drop);
   };
   const token = Cookies.get("token");
-  // const price: number = 300000;
-
-  const params = useParams();
-
-  const room_id: number = +params.id;
-  // const handlePaymentVa = async () => await paymentVA(data, room_id, token!);
   const handlePaymentVa = async () => {
     try {
       const res = await axios.post(
         `https://lemur-rare-eft.ngrok-free.app/api/reservation/VA/${room_id}`,
         {
-          price: price,
+          price: total,
           startDate: startDate,
-          room_id: room_id,
+
           endDate: endDate,
         },
         {
@@ -58,7 +64,9 @@ export default function ReservationDetail({ price }: IProps) {
       toast.success("Berhasil Membuat Reservasi, Lakukan proses pembayaran");
       navigate(res.data.URL);
     } catch (error: any) {
-      toast.error(error.response?.data?.msg || "error");
+      typeof error.response?.data?.msg == "string"
+        ? toast.error(error.response?.data?.msg)
+        : toast.error("error");
     }
   };
   const handlePaymentTf = async () => {
@@ -66,9 +74,8 @@ export default function ReservationDetail({ price }: IProps) {
       const res = await axiosInstance.post(
         `/api/reservation/TF/${room_id}`,
         {
-          price: price,
+          price: total,
           startDate: startDate,
-          room_id: room_id,
           endDate: endDate,
         },
         {
@@ -82,7 +89,9 @@ export default function ReservationDetail({ price }: IProps) {
       toast.success("Reservasi dibuat, silahkan upload bukti pembayaran");
       navigate(`/reservation/upload-payment/${res.data.id}`);
     } catch (error: any) {
-      toast.error(error.response?.data?.msg || "error");
+      typeof error.response?.data?.msg == "string"
+        ? toast.error(error.response?.data?.msg)
+        : "error";
     }
   };
 
@@ -99,7 +108,7 @@ export default function ReservationDetail({ price }: IProps) {
           <p className="text-lg">1 Tamu</p>
         </div> */}
       </div>
-    
+
       <div className="py-4">
         <DropdownPay
           drop={drop}
@@ -116,9 +125,9 @@ export default function ReservationDetail({ price }: IProps) {
           setelah itu maka Anda akan mendapatkan pengembalian uang sebagian.
         </p>
       </div>
-    
-      <div className="flex flex-col ">
-        <h1 className=" pb-2 text-lg font-semibold">Aturan dasar</h1>
+
+      <div className="flex flex-col">
+        <h1 className="pb-2 text-lg font-semibold">Aturan dasar</h1>
         <p className="">
           Kami meminta setiap tamu untuk mengingat beberapa hal sederhana
           mengenai apa saja yang perlu dilakukan untuk menjadi tamu yang luar
@@ -146,17 +155,17 @@ export default function ReservationDetail({ price }: IProps) {
         <span className="font-semibold underline">
           Kebijakan Pemesanan Ulang dan Pengembalian Uang Nezztar
         </span>
-        , dan bahwa Nezztar {" "}
+        , dan bahwa Nezztar{" "}
         <span className="font-semibold underline">
           bisa membebankan biaya ke metode pembayaran saya jika saya
-        </span>
-       {" "} bertanggung jawab atas kerusakan.
+        </span>{" "}
+        bertanggung jawab atas kerusakan.
       </p>
       <button
         onClick={
           payMethod == "Virtual Account" ? handlePaymentVa : handlePaymentTf
         }
-        className="mt-4 rounded-xl w-full lg:w-max bg-btn px-6 py-4 text-lg font-semibold text-white duration-300 hover:bg-btnhover"
+        className="mt-4 w-full rounded-xl bg-btn px-6 py-4 text-lg font-semibold text-white duration-300 hover:bg-btnhover lg:w-max"
       >
         Lanjutkan dan Bayar
       </button>
