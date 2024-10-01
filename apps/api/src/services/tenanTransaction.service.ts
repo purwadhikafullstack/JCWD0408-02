@@ -16,11 +16,10 @@ export class tenantTransactionInfoService {
       });
       if (statusPaid) throw 'Reservasi Sudah Diterima';
       if (statusCancel) throw 'Reservasi dibatalkan oleh user';
-
-      // await prisma.reservation.update({
-      //   data: { statusRes: 'PAID' },
-      //   where: { id: id },
-      // });
+      await prisma.reservation.update({
+        data: { statusRes: 'PAID' },
+        where: { id: id },
+      });
     } catch (error: any) {
       return error;
     }

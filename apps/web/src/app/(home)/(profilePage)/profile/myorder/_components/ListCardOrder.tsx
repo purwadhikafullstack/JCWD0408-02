@@ -4,6 +4,7 @@ import CardOrder, { ReservationStatus } from "./CardOrder";
 import { Booking } from "@/types/reservation";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
+import toast from "react-hot-toast";
 
 const ListCardOrder = () => {
   const [orderData, setOrderData] = useState<Booking[]>([]);
@@ -27,12 +28,12 @@ const ListCardOrder = () => {
         const res = await getReservation(values.booking_id);
         setOrderData(res.data);
       } catch (error) {
-        console.log(error);
+        toast.error("Reservasi tidak ditemukan");
       }
     },
   });
   return (
-    <div className="mt-2 flex w-full flex-col rounded-md ">
+    <div className="mt-2 flex w-full flex-col rounded-md">
       <form
         onSubmit={formik.handleSubmit}
         className="flex flex-col gap-2 px-2 pb-2 pt-2 lg:px-6"
@@ -61,7 +62,7 @@ const ListCardOrder = () => {
         {orderData.map((item: Booking, idx: number) => (
           <div
             key={idx}
-            className={`${idx % 2 === 0 ? "bg-btn/10" : "bg-white"} rounded-lg shadow-sm`} // Menambahkan kelas latar belakang abu-abu untuk baris genap
+            className={`${idx % 2 === 0 ? "bg-latar/40 " : "bg-white border"} rounded-lg shadow-sm`} // Menambahkan kelas latar belakang abu-abu untuk baris genap
           >
             <CardOrder
               location={item.room.property.location}

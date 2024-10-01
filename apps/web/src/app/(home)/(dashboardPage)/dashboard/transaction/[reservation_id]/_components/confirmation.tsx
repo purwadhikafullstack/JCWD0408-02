@@ -24,7 +24,7 @@ export default function Confrimation({
   const handleConfirm = async () => {
     try {
       await confirmPayment(reservation_id as string);
-      toast.success("Transaksi Dikonfirmasi");
+     
     } catch (error: any) {
       toast.error(error.response?.data?.error || "error");
     }

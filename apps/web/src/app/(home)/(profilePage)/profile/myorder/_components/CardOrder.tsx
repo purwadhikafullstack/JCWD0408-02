@@ -43,7 +43,7 @@ const CardOrder = ({
   const createdAt = formatDateReservation(new Date(create as string));
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-lg  px-2 py-2 text-xs lg:px-4 lg:py-4">
+    <div className="flex h-full  flex-col overflow-hidden rounded-lg   px-2 py-2 text-xs lg:px-4 lg:py-4">
       <div className="flex flex-col items-start justify-between gap-2 text-[12px]  text-gray-500 lg:flex-row lg:items-center">
         <div className="flex flex-col justify-start gap-2 lg:flex-row">
           <p>ID : {reservation_id}</p>
@@ -63,15 +63,15 @@ const CardOrder = ({
           alt="Order image"
           width={500}
           height={100}
-          className="hidden h-[140px] w-full rounded-lg object-cover lg:block"
+          className="hidden  h-[150px] w-full rounded-lg object-cover lg:block"
         />
-        <div className="flex flex-col items-start justify-between gap-3 text-xs">
+        <div className="flex flex-col items-start justify-between gap-3 text-xs pl-2">
           <div>
-            <p className="text-base font-semibold text-btn">
+            <p className="text-lg font-semibold ">
               {propType} {property}{" "}
             </p>
 
-            <p className="text-sm font-semibold">{location}</p>
+            <p className="text-sm font-semibold text-btn">{location}</p>
             <div className="flex gap-2 text-gray-600">
               <p className="text-gray-600">{startDate}</p>
               <p>-</p>
