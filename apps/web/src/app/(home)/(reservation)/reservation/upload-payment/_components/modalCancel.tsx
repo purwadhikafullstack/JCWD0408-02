@@ -24,7 +24,7 @@ export default function ModalCancel() {
     <div>
       <button
         onClick={() => setOpen(!open)}
-        className="rounded-lg bg-red-600 px-6 py-2 font-semibold text-white"
+        className="rounded-lg bg-red-600 px-6 py-2  text-white"
       >
         Batalkan Reservasi
       </button>

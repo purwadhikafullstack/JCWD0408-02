@@ -18,7 +18,7 @@ export default function DropdownPay({
 }: IProps) {
   return (
     <div className="relative">
-      <h1 className="pb-4 text-lg font-semibold">Bayar Menggunakan</h1>
+      <h1 className="pb-4 text-lg font-semibold">Metode Pembayaran</h1>
       <button
         onClick={setDrop}
         className="flex w-full items-center justify-between rounded-lg border-2 border-btn px-5 py-2.5 text-center text-lg font-medium text-btn duration-300 hover:bg-btn hover:text-white"

@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import MainReview from "./_components";
 
-const Reportpage = () => {
+const ReviewPage = () => {
   return (
-    <div>Reportpage</div>
-  )
-}
+    <div className="px-4  lg:px-20 lg:max-w-[80%] py-6 bg-white rounded-xl">
+      <MainReview />
+    </div>
+  );
+};
 
-export default Reportpage
+export default ReviewPage;

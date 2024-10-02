@@ -1,17 +1,38 @@
-export default function SummaryTransaction() {
+interface IProps {
+  booking_id: String;
+  property: string;
+  room: string;
+  location: string;
+  checkin: string;
+  checkout: string;
+  username: string;
+  email: string;
+  phone: string;
+}
+export default function SummaryTransaction({
+  booking_id,
+  property,
+  room,
+  location,
+  checkin,
+  checkout,
+  username,
+  email,
+  phone,
+}: IProps) {
   const info = [
-    { text: "Booking id", info: "2312321321321" },
-    { text: "Property", info: "Ibis" },
-    { text: "Room", info: "Deluxe" },
-    { text: "Lokasi", info: "Bandung" },
-    { text: "Check-in", info: "Sabtu, 5 Jan 2024" },
-    { text: "Check-out", info: "Sabtu, 6 Jan 2024" },
+    { text: "Booking id", info: booking_id },
+    { text: "Property", info: property },
+    { text: "Room", info: room },
+    { text: "Lokasi", info: location },
+    { text: "Check-in", info: checkin },
+    { text: "Check-out", info: checkout },
   ];
 
   const customers = [
-    { text: "Nama", info: "Andi" },
-    { text: "Email", info: "Andi@gmail,com" },
-    { text: "No.Telephone", info: "32132132131" },
+    { text: "Nama", info: username },
+    { text: "Email", info: email },
+    { text: "No.Handphone", info: `+62 ${phone}` },
   ];
   return (
     <div className="mt-6">
@@ -21,10 +42,10 @@ export default function SummaryTransaction() {
         <div className="flex flex-col gap-2">
           {info.map((item, idx) => {
             return (
-              <div className="flex gap-4 font-medium">
+              <div key={idx} className="flex gap-4 font-medium">
                 <p className="min-w-[80px] text-gray-500">{item.text}</p>
                 <p className="text-gray-500">:</p>
-                <p className={`col-span-2`}>{item.info}</p>
+                <p className={`col-span-2`}>{item.info as string}</p>
               </div>
             );
           })}
@@ -34,7 +55,7 @@ export default function SummaryTransaction() {
           {customers.map((item, idx) => {
             return (
               <div className="flex gap-4 font-medium">
-                <p className="lg:min-w-[100px] text-gray-500">{item.text}</p>
+                <p className="text-gray-500 lg:min-w-[120px]">{item.text}</p>
                 <p className="text-gray-500">:</p>
                 <p
                   className={`${item.text == "Email" ? "text-blue-500 underline underline-offset-1" : ""} col-span-2`}

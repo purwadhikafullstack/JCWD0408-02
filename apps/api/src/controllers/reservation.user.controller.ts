@@ -26,16 +26,16 @@ export class ReservationController {
       const roomReserved = await prisma.reservation.findFirst({
         //BOLEH DI HARI USER LAIN CHECKOUT
         where: {
+          room_Id: room_id,
+          statusRes: { not: 'CANCEL' },
           OR: [
             {
               startDate: { lt: endDate },
               endDate: { gt: startDate },
-              statusRes: { not: 'CANCEL' },
             },
             {
               startDate: { gte: startDate },
               endDate: { lte: endDate },
-              statusRes: { not: 'CANCEL' },
             },
           ],
         },
@@ -166,11 +166,11 @@ export class ReservationController {
       if (req.file) {
         media = `${base_url}/api/public/proof/${req.file?.filename}`;
       }
+      console.log(media);
       await prisma.reservation.update({
         data: { paymentProof: media },
         where: { id: reservation_id },
       });
-      console.log(media);
       res.status(200).send('OKE');
     } catch (error) {
       responseError(res, error);

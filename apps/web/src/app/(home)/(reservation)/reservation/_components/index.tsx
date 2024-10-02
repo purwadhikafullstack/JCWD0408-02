@@ -10,12 +10,27 @@ import { useParams } from "next/navigation";
 import { IReservation } from "@/types/reservation";
 import { navigate } from "@/libs/server";
 import { axiosInstance } from "@/libs/axios";
-export default function ReservationDetail() {
+interface IProps {
+  price: number;
+}
+export default function ReservationDetail({ price }: IProps) {
   const [drop, setDrop] = useState<boolean>(false);
   const [payMethod, setPayMethod] = useState<string>("Virtual Account");
   const searchParams = useSearchParams();
-  const startDate = new Date(searchParams.get("checkin")!);
-  const endDate = new Date(searchParams.get("checkout")!);
+  const startDate: any = new Date(searchParams.get("checkin")!);
+  const endDate: any = new Date(searchParams.get("checkout")!);
+  const params = useParams();
+  const room_id: string = params.id as string;
+
+  const millisecondsPerNight = 24 * 60 * 60 * 1000;
+
+  const nights = Math.round((endDate - startDate) / millisecondsPerNight);
+  console.log(nights);
+
+  const priceNight = (price as number) * nights;
+  const total = (priceNight as number) + (priceNight as number) * 0.15;
+  console.log(total);
+
   const handleDropdownVA = () => {
     setPayMethod("Virtual Account");
     setDrop(false);
@@ -28,18 +43,6 @@ export default function ReservationDetail() {
     setDrop(!drop);
   };
   const token = Cookies.get("token");
-  const price: number = 300000;
-  const total = price - price * 0.1;
-  console.log(total);
-
-  const params = useParams();
-  const data: IReservation = {
-    price: total,
-    startDate: startDate,
-    endDate: endDate,
-  };
-  const room_id: number = +params.id;
-  // const handlePaymentVa = async () => await paymentVA(data, room_id, token!);
   const handlePaymentVa = async () => {
     try {
       const res = await axios.post(
@@ -47,7 +50,7 @@ export default function ReservationDetail() {
         {
           price: total,
           startDate: startDate,
-          room_id: room_id,
+
           endDate: endDate,
         },
         {
@@ -58,10 +61,12 @@ export default function ReservationDetail() {
         },
       );
 
-      toast.success("Reservation Created");
+      toast.success("Berhasil Membuat Reservasi, Lakukan proses pembayaran");
       navigate(res.data.URL);
     } catch (error: any) {
-      toast.error(error.response?.data?.msg || "error");
+      typeof error.response?.data?.msg == "string"
+        ? toast.error(error.response?.data?.msg)
+        : toast.error("error");
     }
   };
   const handlePaymentTf = async () => {
@@ -69,9 +74,8 @@ export default function ReservationDetail() {
       const res = await axiosInstance.post(
         `/api/reservation/TF/${room_id}`,
         {
-          price: price,
+          price: total,
           startDate: startDate,
-          room_id: room_id,
           endDate: endDate,
         },
         {
@@ -82,27 +86,29 @@ export default function ReservationDetail() {
         },
       );
 
-      toast.success("Reservation Created");
+      toast.success("Reservasi dibuat, silahkan upload bukti pembayaran");
       navigate(`/reservation/upload-payment/${res.data.id}`);
     } catch (error: any) {
-      toast.error(error.response?.data?.msg || "error");
+      typeof error.response?.data?.msg == "string"
+        ? toast.error(error.response?.data?.msg)
+        : "error";
     }
   };
 
   return (
     <div className="lg:w-[40%]">
       <div className="flex items-center gap-2 pb-2">
-        <h1 className="text-3xl font-bold">RESERVASI</h1>
+        <h1 className="text-2xl font-bold">RESERVASI</h1>
       </div>
-      <h2 className="mb-2 text-2xl font-bold text-hitam">Pemesanan Anda</h2>
+      <h2 className="mb-2 text-xl font-bold text-hitam">Pemesanan Anda</h2>
       <div className="flex flex-col justify-between gap-x-6 gap-y-2 pb-2 pt-2">
         <BookingDate />
-        <div>
-          <p className="py-1 text-lg font-semibold">Tamu</p>
+        {/* <div>
+          <p className="py-1  font-semibold">Tamu</p>
           <p className="text-lg">1 Tamu</p>
-        </div>
+        </div> */}
       </div>
-      <hr />
+
       <div className="py-4">
         <DropdownPay
           drop={drop}
@@ -119,9 +125,9 @@ export default function ReservationDetail() {
           setelah itu maka Anda akan mendapatkan pengembalian uang sebagian.
         </p>
       </div>
-      <hr />
-      <div className="flex flex-col py-2">
-        <h1 className="my-2 pb-2 text-lg font-semibold">Aturan dasar</h1>
+
+      <div className="flex flex-col">
+        <h1 className="pb-2 text-lg font-semibold">Aturan dasar</h1>
         <p className="">
           Kami meminta setiap tamu untuk mengingat beberapa hal sederhana
           mengenai apa saja yang perlu dilakukan untuk menjadi tamu yang luar
@@ -147,19 +153,19 @@ export default function ReservationDetail() {
         <span className="font-semibold underline">Aturan dasar untuk tamu</span>
         ,
         <span className="font-semibold underline">
-          Kebijakan Pemesanan Ulang dan Pengembalian Uang Airbnb
+          Kebijakan Pemesanan Ulang dan Pengembalian Uang Nezztar
         </span>
-        , dan bahwa Airbnb
+        , dan bahwa Nezztar{" "}
         <span className="font-semibold underline">
           bisa membebankan biaya ke metode pembayaran saya jika saya
-        </span>
+        </span>{" "}
         bertanggung jawab atas kerusakan.
       </p>
       <button
         onClick={
           payMethod == "Virtual Account" ? handlePaymentVa : handlePaymentTf
         }
-        className="mt-4 rounded-xl bg-btn px-6 py-4 text-lg font-semibold text-white duration-300 hover:bg-btnhover"
+        className="mt-4 w-full rounded-xl bg-btn px-6 py-4 text-lg font-semibold text-white duration-300 hover:bg-btnhover lg:w-max"
       >
         Lanjutkan dan Bayar
       </button>

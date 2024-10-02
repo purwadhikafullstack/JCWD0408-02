@@ -8,7 +8,9 @@ import { axiosInstance } from "@/libs/axios";
 import Cookies from "js-cookie";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
-import { navigate } from "@/libs/server";import { v4 as uuidv4 } from 'uuid';
+import { navigate } from "@/libs/server";
+import { v4 as uuidv4 } from "uuid";
+import TimerComp from "./proofTimer";
 
 const ImageInput = () => {
   const [selectImage, setSelectImage] = useState<File | null>(null);
@@ -38,13 +40,20 @@ const ImageInput = () => {
         },
       );
       toast.success("success");
-      navigate(`  /summary/${reservation_id}`);
-    } catch (error) {
-      toast.error("file too large")
+      navigate(`reservation/payment/${reservation_id}`);
+    } catch (error: any) {
+      // console.log(error);
+      toast.error(error.response?.data || "error" || error.response?.data?.status);
     }
   };
   return (
     <div className="">
+      <div className="flex flex-col lg:mt-10">
+       
+
+        <TimerComp />
+      </div>
+      <p className="font-semibold">Upload pembayaran disini</p>
       {isActiveImage ? (
         <label
           onMouseEnter={() => setIsHover(true)}

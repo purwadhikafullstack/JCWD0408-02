@@ -11,9 +11,9 @@ import { useSearchParams } from "next/navigation";
 
 export default function TransactionList() {
   const [transaction, setTransaction] = useState<IReservationList[]>([]);
+  console.log(transaction);
   const params = useSearchParams();
   const query = params.get("status");
-
   useEffect(() => {
     const listData = async () => {
       try {
@@ -27,13 +27,13 @@ export default function TransactionList() {
     listData();
   }, [query]);
   return (
-    <div className="rounded-xl bg-white p-4 lg:min-h-[600px] shadow-md">
-      <div className="flex flex-col justify-between border-b-[3px] bg-white pb-2 lg:flex-row lg:pb-6 ">
-        <div className="flex justify-between pb-4 w-full" >
+    <div className="rounded-xl bg-white p-4 shadow-md lg:min-h-[600px]">
+      <div className="flex flex-col justify-between border-b-[3px] bg-white pb-2 lg:flex-row lg:pb-6">
+        <div className="flex w-full justify-between pb-4">
           <h1 className="text-2xl font-bold">Transaksi</h1>
           <button
             onClick={() => navigate(`/dashboard/transaction`)}
-            className="flex items-center gap-4 rounded-md bg-btn px-2 py-1 font-normal text-white hover:bg-btnhover "
+            className="flex items-center gap-4 rounded-md bg-btn px-2 py-1 font-normal text-white hover:bg-btnhover"
           >
             <p className="hidden lg:block">refresh</p>
             <MdRefresh className="text-white" />
@@ -61,19 +61,19 @@ export default function TransactionList() {
           </tr>
         </thead>
         <tbody className="h-max">
-          {transaction.map((item, idx) => {
-            console.log(transaction);
-            return (
-              <TableTransaction
-                name={item.user.username}
-                status={item.statusRes}
-                property={item.room.property.name}
-                room={item.room.type}
-                id={item.id}
-                createdAt={item.createdAt}
-              />
-            );
-          })}
+          {transaction &&
+            transaction.map((item, idx) => {
+              return (
+                <TableTransaction
+                  name={item.user.username}
+                  status={item.statusRes}
+                  property={item.room.property.name}
+                  room={item.room.type}
+                  id={item.id}
+                  createdAt={item.createdAt}
+                />
+              );
+            })}
         </tbody>
       </table>
     </div>

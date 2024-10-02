@@ -37,18 +37,18 @@ const BookingDate: React.FC = () => {
     <div>
       <div className="flex flex-col gap-4">
         <div>
-          <p className="text-lg font-semibold">Tanggal Check-in</p>
+          <p className=" font-semibold">Tanggal Check-in</p>
           <p>{formatDateId(mulai)}</p>
         </div>
         <div>
-          <p className="text-lg font-semibold">Tanggal Check-out</p>
+          <p className=" font-semibold">Tanggal Check-out</p>
           <p>{formatDateId(selesai!)}</p>
         </div>
         <button
           onClick={() => setDateOpen(!dateOpen)}
           className={`${buttonVisible ? "hidden" : "block"} inline-flex w-full items-center rounded-lg border-2 border-btn px-5 py-2.5 text-center text-lg font-medium text-btn duration-300 hover:bg-btn hover:text-white`}
         >
-          Edit
+          Edit Tanggal Pemesanan
         </button>
         <button
           onClick={onClick}

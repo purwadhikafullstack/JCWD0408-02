@@ -3,7 +3,12 @@ import { getCookie } from "../server";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../axios";
-import { method } from "cypress/types/bluebird";
+
+
+export const getRoomReservation = async (id: string) => {
+  const res = await axiosInstance.get(`/api/rooms/get-roombyid/${id}`);
+  return res.data.room[0];
+};
 
 export const createReservationVA = async (
   data: IReservation,
@@ -80,5 +85,3 @@ export const cancelResersvationUser = async (reservation_id: string) => {
     console.log(error);
   }
 };
-
-

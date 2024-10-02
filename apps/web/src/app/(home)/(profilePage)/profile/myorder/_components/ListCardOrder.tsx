@@ -1,12 +1,10 @@
 "use client";
 import { getReservation } from "@/libs/fetch/reservation";
 import CardOrder, { ReservationStatus } from "./CardOrder";
-import { axiosInstance } from "@/libs/axios";
-import { getCookie } from "@/libs/server";
-import { Booking, DataResponse } from "@/types/reservation";
-import axios from "axios";
+import { Booking } from "@/types/reservation";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
+import toast from "react-hot-toast";
 
 const ListCardOrder = () => {
   const [orderData, setOrderData] = useState<Booking[]>([]);
@@ -16,7 +14,7 @@ const ListCardOrder = () => {
         const res = await getReservation();
         setOrderData(res.data);
       } catch (error) {
-        console.log(error);
+        return error;
       }
     };
     orderData();
@@ -30,43 +28,55 @@ const ListCardOrder = () => {
         const res = await getReservation(values.booking_id);
         setOrderData(res.data);
       } catch (error) {
-        console.log(error);
+        toast.error("Reservasi tidak ditemukan");
       }
     },
   });
   return (
-    <div className="mt-5 w-full rounded-md border bg-slate-50 shadow-lg lg:items-center">
+    <div className="mt-2 flex w-full flex-col rounded-md">
       <form
         onSubmit={formik.handleSubmit}
-        className="flex flex-col gap-2 px-6 pb-2 pt-4"
+        className="flex flex-col gap-2 px-2 pb-2 pt-2 lg:px-6"
       >
-        <label htmlFor="booking_id" className="font-bold">
-          Cari Id Booking
+        <label htmlFor="booking_id" className="font-semibold">
+          Cari Reservasi
         </label>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 lg:flex-row">
           <input
             name="booking_id"
             onChange={formik.handleChange}
             value={formik.values.booking_id}
             type="text"
             placeholder="ID BOOKING"
-            className="lg:min-w-[370px] text-sm rounded-md border-2 px-2 font-light"
+            className="min-h-[30px] rounded-md border-2 px-2 text-sm font-semibold lg:min-w-[370px]"
           />
-          <button type="submit" className="rounded-md bg-btn px-2 text-white">
+          <button
+            type="submit"
+            className="w-[100px] rounded-lg bg-btn px-6 py-1 text-white shadow-md duration-150 hover:bg-btnhover lg:py-2"
+          >
             Cari
           </button>
         </div>
       </form>
-      <div className="grid gap-2 grid-cols-1 place-items-center px-2 py-2 md:grid-cols-2 md:gap-3 md:px-3 lg:grid-cols-3 lg:gap-4 lg:px-5">
+      <div className="grid w-full grid-cols-1 gap-2 px-2 py-2 md:gap-3 md:px-3 lg:gap-4 lg:px-5">
         {orderData.map((item: Booking, idx: number) => (
-          <CardOrder
+          <div
             key={idx}
-            location={item.room.property.location}
-            name={item.room.type}
-            price={item.price}
-            reservation_id={item.id}
-            status={item.statusRes as ReservationStatus}
-          />
+            className={`${idx % 2 === 0 ? "bg-latar/40 " : "bg-white border"} rounded-lg shadow-sm`} // Menambahkan kelas latar belakang abu-abu untuk baris genap
+          >
+            <CardOrder
+              location={item.room.property.location}
+              name={item.room.type}
+              price={item.price}
+              reservation_id={item.id}
+              status={item.statusRes as ReservationStatus}
+              start={item.startDate}
+              end={item.endDate}
+              property={item.room.property.name}
+              propType={item.room.property.category}
+              create={item.createdAt}
+            />
+          </div>
         ))}
       </div>
     </div>
