@@ -1,4 +1,4 @@
-import { supabase } from "@/utils/supabaseClient";
+import { supabase } from "@/utils/supabase/client";
 import React from "react";
 import { BsTwitterX } from "react-icons/bs";
 

@@ -103,9 +103,9 @@ const AllRooms = () => {
   }, [ sortBy, sortOrder, category, propertyName, minPrice, maxPrice, page, location ]);
 
   return (
-    <div className="w-full bg-btnhover">
-      <div className="mx-auto max-w-7xl pt-20">
-        <div className="bg-slate-50 px-5 pb-5 pt-14 md:px-20">
+    <div className="w-full bg-btnhover pt-20">
+      <div className="bg-slate-50">
+        <div className="mx-auto max-w-7xl px-5 pb-5 pt-14 md:px-20">
           <SearchBar onSearch={handleSearch} />
           <div className="flex flex-col gap-4 pt-7 lg:flex-row lg:px-10">
             {/* Filter */}

@@ -19,6 +19,7 @@ import { RoomRouter } from './routers/rooms.router';
 import { ReservationInfoRouter } from './routers/reservation.info.router';
 import { TenantTransactionRouter } from './routers/tenant.transaction.router';
 import { ReviewRouter } from './routers/review.router';
+import { SosmedLoginRouter } from './routers/sosmedlogin.router';
 
 export default class App {
   private app: Express;
@@ -73,6 +74,7 @@ export default class App {
     const reservationInfo = new ReservationInfoRouter();
     const transactionTenant = new TenantTransactionRouter();
     const review = new ReviewRouter();
+    const sosmedlogin = new SosmedLoginRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
@@ -87,6 +89,7 @@ export default class App {
     this.app.use('/api/reservationInfo', reservationInfo.getRouter());
     this.app.use('/api/transaction', transactionTenant.getRouter());
     this.app.use('/api/review', review.getRouter());
+    this.app.use('/api/auth', sosmedlogin.getRouter());
   }
 
   public start(): void {

@@ -21,7 +21,7 @@ export interface UserState {
   phone: string;
   role: string;
   token: string;
-  avatar: File | null;
+  avatar: string | null;
   isVerify: boolean;
   createdAt: string;
   provider: Provider | null;
@@ -37,5 +37,5 @@ enum Provider {
 export interface UpdateDataUser {
   username: string;
   phone: string;
-  avatar: File | null;
+  avatar: string | File | null;
 }

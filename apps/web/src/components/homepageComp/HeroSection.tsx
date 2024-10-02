@@ -6,6 +6,7 @@ import Autoplay from "embla-carousel-autoplay";
 import SearchBarHero from "./SearchBarHero";
 import Image from "next/image";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import SearchBarHeroMobile from "./SearchBarHeroMobile";
 
 export default function EmblaCarousel() {
   const [isHover, setIsHover] = useState(false);
@@ -36,7 +37,7 @@ export default function EmblaCarousel() {
       className="embla relative w-full"
       ref={emblaRef}
     >
-      <div className="embla__container h-[550px]">
+      <div className="embla__container h-[700px] md:h-[500px]">
         {slide.map((item, idx) => {
           return (
             <div
@@ -48,13 +49,14 @@ export default function EmblaCarousel() {
                 alt={`HeroSection-${idx}`}
                 width={500}
                 height={500}
-                className="h-full w-full brightness-50"
+                className="h-full w-full object-cover brightness-50"
               />
             </div>
           );
         })}
       </div>
       <SearchBarHero />
+      <SearchBarHeroMobile />
       {isHover && (
         <div
           className={`${isHover ? "opacity-50" : "opacity-100"} transition-opacity duration-300`}

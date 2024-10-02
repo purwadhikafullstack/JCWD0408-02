@@ -11,6 +11,8 @@ import { MdOutlineTextsms } from "react-icons/md";
 
 const NavBar = () => {
   const { username, avatar, createdAt } = useAppSelector((state) => state.user);
+  console.log(avatar);
+  
   // const createAccount = formatDateCreateAccount(createdAt);
   const pathname = usePathname();
   const menuNav = [
@@ -49,7 +51,7 @@ const NavBar = () => {
             {avatar !== null ? (
               <div className="overflow-hidden rounded-full bg-slate-50 shadow-lg">
                 <Image
-                  src={"/dummy/kamar.jpg"}
+                  src={avatar}
                   alt="Profile"
                   width={50}
                   height={50}

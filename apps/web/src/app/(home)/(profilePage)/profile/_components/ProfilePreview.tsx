@@ -3,25 +3,24 @@ import Image from "next/image";
 import React from "react";
 
 interface ProfileProps {
-  avatar: File | null;
+  avatar: string | File | null;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 
 const ProfilePreview: React.FC<ProfileProps> = ({ avatar, setFieldValue }) => {
-  const [imageUrl, setImageUrl] = React.useState<string | null>(null)
-    React.useEffect(() => {
-        if (avatar) {
-            const objectUrl = URL.createObjectURL(avatar);
-            setImageUrl(objectUrl)
+  const [imageUrl, setImageUrl] = React.useState<string | null>(null);
+  React.useEffect(() => {
+    if (avatar) {
+      const objectUrl = URL.createObjectURL(avatar as File);
+      setImageUrl(objectUrl);
 
-            return () => URL.revokeObjectURL(objectUrl)
-        } else {
-            setImageUrl(null)
-        }
+      return () => URL.revokeObjectURL(objectUrl);
+    } else {
+      setImageUrl(null);
+    }
+  }, [avatar]);
 
-    }, [avatar])
-
-    if (!imageUrl) return null
+  if (!imageUrl) return null;
 
   return (
     <div>
