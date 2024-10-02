@@ -1,11 +1,11 @@
 import React from "react";
 import FormikComp from "./_components/Formik";
-import DesainLoginRegis from "../_components/DesainLoginRegis";
+import DesainLoginRegisTenant from "../_components/DesainLoginRegisTenant";
 
 const Login = () => {
   return (
     <div className="bg-latar">
-      <DesainLoginRegis
+      <DesainLoginRegisTenant
         text1="Masuk"
         text2="Daftar"
         href="/account/registertenant"
@@ -15,7 +15,7 @@ const Login = () => {
         ketPembeli="Tenant"
       >
         <FormikComp />
-      </DesainLoginRegis>
+      </DesainLoginRegisTenant>
     </div>
   );
 };

@@ -27,28 +27,30 @@ const WhyNezztar = () => {
   return (
     <section className="w-full bg-latar/40">
       <div className="mx-auto max-w-7xl px-10 py-10">
-        <h1 className="text-3xl font-semibold">
+        <h1 className="md:text-3xl text-2xl font-semibold">
           Kenapa booking melalui Nezztar?
         </h1>
-        <div className="mt-3 grid gap-3 grid-cols-1 md:grid-cols-2">
+        <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
           {data.map((item, idx) => {
             return (
               <div
                 key={idx}
-                className="flex items-center gap-3 rounded-md border p-5"
+                className="flex flex-col items-center gap-3 rounded-md border p-5 md:flex-row"
               >
                 <Image
                   src={item.img}
                   alt="WhyNezztar"
                   width={200}
                   height={200}
-                  className="h-32 w-32"
+                  className="h-40 w-40 md:h-32 md:w-32"
                 />
                 <div>
-                  <h1 className="text-2xl font-semibold text-black">
+                  <h1 className="font-semibold text-black md:text-2xl">
                     {item.judul}
                   </h1>
-                  <p className="text-sm text-gray-600">{item.desc}</p>
+                  <p className="text-xs text-gray-600 md:text-sm">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             );

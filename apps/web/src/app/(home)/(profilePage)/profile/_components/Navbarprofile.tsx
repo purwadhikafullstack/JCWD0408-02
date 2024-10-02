@@ -21,7 +21,7 @@ const NavBarProfile = () => {
           {avatar !== null ? (
             <div className="overflow-hidden rounded-full bg-slate-50 shadow-lg">
               <Image
-                src={"/dummy/kamar.jpg"}
+                src={avatar}
                 alt="Profile"
                 width={50}
                 height={50}

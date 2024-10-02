@@ -8,7 +8,7 @@ const MenuMobile = ({ scrolled }: { scrolled: boolean }) => {
   const { username, token, avatar } = useAppSelector((state) => state.user);
 
   return (
-    <div className="flex text-white md:hidden">
+    <div className={`flex ${scrolled ? "text-hitam" : "text-white"} md:hidden`}>
       {token ? (
         <Link
           href={"/profile"}
@@ -17,7 +17,7 @@ const MenuMobile = ({ scrolled }: { scrolled: boolean }) => {
           {avatar !== null ? (
             <div className="flex items-center gap-2 px-1 py-1">
               <Image
-                src={"/uiotp.svg"}
+                src={avatar}
                 alt="profile"
                 width={40}
                 height={40}
@@ -47,7 +47,7 @@ const MenuMobile = ({ scrolled }: { scrolled: boolean }) => {
 
           {/* Style line start */}
           <div
-            className={`w-[2px] rounded-full ${scrolled ? "bg-white" : "bg-btn"} `}
+            className={`w-[2px] rounded-full ${scrolled ? "bg-hitam" : "bg-btn"} `}
           ></div>
           {/* Style line end */}
 

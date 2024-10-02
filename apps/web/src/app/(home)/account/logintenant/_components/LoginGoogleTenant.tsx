@@ -3,10 +3,10 @@ import { createCookie, navigate } from "@/libs/server";
 import { loginAction } from "@/Redux/slices/userSlice";
 import { supabase } from "@/utils/supabase/client";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-const LoginGoogleUser = () => {
+const LoginGoogleTenant = () => {
   const dispatch = useDispatch();
   const onLogin = async () => {
     const { error: signOutError } = await supabase.auth.signOut();
@@ -17,7 +17,7 @@ const LoginGoogleUser = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_BASE_WEB}/account/register`,
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_WEB}/account/registertenant`,
       },
     });
 
@@ -32,7 +32,7 @@ const LoginGoogleUser = () => {
 
       try {
         const response = await axiosInstance.post(
-          "/api/auth/google",
+          "/api/auth/google-t",
           {
             email: user.email,
             avatar: user.user_metadata.avatar_url || null,
@@ -65,7 +65,7 @@ const LoginGoogleUser = () => {
             provider: userData.provider,
           }),
         );
-        navigate("/");
+        navigate("/dashboard");
       } catch (err) {
         console.error("Error saving user to database:", err);
       }
@@ -117,4 +117,4 @@ const LoginGoogleUser = () => {
   );
 };
 
-export default LoginGoogleUser;
+export default LoginGoogleTenant;

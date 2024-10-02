@@ -102,7 +102,7 @@ const Profilepage = () => {
                         {avatar !== null ? (
                           <div className="h-14 w-14 overflow-hidden rounded-full bg-slate-50 shadow-lg md:h-20 md:w-20 lg:h-28 lg:w-28">
                             <Image
-                              src={"/dummy/kamar.jpg"}
+                              src={avatar}
                               alt="Avatar"
                               width={50}
                               height={50}

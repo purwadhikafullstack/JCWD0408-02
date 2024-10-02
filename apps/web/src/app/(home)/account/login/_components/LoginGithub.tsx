@@ -1,4 +1,4 @@
-import { supabase } from "@/utils/supabaseClient";
+import { supabase } from "@/utils/supabase/client";
 import { FaGithub } from "react-icons/fa";
 
 const LoginGithubUser = () => {

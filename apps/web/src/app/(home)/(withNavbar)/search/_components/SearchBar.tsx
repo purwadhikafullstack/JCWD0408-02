@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { CiCalendar } from "react-icons/ci";
 import { FiMinus, FiPlus } from "react-icons/fi";
@@ -16,8 +15,6 @@ const SearchBar: React.FC<SearchProps> = ({onSearch}) => {
   const [guests, setGuests] = useState<number>(0);
   const [location, setLocation] = useState<string>("");
   const [isGuestModalOpen, setGuestModalOpen] = useState(false);
-  const router = useRouter();
-  console.log(location);
   const handleResetCount = () => {
     setGuests(0);
     setGuestModalOpen(false);
