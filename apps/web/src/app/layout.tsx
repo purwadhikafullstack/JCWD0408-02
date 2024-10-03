@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/Providers/StoreProvider";
+import { Raleway } from "@next/font/google";
+const raleway = Raleway({
+  subsets: ["latin"],
+  weight: ['100','400','500']
+});
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`font-[500] ${raleway.className}`}>
         <StoreProvider>{children}</StoreProvider>
       </body>
     </html>

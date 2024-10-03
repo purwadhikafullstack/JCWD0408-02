@@ -34,7 +34,7 @@ export class reviewService {
       if (error instanceof Error) {
         throw new Error(error.message);
       } else {
-        throw new Error('Terjadi kesalahan yang tidak terduga');
+        throw 'ERROR';
       }
     }
   }
@@ -54,7 +54,7 @@ export class reviewService {
   }
   async getReviewByReservation(reservation_id: string) {
     try {
-      const data = await prisma.review.findMany({
+      const data = await prisma.review.findFirst({
         where: { reservation_Id: reservation_id },
       });
       return data;
@@ -71,6 +71,40 @@ export class reviewService {
     } catch (error) {
       return error;
     }
+  }
+  async feedBackReview(feedback: string, review_id: number) {
+    try {
+      await prisma.review.update({
+        where: { id: +review_id },
+        data: { feedBack: feedback },
+      });
+    } catch (error: any) {
+      return error;
+    }
+  }
+  async getReviewByUser(user_id: number) {
+    try {
+      const data = await prisma.review.findMany({
+        where: { user_Id: user_id },
+        include: {
+          room: {
+            select: {
+              property: {
+                select: {
+                  name: true,
+                  thumbnail: true,
+                  location: true,
+                  tenant: { select: { username: true, avatar: true } },
+                },
+              },
+              type: true,
+            },
+          },
+          reservation: { select: { startDate: true, endDate: true } },
+        },
+      });
+      return data;
+    } catch (error) {}
   }
 }
 export const reviewServices = new reviewService();

@@ -7,11 +7,11 @@ const base_url = process.env.NEXT_PUBLIC_BASE_API_URL;
 export class ReservationController {
   async createReservationVA(req: Request, res: Response) {
     try {
+      const returnUrl = process.env.BASE_URL_FRONTEND;
       const { price } = req.body;
       const { room_id } = req.params;
       const startDate = new Date(req.body.startDate);
       const endDate = new Date(req.body.endDate);
-      const payload = { price, startDate, endDate };
       const now = Date.now();
       const dateNow = new Date(now);
       if (startDate >= endDate)
@@ -59,6 +59,7 @@ export class ReservationController {
         const paymentLinkURL = await createPaymentLink(
           reservation.id.toString(),
           price,
+          returnUrl!,
         );
         const URL = paymentLinkURL.redirect_url;
         //UPDATE LINK URL

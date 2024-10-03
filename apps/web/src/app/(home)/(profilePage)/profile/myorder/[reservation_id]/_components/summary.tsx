@@ -6,7 +6,7 @@ interface IProps {
   night: number;
 }
 export default function SummaryPayment({ price, total, night }: IProps) {
-  const pajak = total + total * 0.15;
+  const pajak = price * night * 0.15;
   return (
     <div className="flex w-full flex-col justify-around rounded-lg bg-slate-200/20 p-4 shadow-sm">
       <h2 className="mb-4 text-xl font-semibold">Rincian Pembayaran</h2>

@@ -6,11 +6,12 @@ import PostReview from "./postReview";
 import { useEffect, useState } from "react";
 import { getTransactionById } from "@/libs/fetch/transaction";
 import { useParams } from "next/navigation";
-
 import { IReservationById } from "@/types/getReservationId";
-
+import { getReviewByReservation } from "@/libs/fetch/review";
+import { IGetReviewReservation } from "@/types/review";
 export default function MyReservationDetail() {
   const [data, setData] = useState<IReservationById>();
+  const [review, setReview] = useState<IGetReviewReservation>();
   const params = useParams();
   const id = params.reservation_id;
   useEffect(() => {
@@ -19,10 +20,18 @@ export default function MyReservationDetail() {
         const data = await getTransactionById(id as string);
         setData(data.data);
       };
+
       getData();
     } catch (error) {
       console.log(error);
     }
+  }, []);
+  useEffect(() => {
+    const getReview = async () => {
+      const review = await getReviewByReservation(id as string);
+      setReview(review.data);
+    };
+    getReview();
   }, []);
 
   const startDate: any = new Date(data?.startDate!);
@@ -31,9 +40,9 @@ export default function MyReservationDetail() {
   const nights = Math.round((endDate - startDate) / millisecondsPerNight);
 
   return (
-    <div className="rounded-xl bg-white p-4 px-6 lg:py-10">
+    <div className="rounded-xl bg-white p-4 lg:px-6 lg:py-10">
       <h1 className="mb-4 text-2xl font-semibold">Detail Pemesanan</h1>
-      <div className="flex gap-8">
+      <div className="flex flex-col gap-8 lg:flex-row">
         <div className="mt-2 flex flex-col gap-4">
           <Image
             src={"/dummy/room.jpg"}
@@ -59,8 +68,10 @@ export default function MyReservationDetail() {
           prop={data?.room.property.name as string}
           status={data?.statusRes as string}
         />
-        <div className="flex w-[30%] flex-col items-end gap-2">
-          <PostReview />
+        <div className="flex flex-col items-end gap-2 lg:w-[30%]">
+          <div className={`${review ? "hidden" : "block"}`}>
+            <PostReview />
+          </div>
           <SummaryPayment
             price={data?.room.price as number}
             total={data?.price as number}

@@ -1,17 +1,19 @@
 "use client";
 import { Rating } from "@smastrom/react-rating";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { TbMessageChatbot } from "react-icons/tb";
 import { IoClose } from "react-icons/io5";
 import { useParams } from "next/navigation";
 import { postReview } from "@/libs/fetch/review";
 import toast from "react-hot-toast";
+import { navigate } from "@/libs/server";
 export default function PostReview() {
   const [rating, setRating] = useState(1);
-  const ratingString = String(rating);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const ratingString = String(rating);
   const params = useParams();
   const reservation_id = params.reservation_id as string;
   const formik = useFormik({
@@ -25,6 +27,8 @@ export default function PostReview() {
         const data: any = await postReview(reservation_id, payload);
         if (data?.response?.data?.status == "ERROR")
           throw data?.response?.data?.message;
+      
+        setIsSubmitted(true);
         formik.setValues({ review: "" });
         setRating(1);
       } catch (error) {
@@ -32,6 +36,12 @@ export default function PostReview() {
       }
     },
   });
+  useEffect(() => {
+    if (isSubmitted) {
+      setModalOpen(false); // Menutup modal setelah submit
+      setIsSubmitted(false); // Reset state isSubmitted
+    }
+  }, [isSubmitted]);
   return (
     <div className="flex flex-col">
       <button
@@ -71,7 +81,7 @@ export default function PostReview() {
                     <IoClose />
                   </button>
                 </div>
-                <h1 className="mt-6 text-2xl font-semibold px-4 text-center">
+                <h1 className="mt-6 px-4 text-center text-2xl font-semibold">
                   Bagaimana Perjalanan Anda ?
                 </h1>
                 <p className="px-4 py-4 text-center">

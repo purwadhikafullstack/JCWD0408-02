@@ -15,7 +15,7 @@ export const postReview = async (reservation_id: string, payload: any) => {
         },
       },
     );
-    toast.success("Review Dibuat");
+    toast.success("Terimakasih untuk ulasan anda");
     return res;
   } catch (error) {
     return error;
@@ -32,6 +32,30 @@ export const getReviewByTenant = async () => {
       },
     });
     return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getReviewByReservation = async (review_id: string) => {
+  try {
+    const res = await axiosInstance.get(`/api/review/reservation/${review_id}`);
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getReviewByUser = async () => {
+  try {
+    const token = await getCookie("token");
+    const res = await axiosInstance.get("/api/review/user", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token?.value}`,
+      },
+    });
+    return res.data
   } catch (error) {
     return error;
   }

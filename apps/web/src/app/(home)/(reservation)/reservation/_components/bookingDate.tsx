@@ -16,60 +16,72 @@ const BookingDate: React.FC = () => {
   const params = useParams();
   const id = params.id;
   const query = useSearchParams();
+  const now = Date.now();
   const queryMulai = query.get("checkin");
   const mulai = new Date(queryMulai!) || "pilih tanggal mulai";
   const querySelesai = query.get("checkout");
   const selesai = new Date(querySelesai!) || "pilih tanggal selesai";
-
-  const onChange: any = (dates: DateRange) => {
+  const onChange = (dates: DateRange) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
     setButtonVissible(true);
   };
-  const onClick: any = () => {
-    const query = `?checkin=${startDate}&checkout=${endDate}`;
-    router.push(`/reservation/${id}${query}`);
+  const onClick = () => {
+    const query = {
+      checkin: startDate,
+      checkout: endDate,
+    };
+    console.log(query.checkin);
+
+    // const query = `?checkin=${startDate}&checkout=${endDate}`;
+    router.push(
+      `/reservation/${id}?${query.checkin ? `checkin=${query.checkin}` : ``}&${query.checkout ? `checkout=${query.checkout}` : ``}`,
+    );
     setButtonVissible(false);
     setDateOpen(false);
   };
   return (
-    <div>
-      <div className="flex flex-col gap-4">
-        <div>
-          <p className=" font-semibold">Tanggal Check-in</p>
-          <p>{formatDateId(mulai)}</p>
+    <div className="flex flex-col">
+      <div className="flex justify-between">
+        <div className="flex flex-col gap-4">
+          <div>
+            <p className="font-semibold">Tanggal Check-in</p>
+            <p>{formatDateId(mulai)}</p>
+          </div>
+          <div>
+            <p className="font-semibold">Tanggal Check-out</p>
+            <p>{formatDateId(selesai!)}</p>
+          </div>
         </div>
-        <div>
-          <p className=" font-semibold">Tanggal Check-out</p>
-          <p>{formatDateId(selesai!)}</p>
+        <div className="flex flex-col items-end">
+          <button
+            onClick={() => setDateOpen(!dateOpen)}
+            className={`${buttonVisible ? "hidden" : "block"} h-max w-max items-center rounded-lg text-end text-lg font-medium text-gray-500 underline duration-300 hover:text-black`}
+          >
+            Edit
+          </button>
+          <button
+            onClick={onClick}
+            className={`${buttonVisible ? "block" : "hidden"} h-max w-max items-center rounded-lg text-end text-lg font-medium text-gray-500 underline duration-300 hover:text-black`}
+          >
+           Oke
+          </button>
+          {dateOpen && (
+            <div className="bg-white py-2">
+              <DatePicker
+                selected={startDate}
+                onChange={onChange}
+                startDate={startDate!}
+                endDate={endDate!}
+                selectsRange
+                inline
+                className=""
+              />
+            </div>
+          )}
         </div>
-        <button
-          onClick={() => setDateOpen(!dateOpen)}
-          className={`${buttonVisible ? "hidden" : "block"} inline-flex w-full items-center rounded-lg border-2 border-btn px-5 py-2.5 text-center text-lg font-medium text-btn duration-300 hover:bg-btn hover:text-white`}
-        >
-          Edit Tanggal Pemesanan
-        </button>
-        <button
-          onClick={onClick}
-          className={`${buttonVisible ? "block" : "hidden"} inline-flex w-full items-center rounded-lg border-2 border-btn bg-btn px-5 py-2.5 text-center text-lg font-medium text-white duration-300 hover:bg-white hover:text-btn`}
-        >
-          OKE
-        </button>
       </div>
-      {dateOpen && (
-        <div className="flex bg-white py-2">
-          <DatePicker
-            selected={startDate}
-            onChange={onChange}
-            startDate={startDate!}
-            endDate={endDate!}
-            selectsRange
-            inline
-            className="bg-white"
-          />
-        </div>
-      )}
     </div>
   );
 };

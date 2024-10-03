@@ -1,7 +1,7 @@
 import PriceDetail from "../_components/priceDetail";
 import ReservationDetail from "../_components";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { getRoomById } from "@/libs/fetch/property";
+
 import { getRoomReservation } from "@/libs/fetch/reservation";
 
 export default async function Reservation({ params }: any) {

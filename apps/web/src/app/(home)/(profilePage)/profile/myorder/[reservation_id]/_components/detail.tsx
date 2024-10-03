@@ -50,12 +50,15 @@ export default function ReservationDetailBody({
   ];
   return (
     <div
-      className={`${raleway.className} font-400 flex w-[40%] flex-col gap-2`}
+      className={`${raleway.className} font-400 flex lg:w-[40%]  flex-col gap-2`}
     >
       <div className="w-fulll flex flex-col">
-        <div className="flex items-center gap-2 text-sm text-orange-500">
+        <div className="flex lg:flex-row flex-col lg:items-center gap-2 text-sm text-orange-500">
+          <div className="flex ">
           <FaCalendarAlt />
+
           <p>Dipesan tanggal - </p>
+          </div>
           <p>{formatDateReservation(new Date(created))}</p>
         </div>
 
