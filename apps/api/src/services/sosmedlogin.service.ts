@@ -7,7 +7,7 @@ export const LoginGoogleServices = async (
   username: string,
 ) => {
   try {
-    let userData = await prisma.user.findUnique({
+    let userData = await prisma.user.findFirst({
       where: { email, provider: 'GOOGLE' },
     });
 
@@ -43,7 +43,7 @@ export const LoginGoogleTenantServices = async (
   username: string,
 ) => {
   try {
-    let userData = await prisma.tenant.findUnique({
+    let userData = await prisma.tenant.findFirst({
       where: { email, provider: 'GOOGLE' },
     });
 
@@ -66,6 +66,7 @@ export const LoginGoogleTenantServices = async (
       phone: userData.phone!,
     };
     const token = createToken(payload, '1d');
+
     return { userData, token };
   } catch (error) {
     throw error;

@@ -1,5 +1,6 @@
 import prisma from '@/prisma';
 import {
+  editUserServices,
   forgotPasswordUserServices,
   getUserServices,
   loginUserServices,
@@ -106,6 +107,22 @@ export class UserController {
       return res.status(200).send({
         status: 'ok',
         result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async editUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = await editUserServices(
+        req.body,
+        +req.user?.id!,
+        req.file?.filename!,
+      );
+      return res.status(200).send({
+        msg: "User edited",
+        user,
       });
     } catch (error) {
       next(error);

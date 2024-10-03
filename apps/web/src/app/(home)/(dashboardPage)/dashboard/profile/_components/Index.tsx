@@ -11,11 +11,18 @@ import { updateDataProfile } from "@/Schemas/Schema";
 import ChangeEmailTenant from "./EmailChangeTenant";
 import ProfilePreview from "@/app/(home)/(profilePage)/profile/_components/ProfilePreview";
 import { ButtonComp } from "@/components/ButtonComp";
+import toast from "react-hot-toast";
+import { AxiosError } from "axios";
+import { editTenant } from "@/libs/fetch/tenant";
+import { useDispatch } from "react-redux";
+import { loginAction } from "@/Redux/slices/userSlice";
 
 const Profilepage = () => {
   const [isHover, setIsHover] = useState(false);
   const { username, phone, avatar } = useAppSelector((state) => state.user);
   const [isActiveImage, setIsActiveImage] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -25,6 +32,28 @@ const Profilepage = () => {
     setIsActiveImage(!false);
     if (file) {
       setFieldValue("avatar", file);
+    }
+  };
+
+  const onSubmit = async (data: UpdateDataUser) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("username", data.username);
+    formData.append("phone", data.phone);
+    if (data.avatar) {
+      formData.append("avatar", data.avatar);
+    }
+    try {
+      const res = await editTenant(formData);
+      const data = res.data.user;
+      dispatch(loginAction(data));
+      toast.success(res.data.msg);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,8 +74,7 @@ const Profilepage = () => {
         initialValues={initialValues}
         validationSchema={updateDataProfile}
         onSubmit={(value, action) => {
-          alert(JSON.stringify(value));
-          // action.resetForm();
+          onSubmit(value);
         }}
       >
         {({
@@ -102,7 +130,7 @@ const Profilepage = () => {
                         {avatar !== null ? (
                           <div className="h-14 w-14 overflow-hidden rounded-full bg-slate-50 shadow-lg md:h-20 md:w-20 lg:h-28 lg:w-28">
                             <Image
-                              src={"/dummy/kamar.jpg"}
+                              src={avatar}
                               alt="Avatar"
                               width={50}
                               height={50}
@@ -188,7 +216,7 @@ const Profilepage = () => {
                           disable={
                             !dirty || !!errors.phone || !!errors.username
                           }
-                          text="Simpan"
+                          text={loading ? "Loading..." : "Submit"}
                         />
                       </div>
                     </div>

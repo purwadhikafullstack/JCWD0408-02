@@ -1,5 +1,6 @@
 import { UserController } from '@/controllers/user.controller';
 import { AuthMiddleware } from '@/middleware/auth.middleware';
+import { uploader } from '@/services/uploader';
 import { Router } from 'express';
 
 export class UserRouter {
@@ -19,9 +20,26 @@ export class UserRouter {
     this.router.post('/verify-otp', this.userController.verifyOtp);
     this.router.post('/update-data', this.userController.updateDatauser);
     this.router.post('/login', this.userController.loginUser);
-    this.router.post('/forgot-password', this.userController.forgotPasswordUser);
-    this.router.patch('/reset-password',this.authMiddleware.verifyTokenOtp, this.userController.resetPasswordUser);
-    this.router.get('/getusers',this.authMiddleware.verifyTokenOtp, this.userController.getusers,);
+    this.router.post(
+      '/forgot-password',
+      this.userController.forgotPasswordUser,
+    );
+    this.router.patch(
+      '/reset-password',
+      this.authMiddleware.verifyTokenOtp,
+      this.userController.resetPasswordUser,
+    );
+    this.router.get(
+      '/getusers',
+      this.authMiddleware.verifyTokenOtp,
+      this.userController.getusers,
+    );
+    this.router.patch(
+      '/edituser',
+      this.authMiddleware.verifyTokenOtp,
+      uploader('avatar', '/avatar').single('avatar'),
+      this.userController.editUser,
+    );
   }
 
   getRouter(): Router {

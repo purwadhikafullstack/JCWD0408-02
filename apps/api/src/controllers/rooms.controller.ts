@@ -44,7 +44,7 @@ export class RoomController {
         roomData.tenant_Id,
         roomData,
         facility ? facility.split(',') : [],
-        files,
+        files,  
       );
       res.status(200).send({
         status: 'ok',

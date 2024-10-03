@@ -39,7 +39,6 @@ const FormikProperty: FC<PropsFormik> = ({ nextButton }) => {
     }
     try {
       const res = await createPropertyfetch(formData);
-      console.log(res);
       toast.success(res.data.msg);
       navigate(`/dashboard/create-property/${res.data.result.id}`);
       nextButton();

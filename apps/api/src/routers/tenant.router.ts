@@ -1,5 +1,6 @@
 import { TenantController } from '@/controllers/tenant.controller';
 import { AuthMiddleware } from '@/middleware/auth.middleware';
+import { uploader } from '@/services/uploader';
 import { Router } from 'express';
 
 export class TenantRouter {
@@ -19,8 +20,21 @@ export class TenantRouter {
     this.router.post('/verify-otp', this.tenantController.verifyOtp);
     this.router.post('/update-data', this.tenantController.updateDataTenant);
     this.router.post('/login', this.tenantController.loginTenant);
-    this.router.post('/forgot-password', this.tenantController.forgotPasswordTenant);
-    this.router.patch('/reset-password', this.authMiddleware.verifyTokenOtp, this.tenantController.resetPasswordTenant);
+    this.router.post(
+      '/forgot-password',
+      this.tenantController.forgotPasswordTenant,
+    );
+    this.router.patch(
+      '/reset-password',
+      this.authMiddleware.verifyTokenOtp,
+      this.tenantController.resetPasswordTenant,
+    );
+    this.router.patch(
+      '/edittenant',
+      this.authMiddleware.verifyTokenOtp,
+      uploader('avatar', '/avatar').single('avatar'),
+      this.tenantController.editTenant,
+    );
   }
 
   getRouter(): Router {

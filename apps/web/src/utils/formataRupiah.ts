@@ -4,3 +4,4 @@ export const formatRupiah = (input: number) => {
     currency: "IDR",
   }).format(input);
 };
+  

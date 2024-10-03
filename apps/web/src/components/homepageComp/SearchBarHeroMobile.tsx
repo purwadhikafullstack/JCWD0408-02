@@ -1,17 +1,39 @@
 "use client";
 
 import React, { useState } from "react";
-import DateComp from "../DateComp";
 import { IoIosClose, IoIosSearch } from "react-icons/io";
 import { GoPerson } from "react-icons/go";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import { CalendarSearchMobile } from "./CalendarSearchMobile";
+import { DateRange } from "react-day-picker";
 
 const SearchBarHeroMobile = () => {
   const [guests, setGuests] = useState<number>(0);
   const [activeModal, setActiveModal] = useState(false);
   const [location, setLocation] = useState("");
   const router = useRouter();
+  const modalRef = React.useRef<HTMLDivElement>(null);
+  const [date, setDate] = useState<DateRange | undefined>();
+
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setActiveModal(false);
+      }
+    }
+
+    if (activeModal) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [activeModal]);
 
   const handleSearch = () => {
     router.push(`/search?location=${location}`);
@@ -23,7 +45,7 @@ const SearchBarHeroMobile = () => {
   };
 
   return (
-    <main className="absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-center md:hidden">
+    <main className="absolute left-1/2 top-[40%] flex w-full -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-center md:hidden">
       <p className="text-3xl font-semibold text-white">
         CARI TEMPAT ISTIRAHAT TERNYAMANMU
       </p>
@@ -45,7 +67,7 @@ const SearchBarHeroMobile = () => {
         <div>
           <p className="text-start font-semibold text-white">Durasi</p>
           <div className="w-full rounded-full bg-white px-2 py-4">
-            <input type="date" />
+            <CalendarSearchMobile date={date} setDate={setDate} />
           </div>
         </div>
 
@@ -70,7 +92,10 @@ const SearchBarHeroMobile = () => {
           </div>
 
           {activeModal && (
-            <div className="absolute -bottom-[58px] left-1/2 w-[250px] -translate-x-1/2 transform rounded-lg bg-white px-3 py-2 shadow-md">
+            <div
+              ref={modalRef}
+              className="absolute -bottom-[58px] left-1/2 w-[250px] -translate-x-1/2 transform rounded-lg bg-white px-3 py-2 shadow-md"
+            >
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1 text-base">
                   <GoPerson /> Tamu
@@ -98,8 +123,14 @@ const SearchBarHeroMobile = () => {
         <div>
           <button
             type="submit"
+            disabled={
+              location == "" ||
+              guests == 0 ||
+              date?.from == undefined ||
+              date.to == undefined
+            }
             onClick={handleSearch}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-btn px-2 py-4 text-white"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-btn px-2 py-4 text-white disabled:bg-slate-300 disabled:text-gray-100 disabled:shadow-none"
           >
             <IoIosSearch className="h-7 w-7" />
             <p className="text-lg">Cari</p>

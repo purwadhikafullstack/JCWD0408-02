@@ -7,9 +7,8 @@ import { verify } from 'jsonwebtoken';
 import { hashPass } from '@/helper/hashPass';
 import { compare } from 'bcrypt';
 import { createToken } from '@/helper/createToken';
-
 const secret = process.env.SECRET_KEY || 'nezztar';
-
+const base_url = process.env.BASE_URL_BACKEND || 'http://localhost/8000/api';
 const sendVerifikationMailUser = async (email: string, otp: string) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -89,7 +88,9 @@ export const updateDataTenantServices = async (body: Tenant, token: string) => {
 export const loginTenantServices = async (body: Tenant) => {
   try {
     const { email, password } = body;
-    const user = await prisma.tenant.findFirst({ where: { email, provider: "CREDENTIAL" } });
+    const user = await prisma.tenant.findFirst({
+      where: { email, provider: 'CREDENTIAL' },
+    });
     if (!user) throw new Error('User not found');
     if (!user.isVerify)
       throw new Error('User not verify, please verify for login');
@@ -127,14 +128,16 @@ export const forgotPasswordTenantServices = async (email: string) => {
       phone: user.phone!,
     };
     const token = createToken(payload, '30m');
-    const link = process.env.BASE_URL_FRONTEND + `/account/forgot-password-tenant/${token}`;
+    const link =
+      process.env.BASE_URL_FRONTEND +
+      `/account/forgot-password-tenant/${token}`;
     await transporter.sendMail({
       to: email,
       subject: 'Link reset password',
       html: `<a href="${link}" target="_blank">Reset password here</a>`,
     });
 
-    return user
+    return user;
   } catch (error) {
     throw error;
   }
@@ -155,6 +158,40 @@ export const resetPasswordTenantServices = async (
       data: { password: hashPassword },
     });
     return newPass;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editTenantServices = async (
+  body: Tenant,
+  userId: number,
+  file?: string,
+) => {
+  try {
+    const { username, phone } = body;
+    const existuser = await prisma.tenant.findUnique({
+      where: { id: userId },
+    });
+    if (!existuser) throw new Error('User notfound');
+    if (existuser.provider !== 'CREDENTIAL')
+      throw new Error(
+        'Cannot update data if logged in with social media account',
+      );
+    const avatar = file
+      ? `${base_url}/public/avatar/${file}`
+      : existuser!.avatar;
+
+    const updUser = await prisma.tenant.update({
+      where: { id: userId, provider: 'CREDENTIAL' },
+      data: {
+        username,
+        phone,
+        avatar,
+      },
+    });
+
+    return updUser;
   } catch (error) {
     throw error;
   }
