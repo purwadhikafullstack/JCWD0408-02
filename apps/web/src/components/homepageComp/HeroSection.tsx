@@ -34,10 +34,10 @@ export default function EmblaCarousel() {
     <div
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-      className="embla relative w-full"
+      className="embla w-full"
       ref={emblaRef}
     >
-      <div className="embla__container h-[700px] md:h-[500px]">
+      <div className="embla__container bg-emerald-400">
         {slide.map((item, idx) => {
           return (
             <div
@@ -49,27 +49,27 @@ export default function EmblaCarousel() {
                 alt={`HeroSection-${idx}`}
                 width={500}
                 height={500}
-                className="h-full w-full object-cover brightness-50"
+                className="h-[700px] w-full object-cover brightness-50 md:h-[500px]"
               />
             </div>
           );
         })}
       </div>
-      <SearchBarHero />
-      <SearchBarHeroMobile />
+        <SearchBarHero />
+        <SearchBarHeroMobile />
       {isHover && (
         <div
           className={`${isHover ? "opacity-50" : "opacity-100"} transition-opacity duration-300`}
         >
           <main
             onClick={scrollPrev}
-            className="absolute left-0 top-1/2 z-20 -translate-y-1/2 transform cursor-pointer bg-black py-4 text-white"
+            className="absolute left-0 top-[40%] z-20 -translate-y-1/2 transform cursor-pointer bg-black py-4 text-white"
           >
             <GrFormPrevious className="h-10 w-10" />
           </main>
           <main
             onClick={scrollNext}
-            className="absolute right-0 top-1/2 z-20 -translate-y-1/2 transform cursor-pointer bg-black py-4 text-white"
+            className="absolute right-0 top-[40%] z-20 -translate-y-1/2 transform cursor-pointer bg-black py-4 text-white"
           >
             <GrFormNext className="h-10 w-10" />
           </main>

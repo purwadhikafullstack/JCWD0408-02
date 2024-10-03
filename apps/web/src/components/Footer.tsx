@@ -3,15 +3,15 @@ import { Logo } from "./Logo";
 
 export default function Footer() {
   return (
-    <div className="w-full bg-hitam py-5 justify-self-end">
-      <div className="mx-auto max-w-7xl px-10">
-        <main className="flex flex-col md:flex-row md:justify-between rounded-sm border-b-2 border-gray-600 pb-12">
-          <div className="md:w-1/2 text-sm grayscale">
+    <div className="w-full justify-self-end bg-hitam py-5">
+      <div className="mx-auto max-w-7xl px-10 -z-40">
+        <main className="flex flex-col rounded-sm border-b-2 border-gray-600 pb-12 md:flex-row md:justify-between">
+          <div className="text-sm grayscale md:w-1/2">
             <Logo colorBird="btn" colorText="btn" size="scale-100" />
             <p className="mb-2 mt-5 text-gray-400">nezztarrcomp@gmail.com</p>
             <p className="text-gray-400">+1(201) 895-1234</p>
           </div>
-          <div className="md:w-1/2 mt-10 md:mt-0">
+          <div className="mt-10 md:mt-0 md:w-1/2">
             <div className="flex justify-between">
               <section className="flex flex-col gap-2 text-sm font-medium text-gray-400">
                 <p>Company</p>

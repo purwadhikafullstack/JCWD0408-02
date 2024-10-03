@@ -40,8 +40,11 @@ export async function middleware(request: NextRequest) {
 
   //Kalau dynamic
   if (dynamicReservationPattern.test(url)) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/account/register", request.url));
+    }
     const data = await decodeToken(token?.value!);
-    if (!token || data.data.user.role == "tenant") {
+    if (data.data.user.role == "tenant") {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   }

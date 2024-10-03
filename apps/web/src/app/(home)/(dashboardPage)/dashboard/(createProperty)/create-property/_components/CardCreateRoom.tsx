@@ -1,7 +1,6 @@
 "use client";
 
 import { RoomData } from "@/types/property";
-import ConvertToIDR from "@/utils/convertIDR";
 import { FaRestroom } from "react-icons/fa6";
 import {
   MdAttachMoney,
@@ -12,6 +11,7 @@ import {
 import GridCardRooms from "./roomsComp/GridCardRooms";
 import FacilityCard from "./roomsComp/FacilityCard";
 import { useState } from "react";
+import { formatRupiah } from "@/utils/formataRupiah";
 
 const CardCreateRoom = ({ data }: { data: RoomData }) => {
   const [isActiveDes, setIsActiveDes] = useState(false);
@@ -30,14 +30,14 @@ const CardCreateRoom = ({ data }: { data: RoomData }) => {
             <h1 className="flex items-center gap-1 font-medium">
               <MdAttachMoney /> Harga normal
             </h1>
-            <p className="text-sm text-gray-500">{ConvertToIDR(data.price)}</p>
+            <p className="text-sm text-gray-500">{formatRupiah(data.price)}</p>
           </div>
           <div>
             <h1 className="flex items-center gap-1 font-medium">
               <MdOutlineDiscount /> Harga diskon
             </h1>
             <p className="text-sm text-gray-500">
-              {ConvertToIDR(data.pricediscount)}
+              {formatRupiah(data.pricediscount)}
             </p>
           </div>
           <div>

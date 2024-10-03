@@ -1,27 +1,30 @@
 "use client";
 
+import { CalendarSearch } from "@/components/homepageComp/CalendarSearch";
 import React, { useState } from "react";
+import { DateRange } from "react-day-picker";
 import { CiCalendar } from "react-icons/ci";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { GoPerson } from "react-icons/go";
 import { IoIosClose } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 
-interface SearchProps{
-  onSearch: (location: string) => void
+interface SearchProps {
+  onSearch: (location: string) => void;
 }
 
-const SearchBar: React.FC<SearchProps> = ({onSearch}) => {
+const SearchBar: React.FC<SearchProps> = ({ onSearch }) => {
   const [guests, setGuests] = useState<number>(0);
   const [location, setLocation] = useState<string>("");
   const [isGuestModalOpen, setGuestModalOpen] = useState(false);
+  const [date, setDate] = useState<DateRange | undefined>();
   const handleResetCount = () => {
     setGuests(0);
     setGuestModalOpen(false);
   };
 
   const handleSearch = () => {
-    onSearch(location)
+    onSearch(location);
   };
   return (
     <div className="flex w-full items-center gap-2 md:px-14">
@@ -37,8 +40,7 @@ const SearchBar: React.FC<SearchProps> = ({onSearch}) => {
         </div>
 
         <div className="flex w-1/3 items-center gap-1 border-r-[1.5px] pl-3 md:pl-5">
-          <CiCalendar className="h-3 w-3 md:h-6 md:w-6" />
-          <p className="text-[9px] text-gray-500 md:text-sm">Pilih Tanggal</p>
+          <CalendarSearch date={date} setDate={setDate} />
         </div>
 
         <div className="relative flex w-1/3 items-center px-5">

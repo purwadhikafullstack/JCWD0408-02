@@ -7,9 +7,8 @@ import { verify } from 'jsonwebtoken';
 import { hashPass } from '@/helper/hashPass';
 import { compare } from 'bcrypt';
 import { createToken } from '@/helper/createToken';
-
 const secret = process.env.SECRET_KEY || 'nezztar';
-
+const base_url = process.env.BASE_URL_BACKEND || 'http://localhost/8000/api';
 const sendVerifikationMailUser = async (email: string, otp: string) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -167,6 +166,40 @@ export const getUserServices = async () => {
   try {
     const user = await prisma.user.findMany();
     return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editUserServices = async (
+  body: User,
+  userId: number,
+  file?: string,
+) => {
+  try {
+    const { username, phone } = body;
+    const existuser = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+    if (!existuser) throw new Error('User notfound');
+    if (existuser.provider !== 'CREDENTIAL')
+      throw new Error(
+        'Cannot update data if logged in with social media account',
+      );
+    const avatar = file
+      ? `${base_url}/public/avatar/${file}`
+      : existuser!.avatar;
+
+    const updUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        username,
+        phone,
+        avatar,
+      },
+    });
+
+    return updUser;
   } catch (error) {
     throw error;
   }

@@ -1,5 +1,5 @@
 import { FacilityType, RoomPic } from "@/types/property";
-import ConvertToIDR from "@/utils/convertIDR";
+import { formatRupiah } from "@/utils/formataRupiah";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -56,7 +56,7 @@ const CardAllRooms = ({ data }: { data: RoomDataProps }) => {
             </div>
           </div>
           <div className="flex text-xs font-semibold text-gray-500 md:hidden md:text-lg">
-            {ConvertToIDR(data.price)},00
+            {formatRupiah(data.price)}
           </div>
           <div className="flex items-center gap-1 md:gap-2">
             {data.facility.slice(0, 3).map((item, index) => (
@@ -75,7 +75,7 @@ const CardAllRooms = ({ data }: { data: RoomDataProps }) => {
           </div>
         </div>
         <div className="hidden text-sm font-semibold text-hitam md:block md:text-lg">
-          {ConvertToIDR(data.price)},00
+          {formatRupiah(data.price)}
         </div>
       </div>
     </Link>

@@ -1,18 +1,40 @@
 "use client";
 
 import React, { useState } from "react";
-import DateComp from "../DateComp";
 import { IoIosClose, IoIosSearch } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { GoPerson } from "react-icons/go";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { IoSearch } from "react-icons/io5";
-import { CiCalendar } from "react-icons/ci";
+import { CalendarSearch } from "./CalendarSearch";
+import { DateRange } from "react-day-picker";
 
 const SearchBarHero = () => {
   const [location, setLocation] = useState("");
   const [guests, setGuests] = useState<number>(0);
   const [isGuestModalOpen, setGuestModalOpen] = useState(false);
+  const modalRef = React.useRef<HTMLDivElement>(null);
+  const [date, setDate] = useState<DateRange | undefined>();
+
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setGuestModalOpen(false);
+      }
+    }
+
+    if (isGuestModalOpen) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isGuestModalOpen]);
+
   const handleResetCount = () => {
     setGuests(0);
     setGuestModalOpen(false);
@@ -22,12 +44,12 @@ const SearchBarHero = () => {
     router.push(`/search?location=${location}`);
   };
   return (
-    <main className="absolute left-1/2 top-1/2 hidden w-full -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-center md:flex">
+    <main className="absolute left-1/2 top-[40%] hidden w-full -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-center md:flex">
       <p className="text-3xl font-semibold text-white">
         CARI TEMPAT ISTIRAHAT TERNYAMANMU
       </p>
 
-      <div className="flex lg:w-[1000px] md:w-[800px] items-center gap-2 md:px-14">
+      <div className="flex items-center gap-2 md:w-[800px] md:px-14 lg:w-[1000px]">
         <div className="flex w-full justify-between rounded-full border-[1.5px] bg-white py-2">
           <div className="w-1/3 border-r-[1.5px] py-2 pl-5">
             <input
@@ -40,8 +62,7 @@ const SearchBarHero = () => {
           </div>
 
           <div className="flex w-1/3 items-center gap-1 border-r-[1.5px] pl-5">
-            <CiCalendar className="h-6 w-6" />
-            <p className="text-sm text-gray-500">Pilih Tanggal</p>
+            <CalendarSearch date={date} setDate={setDate} />
           </div>
 
           <div className="relative flex w-1/3 items-center px-5">
@@ -60,7 +81,10 @@ const SearchBarHero = () => {
               </button>
             )}
             {isGuestModalOpen && (
-              <div className="absolute bottom-[-75px] left-0 rounded-md border bg-white p-3 shadow-md">
+              <div
+                ref={modalRef}
+                className="absolute bottom-[-75px] left-0 rounded-md border bg-white p-3 shadow-md"
+              >
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1 text-base">
                     <GoPerson /> Tamu
@@ -89,7 +113,13 @@ const SearchBarHero = () => {
         {/* Search button */}
         <button
           onClick={handleSearch}
-          className="flex items-center gap-1 rounded-full bg-btn p-4 text-white"
+          disabled={
+            location == "" ||
+            guests == 0 ||
+            date?.from == undefined ||
+            date.to == undefined
+          }
+          className="flex items-center gap-1 rounded-full bg-btn p-4 text-white disabled:bg-slate-300 disabled:text-gray-100 disabled:shadow-none"
         >
           <IoSearch className="h-6 w-6" />
         </button>
