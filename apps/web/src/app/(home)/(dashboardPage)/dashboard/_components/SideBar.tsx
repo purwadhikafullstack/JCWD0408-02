@@ -25,6 +25,7 @@ const SideBarDashboard = () => {
   const onLogout = () => {
     deleteCookie("token");
     dispatch(logoutAction());
+    localStorage.clear();
     navigate("/");
   };
   const pathname = usePathname();
@@ -48,11 +49,11 @@ const SideBarDashboard = () => {
     <div className="sticky top-0 h-screen lg:w-[250px]">
       <main className="px-2 py-5 lg:px-5 lg:py-8">
         {/* Profile start */}
-        <div className="flex gap-3 border-b pb-3">
+        <Link href={'/'} className="flex gap-3 border-b pb-3">
           {avatar !== null ? (
             <div className="overflow-hidden rounded-full bg-slate-50 shadow-lg">
               <Image
-                src={"/dummy/kamar.jpg"}
+                src={avatar}
                 alt="Profile"
                 width={50}
                 height={50}
@@ -69,7 +70,7 @@ const SideBarDashboard = () => {
             <h1 className="text-base font-semibold text-hitam">{username}</h1>
             <h1>Tenant</h1>
           </div>
-        </div>
+        </Link>
         {/* Profile end */}
 
         {/* Menu sec start */}

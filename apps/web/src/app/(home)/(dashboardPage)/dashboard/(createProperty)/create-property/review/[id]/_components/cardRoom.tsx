@@ -1,5 +1,5 @@
 import { RoomData } from "@/types/property";
-import ConvertToIDR from "@/utils/convertIDR";
+import { formatRupiah } from "@/utils/formataRupiah";
 import Image from "next/image";
 import { FaRestroom, FaWifi } from "react-icons/fa6";
 import {
@@ -72,14 +72,14 @@ const CardRoomReview = ({ data }: { data: RoomData }) => {
             <h1 className="flex items-center gap-1 text-lg font-medium">
               <MdAttachMoney /> Harga normal
             </h1>
-            <p className="text-sm text-gray-500">{ConvertToIDR(data.price)}</p>
+            <p className="text-sm text-gray-500">{formatRupiah(data.price)}</p>
           </div>
           <div>
             <h1 className="flex items-center gap-1 text-lg font-medium">
               <MdOutlineDiscount /> Harga diskon
             </h1>
             <p className="text-sm text-gray-500">
-              {ConvertToIDR(data.pricediscount)}
+              {formatRupiah(data.pricediscount)}
             </p>
           </div>
           <div>

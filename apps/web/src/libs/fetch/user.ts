@@ -90,3 +90,15 @@ export const resetPasswordUser = async (password: string, token: string) => {
   );
   return res;
 };
+
+export const editUser = async (formData: FormData) => {
+  const token = await getCookie("token");
+  const res = await axiosInstance.patch("/api/users/edituser", formData, {
+    headers: {
+      Authorization: `Bearer ${token?.value}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return res;
+};

@@ -1,5 +1,5 @@
 import { DataProperty } from "@/types/property";
-import ConvertToIDR from "@/utils/convertIDR";
+import { formatRupiah } from "@/utils/formataRupiah";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -27,7 +27,7 @@ const CardPropertyHome = ({ data }: { data: DataProperty }) => {
         <div>
           <h1 className="line-clamp-2 h-[50px]">{data.name}</h1>
           <p className="text-sm font-medium text-gray-500">
-            Mulai dari {ConvertToIDR(data.Room[0].price) || "Rp100.000"}
+            Mulai dari {data.Room.length === 0 ? "Rp 0" : formatRupiah(data.Room[0].price)}
           </p>
         </div>
       </div>

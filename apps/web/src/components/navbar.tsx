@@ -65,7 +65,7 @@ const Navbar = () => {
                 {avatar !== null ? (
                   <div className="flex items-center gap-2 px-1 py-1">
                     <Image
-                      src={"/uiotp.svg"}
+                      src={avatar}
                       alt="profile"
                       width={40}
                       height={40}

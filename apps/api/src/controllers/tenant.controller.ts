@@ -1,4 +1,5 @@
 import {
+  editTenantServices,
   forgotPasswordTenantServices,
   loginTenantServices,
   registerServicesTenant,
@@ -92,6 +93,22 @@ export class TenantController {
       return res.status(200).send({
         status: 'ok',
         msg: 'Reset password success',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async editTenant(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = await editTenantServices(
+        req.body,
+        +req.user?.id!,
+        req.file?.filename!,
+      );
+      return res.status(200).send({
+        msg: "User edited",
+        user,
       });
     } catch (error) {
       next(error);

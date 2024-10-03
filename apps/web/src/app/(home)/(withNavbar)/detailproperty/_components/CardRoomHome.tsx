@@ -2,7 +2,7 @@
 
 import FacilityCard from "@/app/(home)/(dashboardPage)/dashboard/(createProperty)/create-property/_components/roomsComp/FacilityCard";
 import { RoomData } from "@/types/property";
-import ConvertToIDR from "@/utils/convertIDR";
+import { formatRupiah } from "@/utils/formataRupiah";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,7 +35,7 @@ const CardRoomHome = ({ data }: { data: RoomData }) => {
               <p>{data.capacity} Orang</p>
             </div>
             <h2 className="text-lg font-medium">
-              {ConvertToIDR(data.price)}/Malam
+              {formatRupiah(data.price)}/Malam
             </h2>
           </div>
 
