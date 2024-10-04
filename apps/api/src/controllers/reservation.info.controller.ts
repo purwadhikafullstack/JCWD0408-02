@@ -49,4 +49,27 @@ export class ReservationInfoController {
       responseError(res, error);
     }
   }
+  async getPastReservation(req: Request, res: Response) {
+    try {
+      const user_id = req.user?.id!;
+      const data = await reservationInfoServices.getPastReservation(user_id);
+      res.status(200).send({
+        msg: 'ok',
+        data,
+      });
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
+  async getAllReservationDate(req: Request, res: Response) {
+    try {
+      const data = await reservationInfoServices.getAllReservationDates();
+      res.status(200).send({
+        msg: 'ok',
+        data,
+      });
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
 }

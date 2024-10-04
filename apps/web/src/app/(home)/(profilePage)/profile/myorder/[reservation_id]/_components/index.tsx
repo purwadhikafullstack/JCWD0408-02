@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import { IReservationById } from "@/types/getReservationId";
 import { getReviewByReservation } from "@/libs/fetch/review";
 import { IGetReviewReservation } from "@/types/review";
+import { navigate } from "@/libs/server";
 export default function MyReservationDetail() {
   const [data, setData] = useState<IReservationById>();
   const [review, setReview] = useState<IGetReviewReservation>();
@@ -33,7 +34,6 @@ export default function MyReservationDetail() {
     };
     getReview();
   }, []);
-
   const startDate: any = new Date(data?.startDate!);
   const endDate: any = new Date(data?.endDate!);
   const millisecondsPerNight = 24 * 60 * 60 * 1000;
@@ -45,13 +45,22 @@ export default function MyReservationDetail() {
       <div className="flex flex-col gap-8 lg:flex-row">
         <div className="mt-2 flex flex-col gap-4">
           <Image
-            src={"/dummy/room.jpg"}
+            src={
+              data?.room.property.thumbnail
+                ? `${data?.room.property.thumbnail}`
+                : "/dummy/kamar.jpg"
+            }
             width={300}
             height={300}
             alt="property image"
             className="rounded-lg"
           />
-          <button className="max-w-[300px] rounded-lg border-2 px-4 py-3 text-sm font-[800] text-black duration-300 hover:bg-white hover:text-btn hover:shadow-md">
+          <button
+            onClick={() => {
+              navigate(`/detailproperty/${data?.room.property.id}`);
+            }}
+            className="max-w-[300px] rounded-lg border-2 px-4 py-3 text-sm font-[800] text-black duration-300 hover:bg-white hover:text-btn hover:shadow-md"
+          >
             Lihat Detai Property
           </button>
         </div>

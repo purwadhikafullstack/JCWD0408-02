@@ -3,18 +3,17 @@ import { useState } from "react";
 import BookingDate from "./bookingDate";
 import DropdownPay from "./dropdownPay";
 import Cookies from "js-cookie";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
 import { useParams } from "next/navigation";
-import { IReservation } from "@/types/reservation";
 import { navigate } from "@/libs/server";
 import { axiosInstance } from "@/libs/axios";
 import { createPaymentVA } from "@/libs/fetch/reservation";
+import { DateRange } from "react-day-picker";
 interface IProps {
   price: number;
 }
-export default function ReservationDetail({ price }: IProps) {
+export default function ReservationDetail({ price }: { price: number }) {
   const [drop, setDrop] = useState<boolean>(false);
   const [payMethod, setPayMethod] = useState<string>("Virtual Account");
   const params = useParams();
@@ -85,6 +84,7 @@ export default function ReservationDetail({ price }: IProps) {
           paymentVA={handleDropdownVA}
           paymentTF={handleDropdownTF}
         />
+
         <h1 className="my-2 py-1 text-lg font-semibold">
           Kebijakan pembatalan
         </h1>
@@ -109,6 +109,15 @@ export default function ReservationDetail({ price }: IProps) {
             </li>
           </ul>
         </div>
+      </div>
+      <div className="my-2">
+        <h1 className="my-2 py-1 text-lg font-semibold">Proses pembayaran</h1>
+        <p className="">
+          Jika melalui pembayaran otomatis anda akan diarahkan ke link payment
+          gateway untuk langsung membayar, jika melalui transfer manual maka
+          anda akan diminta mengupload bukti pembayaran. Batas waktu pembayaran
+          adalah 1 jam setelah membuat reservasi
+        </p>
       </div>
       <hr />
       <p className="pt-2 text-[13px] leading-snug">

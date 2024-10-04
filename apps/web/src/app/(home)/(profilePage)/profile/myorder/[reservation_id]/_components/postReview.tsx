@@ -8,7 +8,6 @@ import { IoClose } from "react-icons/io5";
 import { useParams } from "next/navigation";
 import { postReview } from "@/libs/fetch/review";
 import toast from "react-hot-toast";
-import { navigate } from "@/libs/server";
 export default function PostReview() {
   const [rating, setRating] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -38,8 +37,8 @@ export default function PostReview() {
   });
   useEffect(() => {
     if (isSubmitted) {
-      setModalOpen(false); // Menutup modal setelah submit
-      setIsSubmitted(false); // Reset state isSubmitted
+      setModalOpen(false); 
+      setIsSubmitted(false); 
     }
   }, [isSubmitted]);
   return (
@@ -65,7 +64,7 @@ export default function PostReview() {
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-              {/* edit here */}
+          
               <div className="flex flex-col items-center p-4">
                 <div className="flex w-full items-center justify-between border-b-2 pb-4">
                   <div className="flex items-center gap-2">

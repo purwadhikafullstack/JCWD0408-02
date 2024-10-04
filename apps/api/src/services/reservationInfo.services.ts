@@ -5,11 +5,13 @@ export class reservationInfoService {
   constructor() {}
   async getReservationUser(payload: IReservationUser) {
     try {
+      const now = Date.now();
+      const date = new Date(now);
       interface IFilterQuery {
         AND: any[];
       }
       const filterQuery: IFilterQuery = {
-        AND: [{ user_Id: payload.user_id }],
+        AND: [{ user_Id: payload.user_id }, { endDate: { gt: date } }],
       };
       if (payload.booking_id) {
         filterQuery.AND.push({ id: payload.booking_id });
@@ -40,6 +42,7 @@ export class reservationInfoService {
       }
       const data = await prisma.reservation.findMany({
         where: filterQuery,
+        orderBy: { createdAt: 'desc' },
         select: {
           createdAt: true,
           id: true,
@@ -78,7 +81,13 @@ export class reservationInfoService {
               type: true,
               pricediscount: true,
               property: {
-                select: { name: true, category: true, location: true },
+                select: {
+                  id: true,
+                  name: true,
+                  category: true,
+                  location: true,
+                  thumbnail: true,
+                },
               },
             },
           },
@@ -88,6 +97,45 @@ export class reservationInfoService {
     } catch (error) {
       throw new Error('Gagal Mendapatkan Data Reservasi');
     }
+  }
+  async getPastReservation(user_id: number) {
+    try {
+      const now = Date.now();
+      const date = new Date(now);
+      console.log(now);
+      const data = await prisma.reservation.findMany({
+        where: { user_Id: +user_id, endDate: { lt: date } },
+        include: {
+          user: { select: { username: true, phone: true, email: true } },
+          room: {
+            select: {
+              price: true,
+              capacity: true,
+              type: true,
+              pricediscount: true,
+              property: {
+                select: {
+                  name: true,
+                  category: true,
+                  location: true,
+                  thumbnail: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      return data;
+    } catch (error) {
+      throw new Error('Gagal Mendapatkan Data Reservasi');
+    }
+  }
+  async getAllReservationDates() {
+    const data = await prisma.reservation.findMany({
+      where: { statusRes: { not: 'CANCEL' } },
+      select: { startDate: true, endDate: true },
+    });
+    return data;
   }
 }
 export const reservationInfoServices = new reservationInfoService();

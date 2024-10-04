@@ -71,7 +71,6 @@ export const paymentVA = async (
       },
     );
     toast.success("Reservation Created");
-    // navigate(res.data)
   } catch (error) {
     toast.error;
   }
@@ -94,4 +93,23 @@ export const cancelResersvationUser = async (reservation_id: string) => {
   } catch (error) {
     return error;
   }
+};
+
+export const getPastReservation = async () => {
+  try {
+    const token = await getCookie("token");
+    const res = await axiosInstance.get(`/api/reservationInfo/past`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token?.value}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+export const getDateDisable = async () => {
+  const res = await axiosInstance("/api/reservationInfo/dates");
+  return res.data;
 };

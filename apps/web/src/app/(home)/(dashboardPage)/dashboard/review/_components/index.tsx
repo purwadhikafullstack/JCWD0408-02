@@ -27,22 +27,19 @@ export default function MainReview() {
   dataRating?.length != 0
     ? (average = dataRating?.reduce((a, b) => a + b)! / dataRating?.length!)
     : (average = 0);
-  console.log(average);
 
   return (
     <div className="">
       <h1 className="text-3xl font-semibold">Ulasan Customers</h1>
-      <div className="grid grid-cols-2 lg:grid-cols-3 border-b-2 py-4 ">
+      <div className="grid grid-cols-2 border-b-2 py-4 lg:grid-cols-3">
         <div className="mt-4 flex flex-col gap-2 pr-4 lg:w-[250px]">
           <h3 className="mb-2 text-xl">Jumlah Ulasan</h3>
-          <p className=" text-4xl font-medium">
-            {dataReview?.length}
-          </p>
+          <p className="text-4xl font-medium">{dataReview?.length}</p>
           <p className="text-sm font-medium text-gray-500/70">
             Penilaian yang diterima pada tahun ini
           </p>
         </div>
-        <div className="mt-4 flex flex-col gap-2 lg:border-x-2 px-6 ">
+        <div className="mt-4 flex flex-col gap-2 px-6 lg:border-x-2">
           <h3 className="mb-2 text-xl">Rata-rata Rating</h3>
           <div className="flex items-center gap-2 text-4xl">
             <FaStar className="text-3xl text-yellow-400" />
@@ -52,10 +49,10 @@ export default function MainReview() {
             Rata-rata rating tahun ini
           </p>
         </div>
-        <div className="mt-4 flex flex-col gap-2 lg:px-6 lg:w-[250px]">
+        <div className="mt-4 flex flex-col gap-2 lg:w-[250px] lg:px-6">
           <h3 className="mb-2 text-xl">Jumlah Pengunjung</h3>
 
-          <p className=" text-4xl font-medium">50</p>
+          <p className="text-4xl font-medium">50</p>
           <p className="text-sm font-medium text-gray-500/70">
             Jumlah pengunjung di property anda
           </p>
@@ -70,6 +67,8 @@ export default function MainReview() {
               content={item.content}
               rating={item.ratings}
               avatar={item.user.avatar}
+              id={item.id}
+              feedback={item.feedBack || null}
             />
           </div>
         );

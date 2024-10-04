@@ -1,19 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CardPembelian from "./CardPembelian";
 import { ButtonComp } from "@/components/ButtonComp";
+import { getPastReservation } from "@/libs/fetch/reservation";
+import { IReservationById } from "@/types/getReservationId";
+import EmptyComp from "@/components/EmptyComp";
 
 const ListCardPembelian = () => {
+  const [data, setData] = useState<IReservationById[]>();
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getPastReservation();
+      setData(res.data);
+    };
+    getData();
+  }, []);
+
   return (
     <div className="mt-5 w-full rounded-md border bg-slate-50 shadow-lg">
-      <div className="w-fit px-3 pt-5">
-        <ButtonComp text="90 Hari Terakhir" />
-      </div>
-      <div className="grid grid-cols-1 place-items-center gap-5 px-3 py-5 md:grid-cols-2 md:gap-4 lg:grid-cols-3 lg:gap-4">
-        <CardPembelian />
-        <CardPembelian />
-        <CardPembelian />
-        <CardPembelian />
-        <CardPembelian />
+      <div className="grid grid-cols-1 place-items-center gap-5 px-1 lg:px-3 py-5 md:gap-4 lg:gap-4">
+        {data?.length == 0 ? (
+          <EmptyComp
+            text="Belum ada reservasi yang sudah lewat"
+            sizetext="text-xl"
+            width="500px"
+            height="500px"
+          />
+        ) : (
+          data?.map((item, idx) => {
+            return (
+              <div key={idx} className="w-full">
+                <CardPembelian
+                  startDate={item.startDate}
+                  endDate={item.endDate}
+                  id={item.id}
+                  property={item.room.property.name}
+                  location={item.room.property.location}
+                />
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

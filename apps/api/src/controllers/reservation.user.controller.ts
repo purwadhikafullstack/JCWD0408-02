@@ -12,16 +12,16 @@ export class ReservationController {
       const { room_id } = req.params;
       const startDate = new Date(req.body.startDate);
       const endDate = new Date(req.body.endDate);
-      const now = Date.now();
-      const dateNow = new Date(now);
+      const now = new Date();
+
       if (startDate >= endDate)
         throw 'The check-in date cannot be greater than or equal to the check-out date.';
       const room = await prisma.room.findFirst({ where: { id: room_id } });
       if (!room) {
         return res.status(404).json({ message: 'Room not found' });
       }
-      if (startDate < dateNow)
-        throw 'Waktu Check-in tidak valid (sudah melewati tanggal hari ini)';
+      // if (now >= startDate)
+      //   throw 'Waktu Check-in tidak valid (sudah melewati tanggal hari ini)';
       //MENCARI TANGGAL YANG SUDAH DI PESAN DI ROOM YANG SAMA
       const roomReserved = await prisma.reservation.findFirst({
         //BOLEH DI HARI USER LAIN CHECKOUT
@@ -118,25 +118,20 @@ export class ReservationController {
         throw 'The check-in date cannot be greater than or equal to the check-out date.';
       const room = await prisma.room.findUnique({ where: { id: room_id } });
       if (!room) {
-        // return res.status(404).json({ message: 'Room not found' });
         throw 'Room not found !';
       }
-      if (startDate < dateNow)
-        throw 'Waktu Check-in tidak valid (sudah melewati tanggal hari ini)';
-      //MENCARI TANGGAL YANG SUDAH DI PESAN DI ROOM YANG SAMA
       const roomReserved = await prisma.reservation.findFirst({
-        //BOLEH DI HARI USER LAIN CHECKOUT
         where: {
+          room_Id: room_id,
+          statusRes: { not: 'CANCEL' },
           OR: [
             {
               startDate: { lt: endDate },
               endDate: { gt: startDate },
-              statusRes: { not: 'CANCEL' },
             },
             {
               startDate: { gte: startDate },
               endDate: { lte: endDate },
-              statusRes: { not: 'CANCEL' },
             },
           ],
         },
@@ -149,7 +144,7 @@ export class ReservationController {
           startDate,
           endDate,
           method: 'TF',
-          statusRes: 'CONFIRMATION',
+          statusRes: 'PENDING',
           user_Id: +req.user?.id!,
           room_Id: room_id,
         },
@@ -159,7 +154,6 @@ export class ReservationController {
       responseError(res, error);
     }
   }
-
   async uploadPaymentProof(req: Request, res: Response) {
     try {
       const { reservation_id } = req.params;
@@ -167,9 +161,9 @@ export class ReservationController {
       if (req.file) {
         media = `${base_url}/api/public/proof/${req.file?.filename}`;
       }
-      console.log(media);
+
       await prisma.reservation.update({
-        data: { paymentProof: media },
+        data: { paymentProof: media, statusRes: 'CONFIRMATION' },
         where: { id: reservation_id },
       });
       res.status(200).send('OKE');

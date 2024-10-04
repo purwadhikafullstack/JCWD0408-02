@@ -18,7 +18,7 @@ export default function TotalPrice() {
         atau kesulitan dalam mengunggah, jangan ragu untuk menghubungi kami.
         Terima kasih atas kerjasama Anda.
       </p>
-      
+  
       <ModalCancel/>
     </div>
   );

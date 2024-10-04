@@ -1,25 +1,48 @@
+import { navigate } from "@/libs/server";
+import { IReservationById } from "@/types/getReservationId";
+import { formatDateReservation } from "@/utils/formatDate";
+import { idID } from "@mui/material/locale";
 import Image from "next/image";
 import React from "react";
-
-const CardPembelian = () => {
+interface IProps {
+  id: string;
+  startDate: string;
+  endDate: string;
+  property: string;
+  location: string;
+}
+const CardPembelian = ({
+  id,
+  startDate,
+  endDate,
+  location,
+  property,
+}: IProps) => {
   return (
-    <div className="h-[60px] w-full overflow-hidden rounded-lg border bg-slate-50 shadow-md">
-      <div className="flex h-full items-center gap-3 px-2 py-1">
-        <Image
-          src={"/dummy/kamar.jpg"}
-          alt="Pic"
-          width={50}
-          height={50}
-          className="h-10 w-10 rounded-full object-cover"
-        />
+    <div className="w-full overflow-hidden rounded-lg border bg-slate-50 lg:shadow-md">
+      <div className="flex h-full flex-col gap-3 p-4">
+        <div className="lg:flex-row flex-col flex lg:items-center justify-between">
+          <h1 className="text-xs lg:text-sm text-gray-500">ID: {id}</h1>
+          <h1 className="text-xs text-hitam">
+            {formatDateReservation(new Date(startDate))} -{" "}
+            {formatDateReservation(new Date(endDate))}
+          </h1>
+        </div>
         <main className="w-full">
           <div className="flex w-full justify-between">
-            <h1 className="w-[90px] truncate text-[10px] font-medium text-hitam">
-              D'Valley View Lembang RedPartner
-            </h1>
-            <h1 className="text-[9px] text-hitam">21 Feb 2024</h1>
+            <h1 className="truncate font-medium text-hitam">{property}</h1>
           </div>
-          <h1 className="text-[8px] text-gray-500">1 Kamar</h1>
+          <div className="flex justify-between">
+            <h1 className="text-sm text-gray-500">{location}</h1>
+            <button
+              onClick={() => {
+                navigate(`/profile/myorder/${id}`);
+              }}
+              className="border-b duration-150 hover:border-b-black"
+            >
+              Detail
+            </button>
+          </div>
         </main>
       </div>
     </div>

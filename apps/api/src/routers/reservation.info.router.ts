@@ -21,6 +21,15 @@ export class ReservationInfoRouter {
       this.reservationInfoController.getReservationUser,
     );
     this.router.get(
+      '/dates',
+      this.reservationInfoController.getAllReservationDate,
+    );
+    this.router.get(
+      '/past',
+      this.authMiddleware.verifyTokenOtp,
+      this.reservationInfoController.getPastReservation,
+    );
+    this.router.get(
       '/list',
       this.authMiddleware.verifyTokenOtp,
       this.reservationInfoController.getReservationByTenant,

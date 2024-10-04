@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import PopUpCancel from "./popUpCancel";
+import { useEffect, useState } from "react";
 
 interface IProps {
   method: string;
@@ -11,6 +12,7 @@ interface IProps {
   proofLink: string;
   price: number;
   total: number;
+  status: string;
 }
 export default function Confrimation({
   method,
@@ -18,13 +20,20 @@ export default function Confrimation({
   proofLink,
   price,
   total,
+  status,
 }: IProps) {
   const params = useParams();
   const reservation_id = params.reservation_id;
+  const [paymentStatus, setPaymentStatus] = useState(status);
+  const [proofStatus, setProofStatus] = useState(false);
+  useEffect(() => {
+    setPaymentStatus(status);
+  }, [status, proofStatus]);
+
   const handleConfirm = async () => {
     try {
       await confirmPayment(reservation_id as string);
-     
+      setPaymentStatus("CONFIRMED");
     } catch (error: any) {
       toast.error(error.response?.data?.error || "error");
     }
@@ -33,6 +42,7 @@ export default function Confrimation({
     try {
       await rejectPayment(reservation_id as string);
       toast.success("bukti ditolak, kembali menunggu pembayaran");
+      setProofStatus(!proofStatus);
     } catch (error: any) {
       toast.error(error.response?.data?.error || "error");
     }
@@ -73,7 +83,7 @@ export default function Confrimation({
           </div>
           <button
             onClick={() => handleReject()}
-            className="flex w-max items-center gap-2 rounded-lg bg-red-500 px-4 py-3 font-semibold text-white duration-150 hover:bg-red-600"
+            className={`${status != "CONFIRMATION" ? "hidden" : "block"} flex w-max items-center gap-2 rounded-lg bg-red-500 px-4 py-3 font-semibold text-white duration-150 hover:bg-red-600`}
           >
             <p> Tolak Bukti Pembayaran</p>
           </button>
@@ -95,12 +105,11 @@ export default function Confrimation({
           <div className="mt-4 flex flex-col gap-2">
             <button
               onClick={() => handleConfirm()}
-              className="rounded-lg bg-btn px-4 py-3 font-semibold text-white duration-300 hover:bg-btnhover hover:text-white lg:w-[250px]"
+              className={`${paymentStatus != "CONFIRMATION" ? "hidden" : "block"} rounded-lg bg-btn px-4 py-3 font-semibold text-white duration-300 hover:bg-btnhover hover:text-white lg:w-[250px]`}
             >
               Konfirmasi Pemesanan
             </button>
-
-            <PopUpCancel />
+            <PopUpCancel status={status} proof={proofLink} />
           </div>
         </div>
       </div>

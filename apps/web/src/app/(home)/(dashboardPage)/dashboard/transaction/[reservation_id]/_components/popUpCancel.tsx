@@ -4,7 +4,13 @@ import { cancelTransaction } from "@/libs/fetch/transaction";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
-export default function PopUpCancel() {
+export default function PopUpCancel({
+  status,
+  proof,
+}: {
+  status: string;
+  proof: string;
+}) {
   const [open, setOpen] = useState<boolean>(false);
   const params = useParams();
   const reservation_id = params.reservation_id as string;
@@ -21,7 +27,7 @@ export default function PopUpCancel() {
     <div>
       <button
         onClick={() => setOpen(!open)}
-        className="rounded-lg bg-red-500 px-4 py-3 font-semibold text-white duration-300 hover:bg-red-600 lg:w-[250px]"
+        className={`${status != "PENDING" && proof ? "hidden" : "block"} rounded-lg bg-red-500 px-4 py-3 font-semibold text-white duration-300 hover:bg-red-600 lg:w-[250px]`}
       >
         Tolak Pemesanan
       </button>
