@@ -2,74 +2,104 @@
 import { formatDateId } from "@/utils/formatDate";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
+import React, { useEffect, useState } from "react";
+import { Calendar } from "@/components/ui/calendar";
 import "react-datepicker/dist/react-datepicker.css";
-
-type DateRange = [Date | null, Date | null];
+import { DateRange } from "react-day-picker";
+import { getDateDisable } from "@/libs/fetch/reservation";
+interface IDate {
+  startDate: string;
+  endDate: string;
+}
 const BookingDate: React.FC = () => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  const [buttonVisible, setButtonVissible] = useState<boolean>(false);
-  const [dateOpen, setDateOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [date, setDate] = useState<DateRange | undefined>();
+  
   const router = useRouter();
   const params = useParams();
   const id = params.id;
   const query = useSearchParams();
-  const queryMulai = query.get("checkin");
-  const mulai = new Date(queryMulai!) || "pilih tanggal mulai";
-  const querySelesai = query.get("checkout");
-  const selesai = new Date(querySelesai!) || "pilih tanggal selesai";
+  const checkin = query.get("checkin");
+  const checkout = query.get("checkout");
+  const today = new Date();
+  const [disableDate, setDisableDate] = useState<IDate[]>();
+  useEffect(() => {
+    const getDateRes = async () => {
+      const res = await getDateDisable();
+      setDisableDate(res.data);
+    };
+    getDateRes();
+  }, []);
+  const handleSelect = (selectedDate: DateRange | undefined) => {
+    setDate(selectedDate);
+  };
+  const onClick = () => {
+    if (date) {
+      const query = {
+        checkin: date?.from,
+        checkout: date?.to,
+      };
+      router.push(
+        `/reservation/${id}?${query.checkin ? `checkin=${query.checkin}` : ``}&${query.checkout ? `checkout=${query.checkout}` : ``}`,
+      );
+    }
+    setOpen(false);
+  };
 
-  const onChange: any = (dates: DateRange) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
-    setButtonVissible(true);
-  };
-  const onClick: any = () => {
-    const query = `?checkin=${startDate}&checkout=${endDate}`;
-    router.push(`/reservation/${id}${query}`);
-    setButtonVissible(false);
-    setDateOpen(false);
-  };
+  const disabled = disableDate?.flatMap(({ startDate, endDate }) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    
+    // Menghasilkan array tanggal dari start hingga end
+    const dates = [];
+    for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
+      dates.push(new Date(d));
+    }
+    return dates;
+  });
+  
   return (
-    <div>
-      <div className="flex flex-col gap-4">
-        <div>
-          <p className=" font-semibold">Tanggal Check-in</p>
-          <p>{formatDateId(mulai)}</p>
+    <div className="flex flex-col">
+      <div className="flex justify-between">
+        <div className="flex flex-col gap-4">
+          <div>
+            <p className="font-semibold">Tanggal Check-in</p>
+            <p>{formatDateId(new Date(checkin!))}</p>
+          </div>
+          <div>
+            <p className="font-semibold">Tanggal Check-out</p>
+            <p>{formatDateId(new Date(checkout!))}</p>
+          </div>
         </div>
-        <div>
-          <p className=" font-semibold">Tanggal Check-out</p>
-          <p>{formatDateId(selesai!)}</p>
+        <div className="relative flex flex-col items-end">
+          <button
+            onClick={() => setOpen(!open)}
+            className={`${open ? "hidden" : "block"} h-max w-max items-center rounded-lg text-end text-lg font-medium text-gray-500 underline duration-300 hover:text-black`}
+          >
+            Edit
+          </button>
+          <button
+            onClick={onClick}
+            className={`${open ? "block" : "hidden"} h-max w-max items-center rounded-lg text-end text-lg font-medium text-gray-500 underline duration-300 hover:text-black`}
+          >
+            Oke
+          </button>
+          <div
+            className={`${open ? "absolute" : "hidden"} top-10 z-40 rounded-xl bg-white shadow-md transition-all duration-300 ease-in-out`}
+          >
+            <Calendar
+              initialFocus
+              mode="range"
+              defaultMonth={new Date()}
+              selected={date}
+              onSelect={handleSelect}
+              numberOfMonths={2}
+              fromDate={today} // Disable past dates
+              disabled={disabled}
+            />
+          </div>
         </div>
-        <button
-          onClick={() => setDateOpen(!dateOpen)}
-          className={`${buttonVisible ? "hidden" : "block"} inline-flex w-full items-center rounded-lg border-2 border-btn px-5 py-2.5 text-center text-lg font-medium text-btn duration-300 hover:bg-btn hover:text-white`}
-        >
-          Edit Tanggal Pemesanan
-        </button>
-        <button
-          onClick={onClick}
-          className={`${buttonVisible ? "block" : "hidden"} inline-flex w-full items-center rounded-lg border-2 border-btn bg-btn px-5 py-2.5 text-center text-lg font-medium text-white duration-300 hover:bg-white hover:text-btn`}
-        >
-          OKE
-        </button>
       </div>
-      {dateOpen && (
-        <div className="flex bg-white py-2">
-          <DatePicker
-            selected={startDate}
-            onChange={onChange}
-            startDate={startDate!}
-            endDate={endDate!}
-            selectsRange
-            inline
-            className="bg-white"
-          />
-        </div>
-      )}
     </div>
   );
 };

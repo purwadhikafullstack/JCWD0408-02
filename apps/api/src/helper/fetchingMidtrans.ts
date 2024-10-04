@@ -12,6 +12,7 @@ interface Expiry {
 interface Data {
   transaction_details: TransactionDetails;
   expiry: Expiry;
+  return_url?: string;
 }
 
 export const midTransLink = async (data: Data) => {

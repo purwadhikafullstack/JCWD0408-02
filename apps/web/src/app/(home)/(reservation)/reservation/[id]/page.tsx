@@ -1,19 +1,15 @@
 import PriceDetail from "../_components/priceDetail";
 import ReservationDetail from "../_components";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { getRoomById } from "@/libs/fetch/property";
+
 import { getRoomReservation } from "@/libs/fetch/reservation";
 
 export default async function Reservation({ params }: any) {
-  const tenant = "Kurapika";
-
   const { id } = params;
-
   const data = await getRoomReservation(id);
-
   const price: number = data.price;
 
- 
+  const tenant = data.tenant.username;
 
   return (
     <div className="mb-4 flex flex-col items-center lg:pt-10">

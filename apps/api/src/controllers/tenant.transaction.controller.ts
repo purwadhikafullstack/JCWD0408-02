@@ -2,7 +2,6 @@ import { responseError } from '@/helper/ResponseError';
 import { Request, Response } from 'express';
 import prisma from '@/prisma';
 import { tenantTransactionInfoServices } from '@/services/tenanTransaction.service';
-
 import path from 'path';
 import fs from 'fs';
 import handlebars, { log } from 'handlebars';
@@ -27,7 +26,6 @@ export class TenantTransactionController {
         '../templates',
         'confirmation.hbs',
       );
-
       const checkin = new Date(reservation?.startDate!);
       const startDate = formatDateReservation(checkin);
       const checkout = new Date(reservation?.endDate!);

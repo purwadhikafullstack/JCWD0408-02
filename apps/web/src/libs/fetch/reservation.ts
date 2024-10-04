@@ -1,32 +1,43 @@
 import { IReservation } from "@/types/reservation";
-import { getCookie } from "../server";
+import { getCookie, navigate } from "../server";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../axios";
-
 
 export const getRoomReservation = async (id: string) => {
   const res = await axiosInstance.get(`/api/rooms/get-roombyid/${id}`);
   return res.data.room[0];
 };
 
-export const createReservationVA = async (
-  data: IReservation,
-  token: string,
-) => {
-  const res = await fetch(
-    "https://lemur-rare-eft.ngrok-free.app/api/reservation/VA",
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+export const createPaymentVA = async (payload: any) => {
+  try {
+    const { total, startDate, endDate, room_id } = payload;
+
+    const token = await getCookie("token");
+
+    const res = await axios.post(
+      `https://lemur-rare-eft.ngrok-free.app/api/reservation/VA/${room_id}`,
+      {
+        price: total,
+        startDate: startDate,
+        endDate: endDate,
       },
-      method: "POST",
-      body: JSON.stringify(data),
-    },
-  );
-  return res.json();
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token?.value}`,
+        },
+      },
+    );
+    toast.success("Berhasil Membuat Reservasi, Lakukan proses pembayaran");
+    navigate(res.data.URL);
+  } catch (error: any) {
+    typeof error.response?.data?.msg == "string"
+      ? toast.error(error.response?.data?.msg)
+      : toast.error("error");
+  }
 };
+
 export const getReservation = async (booking_id?: string) => {
   const token = await getCookie("token");
   const res = await axios.get(
@@ -60,10 +71,8 @@ export const paymentVA = async (
       },
     );
     toast.success("Reservation Created");
-    // navigate(res.data)
   } catch (error) {
     toast.error;
-    console.log(error);
   }
 };
 
@@ -82,6 +91,25 @@ export const cancelResersvationUser = async (reservation_id: string) => {
     );
     toast.success("reservasi dibatalkan");
   } catch (error) {
-    console.log(error);
+    return error;
   }
+};
+
+export const getPastReservation = async () => {
+  try {
+    const token = await getCookie("token");
+    const res = await axiosInstance.get(`/api/reservationInfo/past`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token?.value}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+export const getDateDisable = async () => {
+  const res = await axiosInstance("/api/reservationInfo/dates");
+  return res.data;
 };

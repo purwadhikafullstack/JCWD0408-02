@@ -1,5 +1,5 @@
 import Footer from "@/components/Footer";
-import StepReservation from "../../../_components/stepReservation";
+
 import ImageInput from "../_components";
 import UploadFile from "../_components";
 import TotalPrice from "../_components/totalPrice";

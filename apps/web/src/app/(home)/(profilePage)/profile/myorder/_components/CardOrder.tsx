@@ -1,5 +1,6 @@
 "use client";
 import { navigate } from "@/libs/server";
+import Link from "next/link";
 import { formatRupiah } from "@/utils/formataRupiah";
 import { formatDateReservation } from "@/utils/formatDate";
 
@@ -43,8 +44,8 @@ const CardOrder = ({
   const createdAt = formatDateReservation(new Date(create as string));
 
   return (
-    <div className="flex h-full  flex-col overflow-hidden rounded-lg   px-2 py-2 text-xs lg:px-4 lg:py-4">
-      <div className="flex flex-col items-start justify-between gap-2 text-[12px]  text-gray-500 lg:flex-row lg:items-center">
+    <div className="flex h-full flex-col overflow-hidden rounded-lg px-2 py-2 text-xs lg:px-4 lg:py-4">
+      <div className="flex flex-col items-start justify-between gap-2 text-[12px] text-gray-500 lg:flex-row lg:items-center">
         <div className="flex flex-col justify-start gap-2 lg:flex-row">
           <p>ID : {reservation_id}</p>
           <p className="hidden lg:block">/</p>
@@ -56,18 +57,18 @@ const CardOrder = ({
           {statusMessage}
         </p>
       </div>
-      <hr className="mt-1 mb-2 border-slate-300"/>
+      <hr className="mb-2 mt-1 border-slate-300" />
       <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
         <Image
           src={"/dummy/kamar.jpg"}
           alt="Order image"
           width={500}
           height={100}
-          className="hidden  h-[150px] w-full rounded-lg object-cover lg:block"
+          className="hidden h-[150px] w-full rounded-lg object-cover lg:block"
         />
-        <div className="flex flex-col items-start justify-between gap-3 text-xs pl-2">
+        <div className="flex flex-col items-start justify-between gap-3 pl-2 text-xs">
           <div>
-            <p className="text-lg font-semibold ">
+            <p className="text-lg font-semibold">
               {propType} {property}{" "}
             </p>
 
@@ -82,12 +83,11 @@ const CardOrder = ({
           <p className="justify-self-end text-base font-semibold">{total}</p>
         </div>
         <div className="flex flex-col items-end justify-end">
-          <button
-            onClick={() => navigate(`/profile/myorder/${reservation_id}`)}
-            className="mr-2 text-sm underline underline-offset-4"
-          >
-            Detail
-          </button>
+          <Link href={`/profile/myorder/${reservation_id}`}>
+            <button className="mr-2 text-sm underline underline-offset-4">
+              Detail
+            </button>
+          </Link>
         </div>
       </div>
     </div>

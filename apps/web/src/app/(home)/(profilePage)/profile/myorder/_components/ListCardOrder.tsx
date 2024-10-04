@@ -5,6 +5,7 @@ import { Booking } from "@/types/reservation";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
+import EmptyComp from "@/components/EmptyComp";
 
 const ListCardOrder = () => {
   const [orderData, setOrderData] = useState<Booking[]>([]);
@@ -59,7 +60,7 @@ const ListCardOrder = () => {
         </div>
       </form>
       <div className="grid w-full grid-cols-1 gap-2 px-2 py-2 md:gap-3 md:px-3 lg:gap-4 lg:px-5">
-        {orderData.map((item: Booking, idx: number) => (
+      {orderData.length == 0 ?(<EmptyComp text="Reservasi tidak ditemukan" sizetext="text-xl" width="500px" height="500px"/>) :orderData.map((item: Booking, idx: number) => (
           <div
             key={idx}
             className={`${idx % 2 === 0 ? "bg-latar/40 " : "bg-white border"} rounded-lg shadow-sm`} // Menambahkan kelas latar belakang abu-abu untuk baris genap
