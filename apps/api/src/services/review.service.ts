@@ -31,11 +31,7 @@ export class reviewService {
 
       return data;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      } else {
-        throw 'ERROR';
-      }
+      throw error;
     }
   }
   async getReviewbyTenant(tenant_id: number) {
@@ -49,7 +45,7 @@ export class reviewService {
       });
       return data;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
   async getReviewByReservation(reservation_id: string) {
@@ -59,7 +55,7 @@ export class reviewService {
       });
       return data;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
   async getReviewByProperty(property_id: string) {
@@ -69,7 +65,7 @@ export class reviewService {
       });
       return data;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
   async feedBackReview(feedback: string, review_id: number) {
@@ -79,7 +75,7 @@ export class reviewService {
         data: { feedBack: feedback },
       });
     } catch (error: any) {
-      return error;
+      throw error;
     }
   }
   async getReviewByUser(user_id: number) {
@@ -104,7 +100,9 @@ export class reviewService {
         },
       });
       return data;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   }
 }
 export const reviewServices = new reviewService();

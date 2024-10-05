@@ -21,7 +21,7 @@ export class ReservationInfoRouter {
       this.reservationInfoController.getReservationUser,
     );
     this.router.get(
-      '/dates',
+      '/dates/:room_id',
       this.reservationInfoController.getAllReservationDate,
     );
     this.router.get(

@@ -65,7 +65,7 @@ export class reservationInfoService {
       });
       return data;
     } catch (error) {
-      throw new Error('Gagal Mendapatkan Data Reservasi');
+      throw error;
     }
   }
   async getReservationById(reservation_id: string) {
@@ -95,7 +95,7 @@ export class reservationInfoService {
       });
       return data;
     } catch (error) {
-      throw new Error('Gagal Mendapatkan Data Reservasi');
+      throw error;
     }
   }
   async getPastReservation(user_id: number) {
@@ -127,12 +127,12 @@ export class reservationInfoService {
       });
       return data;
     } catch (error) {
-      throw new Error('Gagal Mendapatkan Data Reservasi');
+      throw error;
     }
   }
-  async getAllReservationDates() {
+  async getAllReservationDates(room_id: string) {
     const data = await prisma.reservation.findMany({
-      where: { statusRes: { not: 'CANCEL' } },
+      where: { statusRes: { not: 'CANCEL' }, room_Id: room_id },
       select: { startDate: true, endDate: true },
     });
     return data;

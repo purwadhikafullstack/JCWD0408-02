@@ -14,7 +14,6 @@ interface IDate {
 const BookingDate: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [date, setDate] = useState<DateRange | undefined>();
-  
   const router = useRouter();
   const params = useParams();
   const id = params.id;
@@ -25,7 +24,7 @@ const BookingDate: React.FC = () => {
   const [disableDate, setDisableDate] = useState<IDate[]>();
   useEffect(() => {
     const getDateRes = async () => {
-      const res = await getDateDisable();
+      const res = await getDateDisable(id as string);
       setDisableDate(res.data);
     };
     getDateRes();
@@ -49,7 +48,7 @@ const BookingDate: React.FC = () => {
   const disabled = disableDate?.flatMap(({ startDate, endDate }) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    
+
     // Menghasilkan array tanggal dari start hingga end
     const dates = [];
     for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
@@ -57,7 +56,7 @@ const BookingDate: React.FC = () => {
     }
     return dates;
   });
-  
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">
