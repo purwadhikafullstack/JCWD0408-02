@@ -43,7 +43,7 @@ const columns: any[] = [
   { field: "amount", headerName: "Jumlah Pendapatan", width: 150 },
 ];
 
-export default async function IndexSales() {
+export default async function SalesUser() {
   return (
     <div>
       <h1 className="text-2xl font-semibold">

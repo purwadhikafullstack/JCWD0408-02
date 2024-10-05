@@ -22,6 +22,7 @@ import { TenantTransactionRouter } from './routers/tenant.transaction.router';
 import { ReviewRouter } from './routers/review.router';
 import { SosmedLoginRouter } from './routers/sosmedlogin.router';
 import { scheduleReminders } from './helper/reminder';
+import { ReportSalesRouter } from './routers/reportsales.router';
 
 export default class App {
   private app: Express;
@@ -66,7 +67,6 @@ export default class App {
   }
   private scheduler(): void {
     schedule.scheduleJob('00 00 10 * * *', scheduleReminders);
-    
   }
   private routes(): void {
     const userRouter = new UserRouter();
@@ -79,6 +79,7 @@ export default class App {
     const transactionTenant = new TenantTransactionRouter();
     const review = new ReviewRouter();
     const sosmedlogin = new SosmedLoginRouter();
+    const reportSales = new ReportSalesRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
@@ -93,6 +94,7 @@ export default class App {
     this.app.use('/api/transaction', transactionTenant.getRouter());
     this.app.use('/api/review', review.getRouter());
     this.app.use('/api/auth', sosmedlogin.getRouter());
+    this.app.use('/api/report', reportSales.getRouter());
   }
 
   public start(): void {

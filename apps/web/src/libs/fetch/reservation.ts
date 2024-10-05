@@ -109,7 +109,7 @@ export const getPastReservation = async () => {
     return error;
   }
 };
-export const getDateDisable = async () => {
-  const res = await axiosInstance("/api/reservationInfo/dates");
+export const getDateDisable = async (id: string) => {
+  const res = await axiosInstance(`/api/reservationInfo/dates/${id}`);
   return res.data;
 };
