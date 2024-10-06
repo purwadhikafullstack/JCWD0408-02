@@ -70,7 +70,7 @@ const FormikComp = () => {
         }}
       </Formik>
 
-      {modalOtp ? <InputOtpRegisterUser /> : null}
+      {modalOtp ? <InputOtpRegisterUser nav="form-data-user" /> : null}
     </section>
   );
 };

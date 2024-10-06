@@ -24,6 +24,11 @@ export class TenantRouter {
       '/forgot-password',
       this.tenantController.forgotPasswordTenant,
     );
+    this.router.post(
+      '/send-mail',
+      this.authMiddleware.verifyTokenOtp,
+      this.tenantController.sendVerificationChangeMail,
+    );
     this.router.patch(
       '/reset-password',
       this.authMiddleware.verifyTokenOtp,
@@ -34,6 +39,11 @@ export class TenantRouter {
       this.authMiddleware.verifyTokenOtp,
       uploader('avatar', '/avatar').single('avatar'),
       this.tenantController.editTenant,
+    );
+    this.router.patch(
+      '/change-mail',
+      this.authMiddleware.verifyTokenOtp,
+      this.tenantController.changeEmail,
     );
   }
 

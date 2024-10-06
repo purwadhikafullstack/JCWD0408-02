@@ -4,9 +4,8 @@ import { IoChevronBackOutline } from "react-icons/io5";
 
 import { getRoomReservation } from "@/libs/fetch/reservation";
 
-export default async function Reservation({ params }: any) {
-  const { id } = params;
-  const data = await getRoomReservation(id);
+export default async function Reservation({ params }: {params: {id: string}}) {
+  const data = await getRoomReservation(params.id);
   const price: number = data.price;
 
   const tenant = data.tenant.username;

@@ -1,4 +1,6 @@
 import {
+  LoginGithubServices,
+  LoginGithubTenantServices,
   LoginGoogleServices,
   LoginGoogleTenantServices,
 } from '@/services/sosmedlogin.service';
@@ -27,6 +29,26 @@ export class SosmedLoginController {
         avatar,
         username,
       );
+      return res.status(200).send({ userData, token });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async LoginGithub(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, avatar, username } = req.body;
+      const { userData, token } = await LoginGithubServices(email, avatar, username);
+      return res.status(200).send({ userData, token });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async LoginGithubTenant(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, avatar, username } = req.body;
+      const { userData, token } = await LoginGithubTenantServices(email, avatar, username);
       return res.status(200).send({ userData, token });
     } catch (error) {
       next(error);

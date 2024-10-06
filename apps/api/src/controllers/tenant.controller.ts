@@ -1,9 +1,11 @@
 import {
+  changeEmailTServices,
   editTenantServices,
   forgotPasswordTenantServices,
   loginTenantServices,
   registerServicesTenant,
   resetPasswordTenantServices,
+  sendVerificationChangeMailTServices,
   updateDataTenantServices,
   verifyOtpServicesTenant,
 } from '@/services/account/tenant.services';
@@ -109,6 +111,36 @@ export class TenantController {
       return res.status(200).send({
         msg: "User edited",
         user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async sendVerificationChangeMail(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      await sendVerificationChangeMailTServices(req.user?.email!);
+      return res.status(200).send({
+        status: 'ok',
+        msg: 'Send email success, please check your email',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async changeEmail(req: Request, res: Response, next: NextFunction) {
+    try {
+      const {newMail, token} = await changeEmailTServices(Number(req.user?.id), req.body.email);
+      return res.status(200).send({
+        status: 'ok',
+        msg: 'Change email success,  please check your email for verification',
+        token,
+        newMail,
       });
     } catch (error) {
       next(error);

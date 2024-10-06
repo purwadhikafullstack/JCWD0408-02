@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import DesainOtp from "../../_components/DesainOtp";
 
-const InputOtpRegisterTenant = () => {
+const InputOtpRegisterTenant = ({ nav }: { nav: string }) => {
   const [otp, setOtp] = useState<string[]>(new Array(5).fill(""));
   const [time, setTime] = useState<number>(300);
   const [loading, setLoading] = useState(false);
@@ -52,19 +52,19 @@ const InputOtpRegisterTenant = () => {
   };
 
   const onSubmitOtp = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const otpCode = otp.join("");
       const payload = { otp: otpCode };
       const res = await verifyOtpTenant(payload);
       toast.success(res.data.msg);
-      navigate('/account/form-data-tenant')
+      navigate(`/account/${nav}`);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data);
       }
-    }finally{
-        setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 

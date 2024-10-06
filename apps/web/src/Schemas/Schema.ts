@@ -60,8 +60,18 @@ export const FormProperty = Yup.object().shape({
 export const FormRoom = Yup.object().shape({
   type: Yup.string().required("Pilih type untuk room"),
   price: Yup.string().required("Masukkan harga normal").matches(/^\d+$/),
-  pricediscount: Yup.string().required("Masukkan harga normal").matches(/^\d+$/),
+  pricediscount: Yup.string()
+    .required("Masukkan harga normal")
+    .matches(/^\d+$/),
   capacity: Yup.string().required("Masukkan jumlah kapasitas"),
   description: Yup.string().required("Masukkan deskripsi untuk kamar"),
-  facility: Yup.array().required("Pilih fasilitas untuk room").min(1,"Minimal satu fasilitas"),
+  facility: Yup.array()
+    .required("Pilih fasilitas untuk room")
+    .min(1, "Minimal satu fasilitas"),
+});
+
+export const ChangeEmailSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Email tidak valid")
+    .required("Mohon masukkan email anda"),
 });

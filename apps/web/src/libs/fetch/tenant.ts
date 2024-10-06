@@ -102,3 +102,29 @@ export const editTenant = async (formData: FormData) => {
 
   return res;
 };
+
+export const sendVerificationChangeMailTenant = async () => {
+  const token = await getCookie("token");
+  const res = await axiosInstance.post(
+    "/api/tenant/send-mail",
+    {},
+    { headers: { Authorization: `Bearer ${token?.value}` } },
+  );
+
+  return res;
+};
+
+export const changeEmailTenant = async (email: string, token: string) => {
+  const res = await axiosInstance.patch(
+    "/api/tenant/change-mail",
+    {
+      email,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return res;
+};
