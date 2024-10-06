@@ -36,7 +36,9 @@ const SearchBarHeroMobile = () => {
   }, [activeModal]);
 
   const handleSearch = () => {
-    router.push(`/search?location=${location}`);
+    router.push(
+      `/search?location=${location}&startDate=${date?.from?.toISOString()}&endDate=${date?.to?.toISOString()}`,
+    );
   };
 
   const handleResetCount = () => {

@@ -1,14 +1,7 @@
 import { RoomData } from "@/types/property";
 import React, { useState } from "react";
 import GridCardRooms from "../../(createProperty)/create-property/_components/roomsComp/GridCardRooms";
-import {
-  MdAttachMoney,
-  MdMergeType,
-  MdOutlineDescription,
-  MdOutlineDiscount,
-} from "react-icons/md";
-import ConvertToIDR from "@/utils/convertIDR";
-import { FaRestroom } from "react-icons/fa6";
+import { MdMergeType } from "react-icons/md";
 import FacilityCard from "../../(createProperty)/create-property/_components/roomsComp/FacilityCard";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -17,15 +10,15 @@ import { deleteRooms } from "@/libs/fetch/rooms";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { Field, Form, Formik } from "formik";
-import { Input } from "@/components/Input";
 import RoomCapacity from "../../(createProperty)/create-property/_components/roomsComp/RoomCapacity";
 import RoomDescription from "../../(createProperty)/create-property/_components/roomsComp/RoomDescription";
 import { ButtonComp } from "@/components/ButtonComp";
 import RoomPrice from "../../(createProperty)/create-property/_components/roomsComp/RoomPrice";
+import ModalPeakSeason from "./ModalPeakSeason";
 
 const FormikEditRoom = ({ data }: { data: RoomData }) => {
-  const [isActiveDes, setIsActiveDes] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [isPeakSeasons, setIsPeakSeasons] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleDeleteRoom = async () => {
@@ -67,15 +60,6 @@ const FormikEditRoom = ({ data }: { data: RoomData }) => {
                 {data.availability === false ? "Disewa" : "Disewakan"}
               </p>
               <main className="flex items-center gap-4 pb-4">
-                {data.availability === false && (
-                  <button
-                    type="button"
-                    className="mt-2 flex items-center justify-center gap-1 rounded-md bg-btn/10 px-3 py-1 text-gray-500 transition-all duration-150 hover:bg-red-500 hover:text-white"
-                  >
-                    <IoCloudUploadOutline />
-                    Sewakan
-                  </button>
-                )}
                 <button
                   type="button"
                   onClick={() => setIsDelete(true)}
@@ -83,6 +67,13 @@ const FormikEditRoom = ({ data }: { data: RoomData }) => {
                 >
                   <IoCloudUploadOutline />
                   Hapus
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsPeakSeasons(!isPeakSeasons)}
+                  className="mt-2 flex items-center justify-center gap-1 rounded-md bg-btn/10 px-3 py-1 text-gray-500 transition-all duration-150 hover:bg-green-500 hover:text-white"
+                >
+                  Naikkan harga room
                 </button>
               </main>
               <GridCardRooms data={data} />
@@ -153,6 +144,14 @@ const FormikEditRoom = ({ data }: { data: RoomData }) => {
           nameProperty={`Room-${data.id}`}
         />
       )}
+      {isPeakSeasons && (
+        <ModalPeakSeason
+          isPeakSeasons={isPeakSeasons}
+          setIsPeakSeasons={setIsPeakSeasons}
+          id={data.id}
+        />
+      )}
+
     </section>
   );
 };

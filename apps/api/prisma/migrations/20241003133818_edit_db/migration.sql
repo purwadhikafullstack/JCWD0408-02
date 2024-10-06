@@ -70,11 +70,11 @@ CREATE TABLE `PropertyPic` (
 
 -- CreateTable
 CREATE TABLE `Room` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `type` ENUM('Deluxe', 'Standard', 'Suite') NOT NULL DEFAULT 'Standard',
     `price` DOUBLE NOT NULL,
     `capacity` INTEGER NOT NULL DEFAULT 1,
-    `description` VARCHAR(191) NOT NULL,
+    `description` LONGTEXT NOT NULL,
     `pricediscount` DOUBLE NOT NULL,
     `availability` BOOLEAN NOT NULL DEFAULT true,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -89,7 +89,7 @@ CREATE TABLE `Room` (
 CREATE TABLE `Facility` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `roomId` INTEGER NULL,
+    `roomId` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -100,7 +100,29 @@ CREATE TABLE `RoomPic` (
     `url` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
-    `room_Id` INTEGER NOT NULL,
+    `room_Id` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Availability` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `startDate` DATETIME(3) NOT NULL,
+    `endDate` DATETIME(3) NOT NULL,
+    `isAvailable` BOOLEAN NOT NULL DEFAULT true,
+    `roomId` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `PriceAdjustment` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `startDate` DATETIME(3) NOT NULL,
+    `endDate` DATETIME(3) NOT NULL,
+    `percentage` DOUBLE NOT NULL,
+    `roomId` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -118,7 +140,7 @@ CREATE TABLE `Reservation` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `user_Id` INTEGER NOT NULL,
-    `room_Id` INTEGER NOT NULL,
+    `room_Id` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -132,7 +154,7 @@ CREATE TABLE `Review` (
     `updatedAt` DATETIME(3) NOT NULL,
     `feedBack` LONGTEXT NULL,
     `user_Id` INTEGER NOT NULL,
-    `room_Id` INTEGER NOT NULL,
+    `room_Id` VARCHAR(191) NOT NULL,
     `reservation_Id` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Review_reservation_Id_key`(`reservation_Id`),
@@ -156,6 +178,12 @@ ALTER TABLE `Facility` ADD CONSTRAINT `Facility_roomId_fkey` FOREIGN KEY (`roomI
 
 -- AddForeignKey
 ALTER TABLE `RoomPic` ADD CONSTRAINT `RoomPic_room_Id_fkey` FOREIGN KEY (`room_Id`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Availability` ADD CONSTRAINT `Availability_roomId_fkey` FOREIGN KEY (`roomId`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `PriceAdjustment` ADD CONSTRAINT `PriceAdjustment_roomId_fkey` FOREIGN KEY (`roomId`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Reservation` ADD CONSTRAINT `Reservation_room_Id_fkey` FOREIGN KEY (`room_Id`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

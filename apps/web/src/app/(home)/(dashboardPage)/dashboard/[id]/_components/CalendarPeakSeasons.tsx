@@ -10,16 +10,12 @@ import { Calendar } from "@/components/ui/calendar";
 interface CalendarCompProps extends React.HTMLAttributes<HTMLDivElement> {
   date: DateRange | undefined;
   setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
-  onDateChange?: (newDate: DateRange | undefined) => void;
-  unavailableDates?: { startDate: Date; endDate: Date }[];
 }
 
-export function CalendarComp({
+export function CalendarPeakSeason({
   className,
   date,
   setDate,
-  onDateChange,
-  unavailableDates = [],
 }: CalendarCompProps) {
   const modalRef = React.useRef<HTMLDivElement>(null);
   const [isActiveModal, setIsActiveModal] = React.useState(false);
@@ -47,17 +43,6 @@ export function CalendarComp({
     };
   }, [isActiveModal]);
 
-  React.useEffect(() => {
-    if (onDateChange) {
-      onDateChange(date);
-    }
-  }, [date, onDateChange]);
-
-  const disableDates = unavailableDates.map(({ startDate, endDate }) => ({
-    from: new Date(startDate),
-    to: new Date(endDate),
-  }));
-
   return (
     <div className={cn("grid gap-2", className)}>
       <div className="relative">
@@ -65,7 +50,7 @@ export function CalendarComp({
           id="date"
           onClick={() => setIsActiveModal(!isActiveModal)}
           className={cn(
-            "flex w-full items-center justify-center rounded-full border border-gray-300 p-2 text-left font-normal",
+            "flex w-full items-center border rounded-xl border-gray-600 justify-center p-2 text-left font-normal",
             !date && "text-muted-foreground",
           )}
         >
@@ -80,14 +65,14 @@ export function CalendarComp({
               format(date.from, "LLL dd, y")
             )
           ) : (
-            <span>Pilih tanggal checkin</span>
+            <span>Pilih tanggal harga naik</span>
           )}
         </button>
 
         {isActiveModal && (
           <div
             ref={modalRef}
-            className="absolute z-40 mt-2 w-auto rounded border border-gray-300 bg-white shadow-lg lg:left-[-160px]"
+            className="absolute -top-5 -right-[110px] z-40 mt-2 w-auto rounded border border-gray-300 bg-white shadow-lg"
           >
             <Calendar
               initialFocus
@@ -96,11 +81,6 @@ export function CalendarComp({
               selected={date}
               onSelect={handleSelect}
               numberOfMonths={2}
-              disabled={disableDates}
-              classNames={{
-                day: "text-gray-700 py-2 px-3 rounded-md",
-                day_disabled: "text-red-500 opacity-50 cursor-not-allowed",
-              }}
             />
           </div>
         )}

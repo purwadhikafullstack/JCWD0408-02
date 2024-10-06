@@ -81,6 +81,9 @@ export const deleteRoomServices = async (id: string) => {
     await prisma.facility.deleteMany({
       where: { roomId: id },
     });
+    await prisma.roomAvailability.deleteMany({
+      where: { room_Id: id },
+    });
     const rooms = await prisma.room.delete({
       where: { id },
     });
@@ -91,9 +94,13 @@ export const deleteRoomServices = async (id: string) => {
   }
 };
 
-export const getRoomsByIdServices = async (room_Id: string) => {
+export const getRoomsByIdServices = async (
+  room_Id: string,
+  checkIn: Date,
+  checkOut: Date,
+) => {
   try {
-    const room = await prisma.room.findMany({
+    const room = await prisma.room.findUnique({
       where: { id: room_Id },
       include: {
         RoomPic: {
@@ -108,9 +115,44 @@ export const getRoomsByIdServices = async (room_Id: string) => {
         },
         property: true,
         tenant: { select: { username: true } },
+        RoomAvailability: {
+          select:{ startDate: true, endDate: true, isAvailable: true, priceAdjustment: true}
+        }
       },
     });
-    return room;
+
+    let isAvailable = true;
+    room!.RoomAvailability.forEach((availability) => {
+      if (
+        availability.isAvailable === false &&
+        new Date(availability.startDate) <= checkOut &&
+        new Date(availability.endDate) >= checkIn
+      ) {
+        isAvailable = false;
+      }
+    });
+
+    if (!isAvailable) {
+      return {room, msg:  "nn"}
+    }
+
+    let totalPrice = room!.price; // Harga default room
+    room!.RoomAvailability.forEach((availability) => {
+      if (
+        availability.isAvailable &&
+        new Date(availability.startDate) <= checkOut &&
+        new Date(availability.endDate) >= checkIn &&
+        availability.priceAdjustment
+      ) {
+        const adjustment = (totalPrice * availability.priceAdjustment!) / 100;
+        totalPrice += adjustment; // Tambahkan penyesuaian harga
+      }
+    });
+
+    return {
+      ...room,
+      price: totalPrice, // Harga setelah disesuaikan
+    };
   } catch (error) {
     throw error;
   }
@@ -128,11 +170,15 @@ export const getAllRoomsServices = async (params: GetRoomsParams) => {
       take = 10,
       minPrice,
       maxPrice,
+      startDate,
+      endDate,
     } = params;
     const skip = (page - 1) * take;
     const where: any = {
-      availability: true,
-      price: { gte: minPrice, lte: maxPrice },
+      price: {
+        gte: minPrice || 0,
+        lte: maxPrice || Infinity,
+      },
     };
     if (propertyName) {
       where.property = {
@@ -152,20 +198,112 @@ export const getAllRoomsServices = async (params: GetRoomsParams) => {
     } else {
       orderBy.price = sortOrder;
     }
-    const room = await prisma.room.findMany({
+    const rooms = await prisma.room.findMany({
       where,
       orderBy,
       include: {
         RoomPic: { select: { url: true } },
         facility: { select: { name: true } },
         property: { select: { name: true, location: true, category: true } },
+        RoomAvailability: {
+          select: {
+            startDate: true,
+            endDate: true,
+            isAvailable: true,
+            priceAdjustment: true,
+          },
+        },
       },
       skip,
       take,
     });
     const totalRooms = await prisma.room.count({ where });
-    const total = room.length;
-    return { totalPage: Math.ceil(totalRooms / take), total, room };
+    let adjustedRooms = rooms;
+    if (startDate && endDate) {
+      adjustedRooms = rooms.filter((room) => {
+        const isUnavailable = room.RoomAvailability.some(
+          (availability) =>
+            availability.isAvailable === false &&
+            availability.startDate <= new Date(endDate) &&
+            availability.endDate >= new Date(startDate),
+        );
+        return !isUnavailable;
+      });
+    }
+    adjustedRooms = adjustedRooms.map((room) => {
+      let totalPrice = room.price;
+      room.RoomAvailability.forEach((availability) => {
+        if (
+          availability.isAvailable &&
+          new Date(availability.startDate) <= new Date(endDate!) &&
+          new Date(availability.endDate) >= new Date(startDate!)
+        ) {
+          const adjustment = (totalPrice * availability.priceAdjustment!) / 100;
+          totalPrice += adjustment;
+        }
+      });
+
+      return {
+        ...room,
+        price: totalPrice,
+      };
+    });
+
+    const total = adjustedRooms.length;
+
+    return {
+      totalPage: Math.ceil(totalRooms / take),
+      total,
+      room: adjustedRooms,
+    };
+  } catch (error) {
+    console.error('Error fetching rooms:', error);
+    throw error;
+  }
+};
+
+export const setRoomAvailabilityServices = async (
+  room_Id: string,
+  startDate: Date,
+  endDate: Date,
+  priceIncrease?: number,
+  unavailable?: boolean,
+) => {
+  try {
+    const existingAvailability = await prisma.roomAvailability.findFirst({
+      where: {
+        room_Id: room_Id,
+        startDate: { lte: endDate },
+        endDate: { gte: startDate },
+      },
+    });
+
+    if (existingAvailability) {
+      await prisma.roomAvailability.update({
+        where: { id: existingAvailability.id },
+        data: {
+          startDate: startDate,
+          endDate: endDate,
+          isAvailable:
+            unavailable !== undefined
+              ? !unavailable
+              : existingAvailability.isAvailable,
+          priceAdjustment: priceIncrease
+            ? (existingAvailability.priceAdjustment ?? 0) + priceIncrease
+            : existingAvailability.priceAdjustment,
+        },
+      });
+    } else {
+      await prisma.roomAvailability.create({
+        data: {
+          room_Id: room_Id,
+          startDate: startDate,
+          endDate: endDate,
+          isAvailable: unavailable !== undefined ? !unavailable : true,
+          priceAdjustment: priceIncrease || 0,
+        },
+      });
+    }
   } catch (error) {
     throw error;
   }

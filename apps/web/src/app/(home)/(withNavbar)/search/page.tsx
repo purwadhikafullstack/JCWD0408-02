@@ -30,6 +30,8 @@ const AllRooms = () => {
   const maxPriceParam = searchParams.get("maxPrice") || "5000000";
   const pageParams = searchParams.get("page") || "1";
   const locationParam = searchParams.get("location") || "";
+  const startDateParam = searchParams.get("startDate") || "";
+  const endDateParam = searchParams.get("endDate") || "";
 
   const [sortBy, setSortBy] = useState<string>(sortByParam);
   const [sortOrder, setSortOrder] = useState<string>(sortOrderParam);
@@ -39,8 +41,12 @@ const AllRooms = () => {
   const [maxPrice, setMaxPrice] = useState<number>(Number(maxPriceParam));
   const [page, setPages] = useState<number>(Number(pageParams));
   const [location, setLocation] = useState<string>(locationParam);
-  const handleSearch = (location: string) => {
+  const [startDate, setStartDate] = useState<string>(startDateParam)
+  const [endDate, setEndDate] = useState<string>(endDateParam)
+  const handleSearch = (location: string, startDate: string, endDate: string) => {
     setLocation(location);
+    setStartDate(startDate);
+    setEndDate(endDate)
     setPages(1);
   };
   const onPageChange = ({ selected }: { selected: number }) => {
@@ -55,6 +61,8 @@ const AllRooms = () => {
     setMaxPrice(5000000);
     setPages(1);
     setLocation("");
+    setStartDate("");
+    setEndDate("");
     const resetQuery = new URLSearchParams({
       sortBy: "price",
       sortOrder: "asc",
@@ -64,6 +72,8 @@ const AllRooms = () => {
       page: "1",
       minPrice: "0",
       maxPrice: "5000000",
+      startDate: "",
+      endDaet: "",
     }).toString();
     router.push(`?${resetQuery}`);
   };
@@ -77,6 +87,8 @@ const AllRooms = () => {
       page: page.toString(),
       minPrice: minPrice.toString(),
       maxPrice: maxPrice.toString(),
+      startDate,
+      endDate
     }).toString();
     router.push(`?${query}`);
   };
@@ -84,7 +96,7 @@ const AllRooms = () => {
   useEffect(() => {
     const fetchRoom = async () => {
       try {
-        const params = { sortBy, sortOrder, propertyName, category, location, page, minPrice, maxPrice };
+        const params = { sortBy, sortOrder, propertyName, category, location, page, minPrice, maxPrice, startDate, endDate };
         const res = await getAllRooms(params);
         setRooms(res.data);
       } catch (error) {

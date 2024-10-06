@@ -49,7 +49,7 @@ const SideBarProfile = () => {
     <div className="sticky top-0 h-screen lg:w-[250px]">
       <main className="px-2 py-5 lg:px-5 lg:py-8">
         {/* Profile start */}
-        <Link href={'/'} className="flex gap-3 border-b pb-3">
+        <Link href={"/"} className="flex gap-3 border-b pb-3">
           {avatar !== null ? (
             <div className="overflow-hidden rounded-full bg-slate-50 shadow-lg">
               <Image
@@ -57,7 +57,7 @@ const SideBarProfile = () => {
                 alt="Profile"
                 width={50}
                 height={50}
-                className="h-11 w-11 rounded-full"
+                className="h-11 w-11 rounded-full object-cover"
               />
             </div>
           ) : (
