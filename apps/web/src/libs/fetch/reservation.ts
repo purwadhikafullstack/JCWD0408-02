@@ -1,4 +1,4 @@
-import { IReservation } from "@/types/reservation";
+import { ICreateReservation, IReservation } from "@/types/reservation";
 import { getCookie, navigate } from "../server";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -8,16 +8,14 @@ export const getRoomReservation = async (id: string) => {
   const res = await axiosInstance.get(`/api/rooms/get-roombyid/${id}`);
   return res.data.room[0];
 };
-
-export const createPaymentVA = async (payload: any) => {
+export const createPaymentVA = async (payload: ICreateReservation) => {
   try {
-    const { total, startDate, endDate, room_id } = payload;
-
+    const { total, startDate, endDate, room_id, guest } = payload;
     const token = await getCookie("token");
-
     const res = await axios.post(
       `https://lemur-rare-eft.ngrok-free.app/api/reservation/VA/${room_id}`,
       {
+        guest: guest,
         price: total,
         startDate: startDate,
         endDate: endDate,
@@ -38,6 +36,34 @@ export const createPaymentVA = async (payload: any) => {
   }
 };
 
+export const createPaymentTF = async (payload: ICreateReservation) =>{
+  const { total, startDate, endDate, room_id, guest } = payload;
+  const token = await getCookie("token");
+  try {
+    const res = await axiosInstance.post(
+      `/api/reservation/TF/${room_id}`,
+      {
+        guest: guest,
+        price: total,
+        startDate: startDate,
+        endDate: endDate,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token?.value}`,
+        },
+      },
+    );
+    toast.success("Reservasi dibuat, silahkan upload bukti pembayaran");
+    navigate(`/reservation/upload-payment/${res.data.id}`);
+  } catch (error: any) {
+    typeof error.response?.data?.msg == "string"
+      ? toast.error(error.response?.data?.msg)
+      : "error";
+  }
+}
+
 export const getReservation = async (booking_id?: string) => {
   const token = await getCookie("token");
   const res = await axios.get(
@@ -52,29 +78,7 @@ export const getReservation = async (booking_id?: string) => {
   return res.data;
 };
 
-export const paymentVA = async (
-  data: IReservation,
-  room_id: number,
-  token: string,
-) => {
-  try {
-    const res = await axios.post(
-      `http://localhost:8000/api/reservation/VA/${room_id}`,
-      {
-        data,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      },
-    );
-    toast.success("Reservation Created");
-  } catch (error) {
-    toast.error;
-  }
-};
+
 
 export const cancelResersvationUser = async (reservation_id: string) => {
   const token = await getCookie("token");

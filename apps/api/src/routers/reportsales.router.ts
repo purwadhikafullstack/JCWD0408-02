@@ -20,6 +20,21 @@ export class ReportSalesRouter {
       this.authMiddleware.verifyTokenOtp,
       this.reportController.getReportByProperty,
     );
+    this.router.get(
+      '/byreservation',
+      this.authMiddleware.verifyTokenOtp,
+      this.reportController.getReportByReservation,
+    );
+    this.router.get(
+      '/byuser',
+      this.authMiddleware.verifyTokenOtp,
+      this.reportController.getReportByUser,
+    );
+    this.router.get(
+      '/calendar',
+      this.authMiddleware.verifyTokenOtp,
+      this.reportController.getReportCalendar,
+    );
   }
 
   getRouter(): Router {

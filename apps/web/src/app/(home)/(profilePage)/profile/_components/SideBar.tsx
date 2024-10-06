@@ -35,7 +35,7 @@ const SideBarProfile = () => {
     { href: "/profile/myorder", text: "Pesanan saya", icon: HiClipboardList },
     {
       href: "/profile/purchase",
-      text: "Daftar pembelian",
+      text: "History reservasi",
       icon: RiFileList3Fill,
     },
     { href: "/profile/review", text: "Review", icon: MdOutlineRateReview },

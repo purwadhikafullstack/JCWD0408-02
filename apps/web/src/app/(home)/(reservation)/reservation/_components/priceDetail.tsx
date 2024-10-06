@@ -11,6 +11,7 @@ interface IReservation {
   propertyName: String;
   tenantName: String;
   price: Number;
+  image: string;
 }
 export default function PriceDetail({
   roomType,
@@ -18,6 +19,7 @@ export default function PriceDetail({
   propertyName,
   tenantName,
   price,
+  image,
 }: IReservation) {
   const searchParams = useSearchParams();
   const startDate: any = new Date(searchParams.get("checkin")!);
@@ -31,14 +33,14 @@ export default function PriceDetail({
   const pajak = (priceNight as number) * 0.15;
   const total = priceNight + pajak;
   return (
-    <div className="flex h-max w-full flex-col gap-4 border-b-2 bg-white py-5 text-hitam lg:sticky lg:top-8 lg:w-[25%] lg:rounded-xl lg:border-b-0 lg:px-6 lg:shadow-md">
+    <div className="flex h-max w-full flex-col gap-4 border-b-2 bg-white py-2 text-hitam lg:sticky lg:top-8 lg:w-[25%] lg:rounded-xl lg:border-b-0 lg:px-6 lg:py-5 lg:shadow-md">
       <div className="flex flex-col justify-start gap-2">
         <Image
-          src={"/dummy/kamar.jpg"}
+          src={image ? `${image}` : "/dummy/kamar.jpg"}
           width={500}
           height={30}
           alt="kamar"
-          className="rounded-xl object-cover lg:h-[150px]"
+          className="h-[200px] lg:h-[150px] w-full rounded-xl object-cover"
           priority
         />
         <div className="flex flex-col">
@@ -48,7 +50,6 @@ export default function PriceDetail({
           <h2 className="text-sm font-semibold text-btn">
             <span className="text-black">by : </span> {tenantName}
           </h2>
-          {/* <h2 className="text-sm font-semibold">{location}</h2> */}
         </div>
       </div>
       <hr className="text-abu" />
@@ -65,13 +66,12 @@ export default function PriceDetail({
             </tr>
           </tbody>
         </table>
-        {/* <p className="">{`${checkin} - ${checkout}`}</p> */}
+      <div className="flex flex-col my-1 lg:my-2">
+        <p className="text-sm font-semibold">Tipe Kamar</p>
+        <p className="text-sm ">{roomType}</p>
+      </div>
         <p className="text-sm font-semibold">{nights} Malam • 1 Kamar</p>
       </div>
-      {/* <div className="flex flex-col">
-        <p className="">Tipe Kamar</p>
-        <p className="text-sm font-bold">{roomType}</p>
-      </div> */}
       <hr className="text-abu" />
       <h2 className="font-semibold">Perincian Harga</h2>
       <table>

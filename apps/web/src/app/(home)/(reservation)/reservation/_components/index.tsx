@@ -3,19 +3,25 @@ import { useState } from "react";
 import BookingDate from "./bookingDate";
 import DropdownPay from "./dropdownPay";
 import Cookies from "js-cookie";
-import toast from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
 import { useParams } from "next/navigation";
-import { navigate } from "@/libs/server";
-import { axiosInstance } from "@/libs/axios";
-import { createPaymentVA } from "@/libs/fetch/reservation";
-import { DateRange } from "react-day-picker";
-interface IProps {
+import { createPaymentTF, createPaymentVA } from "@/libs/fetch/reservation";
+import { FaMinus } from "react-icons/fa6";
+import Modal from "./modal";
+import { FaPlus } from "react-icons/fa6";
+import { ICreateReservation } from "@/types/reservation";
+export default function ReservationDetail({
+  price,
+  capacity,
+}: {
   price: number;
-}
-export default function ReservationDetail({ price }: { price: number }) {
+  capacity: number;
+}) {
   const [drop, setDrop] = useState<boolean>(false);
   const [payMethod, setPayMethod] = useState<string>("Virtual Account");
+  const [guest, setGuest] = useState<number>(1);
+  const [guestNumber, setGuestNumber] = useState<number>(1);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const params = useParams();
   const searchParams = useSearchParams();
   const startDate: any = new Date(searchParams.get("checkin")!);
@@ -25,6 +31,12 @@ export default function ReservationDetail({ price }: { price: number }) {
   const nights = Math.round((endDate - startDate) / millisecondsPerNight);
   const priceNight = (price as number) * nights;
   const total = (priceNight as number) + (priceNight as number) * 0.15;
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+  const handleGuest = () => {
+    setGuest(guestNumber);
+    closeModal();
+  };
   const handleDropdownVA = () => {
     setPayMethod("Virtual Account");
     setDrop(false);
@@ -36,36 +48,18 @@ export default function ReservationDetail({ price }: { price: number }) {
   const handleDrop = () => {
     setDrop(!drop);
   };
-  const token = Cookies.get("token");
-
-  const payload = { room_id, startDate, endDate, total };
-
+  const payload: ICreateReservation = {
+    room_id,
+    startDate,
+    endDate,
+    total,
+    guest,
+  };
   const handlePaymentVa = async () => {
     await createPaymentVA(payload);
   };
   const handlePaymentTf = async () => {
-    try {
-      const res = await axiosInstance.post(
-        `/api/reservation/TF/${room_id}`,
-        {
-          price: total,
-          startDate: startDate,
-          endDate: endDate,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        },
-      );
-      toast.success("Reservasi dibuat, silahkan upload bukti pembayaran");
-      navigate(`/reservation/upload-payment/${res.data.id}`);
-    } catch (error: any) {
-      typeof error.response?.data?.msg == "string"
-        ? toast.error(error.response?.data?.msg)
-        : "error";
-    }
+    await createPaymentTF(payload);
   };
   return (
     <div className="lg:w-[40%]">
@@ -75,6 +69,63 @@ export default function ReservationDetail({ price }: { price: number }) {
       <h2 className="mb-2 text-xl font-bold text-hitam">Pemesanan Anda</h2>
       <div className="flex flex-col justify-between gap-x-6 gap-y-2 pb-2 pt-2">
         <BookingDate />
+      </div>
+      <div className="my-2 flex items-center justify-between">
+        <div className="">
+          <h1 className="text-lg font-semibold">Tamu</h1>
+          <p>{guest} Tamu</p>
+        </div>
+        <button
+          onClick={openModal}
+          className="h-max w-max items-center rounded-lg text-end text-lg font-medium text-gray-500 underline duration-300 hover:text-black"
+        >
+          Edit
+        </button>
+        <Modal isOpen={isOpen} onClose={closeModal}>
+          <h2 className="mt-2 text-xl font-semibold">Tamu</h2>
+          <p className="mb-5 text-sm">Max {capacity}</p>
+          <div className="flex justify-between">
+            <div>
+              <p className="font-semibold">Dewasa</p>
+              <p className="">Usia 13+</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() =>
+                  guestNumber > 1 ? setGuestNumber(guestNumber - 1) : null
+                }
+                className="h-max w-max rounded-full px-2 py-2 text-sm hover:bg-black/10"
+              >
+                <FaMinus />
+              </button>
+              <p className="text-xl font-medium">{guestNumber}</p>
+              <button
+                onClick={() =>
+                  guestNumber < capacity
+                    ? setGuestNumber(guestNumber + 1)
+                    : null
+                }
+                className="h-max w-max rounded-full px-2 py-2 text-sm hover:bg-black/10"
+              >
+                <FaPlus />
+              </button>
+            </div>
+          </div>
+          <div className="mt-6 flex justify-between">
+            <button
+              onClick={closeModal}
+              className="text-gray-600 duration-150 hover:text-black"
+            >
+              Batalkan
+            </button>
+            <button
+              onClick={handleGuest}
+              className="rounded-lg bg-btn px-4 py-2 font-medium text-white duration-150 hover:bg-btnhover"
+            >
+              Simpan
+            </button>
+          </div>
+        </Modal>
       </div>
       <div className="py-4">
         <DropdownPay

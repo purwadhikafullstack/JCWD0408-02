@@ -43,33 +43,10 @@ const columns: any[] = [
   { field: "amount", headerName: "Jumlah Pendapatan", width: 150 },
 ];
 
-export default async function SalesUser() {
+export default async function SalesUserX() {
   return (
     <div>
-      <h1 className="text-2xl font-semibold">
-        Data Penjualan Berdasarkan User
-      </h1>
-      <div className="flex bg-white">
-        <div className="h-[300px] w-max">
-          <DataGrid rows={rows} columns={columns} />
-        </div>
-        <BarChart
-          xAxis={[
-            {
-              id: "barCategories",
-              data: ["bar A", "bar B", "bar C"],
-              scaleType: "band",
-            },
-          ]}
-          series={[
-            {
-              data: [2, 5, 3],
-            },
-          ]}
-          width={500}
-          height={300}
-        />
-      </div>
+  
     </div>
   );
 }

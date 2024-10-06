@@ -49,9 +49,9 @@ export const getReviewByReservation = async (review_id: string) => {
 export const getReviewByUser = async () => {
   try {
     const token = await getCookie("token");
-    const res = await axiosInstance.patch(
+    const res = await axiosInstance.get(
       "/api/review/user",
-      {},
+
       {
         headers: {
           "Content-Type": "application/json",
@@ -84,5 +84,8 @@ export const sendFeedback = async (feedback: string, review_id: number) => {
     toast.success("Feedback Dikirim");
   } catch (error: any) {
     console.log(error.response.data.msg);
+    typeof error.response.data.msg == "string"
+      ? toast.error(error.response.data.msg)
+      : toast.error("error");
   }
 };

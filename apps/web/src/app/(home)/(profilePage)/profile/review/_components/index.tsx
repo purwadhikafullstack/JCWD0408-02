@@ -8,7 +8,6 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa";
 import EmptyComp from "@/components/EmptyComp";
-
 export default function ReviewProfil() {
   const [reviews, setReviews] = useState<IGetReviewsUser[]>([]);
   useEffect(() => {
@@ -18,7 +17,6 @@ export default function ReviewProfil() {
     };
     getReviews();
   }, []);
-
   return (
     <div className="">
       <h1 className="mb-6 text-3xl font-semibold">Ulasan Anda</h1>
