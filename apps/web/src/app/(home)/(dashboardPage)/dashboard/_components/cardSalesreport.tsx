@@ -1,27 +1,28 @@
-import React from "react";
-import { BarChart } from "@mui/x-charts/BarChart";
+"use client";
+import Calendar from "react-awesome-calendar";
+import React, { useEffect, useState } from "react";
+import { getReportCalendar } from "@/libs/fetch/report";
+interface IData {
+  color: string;
+  from: string; 
+  id: number;
+  title: string;
+  to: string; 
+}
+export default function CardSalesreport() {
+  const [data, setData] = useState<IData[]>([]);
+  useEffect(() => {
+    const getDataCalendar = async () => {
+      const res = await getReportCalendar();
+      setData(res);
+    };
+    getDataCalendar();
+  }, []);
+  console.log(data);
 
-const CardSalesreport = () => {
   return (
-    <div className="mt-1 flex h-[250px] w-full items-center justify-center rounded-md border bg-slate-50/50 shadow-md">
-      <BarChart
-        xAxis={[
-          {
-            id: "barCategories",
-            data: ["bar A", "bar B", "bar C"],
-            scaleType: "band",
-          },
-        ]}
-        series={[
-          {
-            data: [2, 5, 3],
-          },
-        ]}
-        width={500}
-        height={300}
-      />
+    <div className="bg-white p-4 rounded-xl my-4">
+      <Calendar events={data} />
     </div>
   );
-};
-
-export default CardSalesreport;
+}

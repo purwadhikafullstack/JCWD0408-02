@@ -8,7 +8,7 @@ export class ReservationController {
   async createReservationVA(req: Request, res: Response) {
     try {
       const returnUrl = process.env.BASE_URL_FRONTEND;
-      const { price } = req.body;
+      const { price, guest } = req.body;
       const { room_id } = req.params;
       const startDate = new Date(req.body.startDate);
       const endDate = new Date(req.body.endDate);
@@ -47,6 +47,7 @@ export class ReservationController {
           data: {
             id,
             price,
+            guest,
             startDate,
             endDate,
             paymentLink: '',
@@ -108,7 +109,7 @@ export class ReservationController {
 
   async createReservationTF(req: Request, res: Response) {
     try {
-      const { price } = req.body;
+      const { price, guest } = req.body;
       const { room_id } = req.params;
       const startDate = new Date(req.body.startDate);
       const endDate = new Date(req.body.endDate);
@@ -141,6 +142,7 @@ export class ReservationController {
         data: {
           id: uuidv4(),
           price,
+          guest,
           startDate,
           endDate,
           method: 'TF',

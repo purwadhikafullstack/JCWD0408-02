@@ -17,6 +17,7 @@ interface IOrderlist {
   property: String;
   propType: String;
   create: String;
+  image: string;
 }
 
 const CardOrder = ({
@@ -30,6 +31,7 @@ const CardOrder = ({
   propType,
   end,
   create,
+  image,
 }: IOrderlist) => {
   const reservasi = {
     PENDING: "Menunggu Pembayaran",
@@ -60,11 +62,11 @@ const CardOrder = ({
       <hr className="mb-2 mt-1 border-slate-300" />
       <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
         <Image
-          src={"/dummy/kamar.jpg"}
+          src={image ? `${image}` : "/dummy/kamar.jpg"}
           alt="Order image"
           width={500}
           height={100}
-          className="hidden h-[150px] w-full rounded-lg object-cover lg:block"
+          className="hidden h-[150px] w-[370px] rounded-lg object-cover lg:block"
         />
         <div className="flex flex-col items-start justify-between gap-3 pl-2 text-xs">
           <div>
@@ -80,7 +82,7 @@ const CardOrder = ({
             </div>
           </div>
 
-          <p className="justify-self-end text-base font-semibold">{total}</p>
+          <p className="justify-self-end text-lg font-semibold">{total}</p>
         </div>
         <div className="flex flex-col items-end justify-end">
           <Link href={`/profile/myorder/${reservation_id}`}>

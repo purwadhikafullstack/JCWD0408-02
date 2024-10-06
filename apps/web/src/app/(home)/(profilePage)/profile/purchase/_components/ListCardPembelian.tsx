@@ -17,10 +17,10 @@ const ListCardPembelian = () => {
 
   return (
     <div className="mt-5 w-full rounded-md border bg-slate-50 shadow-lg">
-      <div className="grid grid-cols-1 place-items-center gap-5 px-1 lg:px-3 py-5 md:gap-4 lg:gap-4">
+      <div className="grid grid-cols-1 place-items-center gap-5 px-1 py-5 md:gap-4 lg:gap-4 lg:px-3">
         {data?.length == 0 ? (
           <EmptyComp
-            text="Belum ada reservasi yang sudah lewat"
+            text="Belum ada reservasi"
             sizetext="text-xl"
             width="500px"
             height="500px"
@@ -35,6 +35,7 @@ const ListCardPembelian = () => {
                   id={item.id}
                   property={item.room.property.name}
                   location={item.room.property.location}
+                  status={item.statusRes}
                 />
               </div>
             );

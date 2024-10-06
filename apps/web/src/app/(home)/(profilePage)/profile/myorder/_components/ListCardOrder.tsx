@@ -60,25 +60,35 @@ const ListCardOrder = () => {
         </div>
       </form>
       <div className="grid w-full grid-cols-1 gap-2 px-2 py-2 md:gap-3 md:px-3 lg:gap-4 lg:px-5">
-      {orderData.length == 0 ?(<EmptyComp text="Reservasi tidak ditemukan" sizetext="text-xl" width="500px" height="500px"/>) :orderData.map((item: Booking, idx: number) => (
-          <div
-            key={idx}
-            className={`${idx % 2 === 0 ? "bg-latar/40 " : "bg-white border"} rounded-lg shadow-sm`} // Menambahkan kelas latar belakang abu-abu untuk baris genap
-          >
-            <CardOrder
-              location={item.room.property.location}
-              name={item.room.type}
-              price={item.price}
-              reservation_id={item.id}
-              status={item.statusRes as ReservationStatus}
-              start={item.startDate}
-              end={item.endDate}
-              property={item.room.property.name}
-              propType={item.room.property.category}
-              create={item.createdAt}
-            />
-          </div>
-        ))}
+        {orderData.length == 0 ? (
+          <EmptyComp
+            text="Reservasi tidak ditemukan"
+            sizetext="text-xl"
+            width="500px"
+            height="500px"
+          />
+        ) : (
+          orderData.map((item: Booking, idx: number) => (
+            <div
+              key={idx}
+              className={`${idx % 2 === 0 ? "bg-latar/40" : "border bg-white"} rounded-lg shadow-sm`} // Menambahkan kelas latar belakang abu-abu untuk baris genap
+            >
+              <CardOrder
+                location={item.room.property.location}
+                name={item.room.type}
+                price={item.price}
+                reservation_id={item.id}
+                status={item.statusRes as ReservationStatus}
+                start={item.startDate}
+                end={item.endDate}
+                property={item.room.property.name}
+                propType={item.room.property.category}
+                create={item.createdAt}
+                image={item.room.property.thumbnail}
+              />
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import { IoPerson, IoSettingsSharp } from "react-icons/io5";
 import { MdOutlineRateReview } from "react-icons/md";
 import { RiDashboardFill, RiLogoutCircleLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
+import { BsClipboard2Data } from "react-icons/bs";
 
 interface MenuDashboard {
   href: string;
@@ -39,7 +40,10 @@ const SideBarDashboard = () => {
       icon: FaMoneyBillTransfer,
     },
     { href: "/dashboard/review", text: "Review", icon: MdOutlineRateReview },
-  ];
+    { href: "/dashboard/sales", text: "Sales Report", icon: BsClipboard2Data },
+    
+  ]
+  ;
 
   const menuAcc = [
     { href: "/dashboard/profile", text: "Akun anda", icon: IoSettingsSharp },

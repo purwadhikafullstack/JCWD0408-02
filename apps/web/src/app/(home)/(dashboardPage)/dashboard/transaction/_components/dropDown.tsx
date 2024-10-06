@@ -16,7 +16,7 @@ export default function DropDownStatus() {
     <div className="relative inline-block text-left">
       <button
         type="button"
-        className="flex items-center  gap-2 rounded-md bg-white px-3 py-2 text-btn font-bold  duration-200 hover:bg-gray-50"
+        className="flex items-center gap-2 rounded-md bg-white px-3 py-2 font-bold text-btn duration-200 hover:bg-gray-50"
         onClick={() => setIsOpen(!isOpen)}
       >
         Status
@@ -33,6 +33,7 @@ export default function DropDownStatus() {
           };
           return (
             <button
+              key={idx}
               onClick={() => handleStatus()}
               className="block w-full px-4 py-2 text-sm text-gray-700 duration-200 hover:bg-btn/30"
             >
