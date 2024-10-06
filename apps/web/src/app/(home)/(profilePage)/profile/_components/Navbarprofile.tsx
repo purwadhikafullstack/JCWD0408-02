@@ -25,7 +25,7 @@ const NavBarProfile = () => {
                 alt="Profile"
                 width={50}
                 height={50}
-                className="h-9 w-9 rounded-full"
+                className="h-9 w-9 object-cover rounded-full"
               />
             </div>
           ) : (

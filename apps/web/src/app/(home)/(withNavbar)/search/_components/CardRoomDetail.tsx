@@ -6,7 +6,7 @@ import { getRoomsById } from "@/libs/fetch/rooms";
 import { getCookie } from "@/libs/server";
 import { DataProperty, RoomData } from "@/types/property";
 import { formatRupiah } from "@/utils/formataRupiah";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { DateRange } from "react-day-picker";
 import { FaWifi } from "react-icons/fa6";
@@ -25,14 +25,31 @@ const CardRoomDetail = ({ id }: { id: string }) => {
   const [tenant, setTenant] = useState<any>(null);
   const [date, setDate] = useState<DateRange | undefined>();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const router = useRouter();
+  const checkParams = useSearchParams();
+  // console.log(date?.to?.toISOString());
 
+  const checkInParams = checkParams.get("checkIn") || "";
+  const checkOutParams = checkParams.get("checkOut") || "";
+
+  const [checkIn, setCheckIn] = useState<string>(checkInParams);
+  const [checkOut, setCheckOut] = useState<string>(checkOutParams);
+  console.log(checkIn, "checkin");
+  console.log(checkOut, "checkOut");
+
+  const updateQueryParams = () => {
+    const query = new URLSearchParams({
+      checkIn,
+      checkOut,
+    }).toString();
+    router.push(`?${query}`);
+  };
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
-        const res = await getRoomsById(id);
-        const roomData = res.data.room[0];
+        const params = { checkIn, checkOut };
+        const res = await getRoomsById(id, params);
+        const roomData = res.data.room;
         setData(roomData);
         setProperti(roomData.property);
         setTenant(roomData.tenant);
@@ -42,7 +59,20 @@ const CardRoomDetail = ({ id }: { id: string }) => {
     };
 
     fetchRoomData();
-  }, [id]);
+  }, [id, checkIn, checkOut]);
+  console.log();
+  
+  useEffect(() => {
+    updateQueryParams();
+  }, [checkIn, checkOut]);
+
+  const handleDateChange = (newDate: DateRange | undefined) => {
+    setDate(newDate);
+    if (newDate?.from && newDate.to) {
+      setCheckIn(newDate.from.toISOString());
+      setCheckOut(newDate.to.toISOString());
+    }
+  };
 
   const calculateTotalPrice = () => {
     if (!date?.from || !date?.to || !data) return 0;
@@ -63,6 +93,8 @@ const CardRoomDetail = ({ id }: { id: string }) => {
 
     checkAuth();
   }, []);
+
+  const unavailableDates = data?.RoomAvailability?.filter((availability) => !availability.isAvailable) ?? [];
 
   const handleReservasi = () => {
     if (!isLoggedIn) {
@@ -92,7 +124,7 @@ const CardRoomDetail = ({ id }: { id: string }) => {
               </h1>
               <h2 className="text-3xl font-semibold text-hitam">
                 {properti.category} {properti.name} in{" "}
-                {properti.location.split("," || " ")[0]}
+                {properti.location.split(",")[0]}
               </h2>
               <div className="flex items-center gap-2">
                 <div className="rounded-full bg-btn/20 px-3 text-hitam">
@@ -175,7 +207,12 @@ const CardRoomDetail = ({ id }: { id: string }) => {
                 <span className="text-base">/malam</span>
               </p>
               <div className="mt-5 flex flex-col gap-3">
-                <CalendarComp date={date} setDate={setDate} />
+                <CalendarComp
+                  date={date}
+                  setDate={setDate}
+                  onDateChange={handleDateChange}
+                  unavailableDates={unavailableDates}
+                />
                 {date?.from && date?.to && (
                   <div className="py-3 text-gray-600">
                     <h3 className="mb-2 text-xl font-semibold text-hitam">

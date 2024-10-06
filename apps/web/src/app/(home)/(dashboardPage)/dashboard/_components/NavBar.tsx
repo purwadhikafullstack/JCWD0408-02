@@ -11,7 +11,6 @@ import { MdOutlineTextsms } from "react-icons/md";
 
 const NavBar = () => {
   const { username, avatar, createdAt } = useAppSelector((state) => state.user);
-  console.log(avatar);
   
   // const createAccount = formatDateCreateAccount(createdAt);
   const pathname = usePathname();
@@ -55,7 +54,7 @@ const NavBar = () => {
                   alt="Profile"
                   width={50}
                   height={50}
-                  className="h-9 w-9 rounded-full"
+                  className="h-9 w-9 object-cover rounded-full"
                 />
               </div>
             ) : (

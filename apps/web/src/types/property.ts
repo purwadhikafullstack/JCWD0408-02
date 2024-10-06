@@ -25,6 +25,7 @@ export interface RoomData {
   type: string;
   availability: boolean;
   RoomPic: RoomPic[];
+  RoomAvailability?: RoomAvailability[];
 }
 
 export interface DataProperty {
@@ -55,3 +56,17 @@ export type RoomsQuery = {
   page: number;
   pageSize: number;
 };
+
+export interface PeakSeasonType {
+  startDate: string;
+  endDate: string;
+  priceIncrease?: number;
+  unavailable?: boolean;
+}
+
+export interface RoomAvailability {
+  startDate: Date;
+  endDate: Date
+  isAvailable?: boolean;
+  priceAdjustment?: number;
+}

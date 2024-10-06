@@ -107,6 +107,7 @@ model Room {
   RoomPic       RoomPic[]
   Review        Review[]
   Reservation   Reservation[]
+  RoomAvailability  RoomAvailability[]  
 }
 
 model Facility {
@@ -123,6 +124,18 @@ model RoomPic {
   updatedAt DateTime @updatedAt()
   room_Id   String
   room      Room     @relation(fields: [room_Id], references: [id])
+}
+
+model RoomAvailability {
+  id         Int      @id @default(autoincrement())
+  startDate  DateTime
+  endDate    DateTime
+  isAvailable Boolean  @default(true)
+  priceAdjustment Float?
+  room_Id    String
+  room       Room     @relation(fields: [room_Id], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt()
 }
 
 enum StatusRes {

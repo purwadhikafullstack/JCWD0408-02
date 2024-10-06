@@ -5,6 +5,7 @@ import {
   getAllRoomsServices,
   getRoomsByIdServices,
   getRoomServices,
+  setRoomAvailabilityServices,
 } from '@/services/rooms.services';
 import { NextFunction, Request, Response } from 'express';
 
@@ -70,7 +71,10 @@ export class RoomController {
 
   async getRoomById(req: Request, res: Response) {
     try {
-      const room = await getRoomsByIdServices(req.params.id);
+      const { checkIn, checkOut} = req.query
+      const checkInQuery = checkIn ? new Date(checkIn as string) : undefined
+      const checkOutQuery = checkOut ? new Date(checkOut as string) : undefined
+      const room = await getRoomsByIdServices(req.params.id, checkInQuery!, checkOutQuery!);
       return res.status(200).send({
         status: 'OK',
         room,
@@ -82,7 +86,7 @@ export class RoomController {
 
   async getAllRooms(req: Request, res: Response) {
     try {
-      const { sortBy, sortOrder, propertyName, category, page, take, location, minPrice, maxPrice } = req.query;
+      const { sortBy, sortOrder, propertyName, category, page, take, location, minPrice, maxPrice, startDate, endDate } = req.query;
       const room = await getAllRoomsServices({
         sortBy: (sortBy as string) as 'name' | 'price',
         sortOrder: sortOrder as 'asc' | 'desc',
@@ -92,11 +96,25 @@ export class RoomController {
         page: Number(page as string) || 1,
         take: Number(take as string) || 10,
         minPrice: Number(minPrice as string) || 0,
-        maxPrice: Number(maxPrice as string) || 5000000
+        maxPrice: Number(maxPrice as string) || 5000000,
+        startDate: startDate ? new Date(startDate as string) : undefined,
+        endDate: endDate ? new Date(endDate as string) : undefined
       });
       return res.status(200).send(room);
     } catch (error) {
       responseError(res, error);
+    }
+  }
+
+  async RoomAvailabilityController(req: Request, res:Response, next: NextFunction){
+    try {
+      const startDate = new Date(req.body.startDate);
+      const endDate = new Date(req.body.endDate);
+      const { priceIncrease, unavailable } = req.body;
+      await setRoomAvailabilityServices(req.params.id, startDate, endDate, priceIncrease, unavailable)
+      return res.status(200).send({msg: 'Room availability and price updated successfully.'})
+    } catch (error) {
+      next(error)
     }
   }
 }

@@ -7,7 +7,7 @@ import { axiosInstance } from "../axios";
 
 export const getRoomReservation = async (id: string) => {
   const res = await axiosInstance.get(`/api/rooms/get-roombyid/${id}`);
-  return res.data.room[0];
+  return res.data.room;
 };
 
 export const createReservationVA = async (
