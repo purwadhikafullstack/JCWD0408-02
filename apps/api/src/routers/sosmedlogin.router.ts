@@ -17,6 +17,8 @@ export class SosmedLoginRouter {
   private initializeRoutes(): void {
     this.router.post('/google', this.sosmedLoginController.LoginGoogle);
     this.router.post('/google-t', this.sosmedLoginController.LoginGoogleTenant);
+    this.router.post('/github', this.sosmedLoginController.LoginGithub);
+    this.router.post('/github-t', this.sosmedLoginController.LoginGithubTenant);
   }
 
   getRouter(): Router {

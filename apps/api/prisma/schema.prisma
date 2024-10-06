@@ -13,7 +13,7 @@ datasource db {
 enum Provider {
   GOOGLE
   TWITTER
-  FACEBOOK
+  GITHUB
   CREDENTIAL
 }
 

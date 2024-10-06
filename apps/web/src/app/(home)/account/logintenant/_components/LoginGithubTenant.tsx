@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { FaGithub } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
-const LoginGithubUser = () => {
+const LoginGithubTenant = () => {
   const dispatch = useDispatch();
   const onLogin = async () => {
     const { error: signOutError } = await supabase.auth.signOut();
@@ -17,7 +17,7 @@ const LoginGithubUser = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_BASE_WEB}/account/register`,
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_WEB}/account/registertenant`,
       },
     });
 
@@ -32,7 +32,7 @@ const LoginGithubUser = () => {
 
       try {
         const response = await axiosInstance.post(
-          "/api/auth/github",
+          "/api/auth/github-t",
           {
             email: user.email,
             avatar: user.user_metadata.avatar_url || null,
@@ -110,4 +110,4 @@ const LoginGithubUser = () => {
   );
 };
 
-export default LoginGithubUser;
+export default LoginGithubTenant;

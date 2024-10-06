@@ -24,21 +24,31 @@ export class UserRouter {
       '/forgot-password',
       this.userController.forgotPasswordUser,
     );
+    this.router.post(
+      '/send-mail',
+      this.authMiddleware.verifyTokenOtp,
+      this.userController.sendVerificationChangeMail,
+    );
     this.router.patch(
       '/reset-password',
       this.authMiddleware.verifyTokenOtp,
       this.userController.resetPasswordUser,
-    );
-    this.router.get(
-      '/getusers',
-      this.authMiddleware.verifyTokenOtp,
-      this.userController.getusers,
     );
     this.router.patch(
       '/edituser',
       this.authMiddleware.verifyTokenOtp,
       uploader('avatar', '/avatar').single('avatar'),
       this.userController.editUser,
+    );
+    this.router.patch(
+      '/change-mail',
+      this.authMiddleware.verifyTokenOtp,
+      this.userController.changeEmail,
+    );
+    this.router.get(
+      '/getusers',
+      this.authMiddleware.verifyTokenOtp,
+      this.userController.getusers,
     );
   }
 
