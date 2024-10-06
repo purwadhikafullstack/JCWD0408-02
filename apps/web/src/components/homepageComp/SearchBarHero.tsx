@@ -41,7 +41,9 @@ const SearchBarHero = () => {
   };
   const router = useRouter();
   const handleSearch = () => {
-    router.push(`/search?location=${location}`);
+    router.push(
+      `/search?location=${location}&startDate=${date?.from?.toISOString()}&endDate=${date?.to?.toISOString()}`,
+    );
   };
   return (
     <main className="absolute left-1/2 top-[40%] hidden w-full -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-center md:flex">

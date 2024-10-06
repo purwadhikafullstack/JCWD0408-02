@@ -57,7 +57,7 @@ const SideBarDashboard = () => {
                 alt="Profile"
                 width={50}
                 height={50}
-                className="h-11 w-11 rounded-full"
+                className="h-11 w-11 object-cover rounded-full"
               />
             </div>
           ) : (
