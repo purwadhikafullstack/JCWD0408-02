@@ -2,7 +2,6 @@
 import { useState } from "react";
 import BookingDate from "./bookingDate";
 import DropdownPay from "./dropdownPay";
-import Cookies from "js-cookie";
 import { useSearchParams } from "next/navigation";
 import { useParams } from "next/navigation";
 import { createPaymentTF, createPaymentVA } from "@/libs/fetch/reservation";

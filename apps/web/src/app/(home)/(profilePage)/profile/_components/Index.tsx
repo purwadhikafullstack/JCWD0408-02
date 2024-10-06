@@ -45,8 +45,11 @@ const Profilepage = () => {
     }
     try {
       const res = await editUser(formData);
-      const data = res.data.user;
-      dispatch(loginAction(data));
+      const userData = {
+        ...res.data.user.updUser,
+        token: res.data.user.token,
+      };
+      dispatch(loginAction(userData));
       toast.success(res.data.msg);
     } catch (error) {
       if (error instanceof AxiosError) {

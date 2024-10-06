@@ -198,8 +198,68 @@ export const editUserServices = async (
         avatar,
       },
     });
+    const payload = {
+      id: updUser.id,
+      role: updUser.role,
+      username: updUser.username!,
+      email: updUser.email,
+      phone: updUser.phone!,
+    };
+    const token = createToken(payload, '1d');
 
-    return updUser;
+    return { updUser, token };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const sendVerificationChangeMailServices = async (email: string) => {
+  try {
+    const mail = await prisma.user.findFirst({
+      where: { email },
+    });
+    if (!mail) throw new Error('Email not found!');
+    if (mail.provider !== 'CREDENTIAL')
+      throw new Error('Cannot change email if login using social media');
+    const payload = {
+      id: mail.id,
+      role: mail.role,
+      username: mail.username!,
+      email: mail.email,
+      phone: mail.phone!,
+    };
+    const token = createToken(payload, '30m');
+    const link =
+      process.env.BASE_URL_FRONTEND + `/account/change-email-user/${token}`;
+    await transporter.sendMail({
+      to: email,
+      subject: 'Link ganti email',
+      html: `<a href="${link}" target="_blank">Ganti email disini</a>`,
+    });
+
+    return mail;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const changeEmailServices = async (id: number, email: string) => {
+  try {
+    const user = await prisma.user.findFirst({
+      where: { id },
+    });
+    if (!user) throw new Error('Account not found');
+    if (user.provider !== 'CREDENTIAL')
+      throw new Error('Cannot change email if login using social media');
+    const { otp, token } = generateOtp(email);
+    const otpExpired = new Date();
+    otpExpired.setMinutes(otpExpired.getMinutes() + 5);
+    const newMail = await prisma.user.update({
+      where: { id },
+      data: { email, otp, otpExpired, isVerify: false },
+    });
+    await sendVerifikationMailUser(email, otp);
+    return { newMail, token };
   } catch (error) {
     throw error;
   }

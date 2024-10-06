@@ -7,6 +7,7 @@ import { Logo } from "../../../../components/Logo";
 import LoginGithubUser from "../login/_components/LoginGithub";
 import LoginTwitterUser from "../login/_components/LoginTwitter";
 import LoginGoogleTenant from "../logintenant/_components/LoginGoogleTenant";
+import LoginGithubTenant from "../logintenant/_components/LoginGithubTenant";
 
 interface IPropsDesainLogin {
   text1: string;
@@ -73,7 +74,7 @@ const DesainLoginRegisTenant = ({
             <LoginTwitterUser />
           </div>
           <div className="w-full">
-            <LoginGithubUser />
+            <LoginGithubTenant />
           </div>
         </div>
         {/* Login dengan sosmed end */}

@@ -34,7 +34,7 @@ export default function PriceDetail({
   const total = priceNight + pajak;
   return (
     <div className="flex h-max w-full flex-col gap-4 border-b-2 bg-white py-2 text-hitam lg:sticky lg:top-8 lg:w-[25%] lg:rounded-xl lg:border-b-0 lg:px-6 lg:py-5 lg:shadow-md">
-      <div className="flex flex-col justify-start gap-2">
+      <div className="flex flex-col justify-start gap-2 max-w-[350px]">
         <Image
           src={image ? `${image}` : "/dummy/kamar.jpg"}
           width={500}

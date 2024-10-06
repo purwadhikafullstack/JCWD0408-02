@@ -1,11 +1,13 @@
 import prisma from '@/prisma';
 import {
+  changeEmailServices,
   editUserServices,
   forgotPasswordUserServices,
   getUserServices,
   loginUserServices,
   registerServicesUser,
   resetPasswordUserServices,
+  sendVerificationChangeMailServices,
   updateDatauserServices,
   verifyOtpServices,
 } from '@/services/account/user.services';
@@ -121,8 +123,38 @@ export class UserController {
         req.file?.filename!,
       );
       return res.status(200).send({
-        msg: "User edited",
+        msg: 'User edited',
         user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async sendVerificationChangeMail(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      await sendVerificationChangeMailServices(req.user?.email!);
+      return res.status(200).send({
+        status: 'ok',
+        msg: 'Send email success, please check your email',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async changeEmail(req: Request, res: Response, next: NextFunction) {
+    try {
+      const {newMail, token} = await changeEmailServices(Number(req.user?.id), req.body.email);
+      return res.status(200).send({
+        status: 'ok',
+        msg: 'Change email success,  please check your email for verification',
+        token,
+        newMail,
       });
     } catch (error) {
       next(error);
