@@ -1,7 +1,22 @@
+"use client";
+import { getReservation } from "@/libs/fetch/reservation";
+import { formatRupiah } from "@/utils/formataRupiah";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 
 export default function SummaryPay() {
+  const [total, setTotal] = useState<number>();
+  const params = useParams();
+  const reservation_id = params.reservation_id;
+  useEffect(() => {
+    const getRes = async () => {
+      const res = await getReservation(reservation_id as string);
+      setTotal(res.data[0].price);
+    };
+    getRes();
+  });
   return (
     <div className="flex flex-col rounded-lg border-2 px-4 lg:min-w-[500px]">
       <div className="flex items-center justify-between">
@@ -31,7 +46,7 @@ export default function SummaryPay() {
       </div>
       <div className="mb-4">
         <p className="text-gray-500">Total yang harus dibayarkan</p>
-        <p className="font-bold">Rp. 500000</p>
+        <p className="font-bold">{formatRupiah(total!)}</p>
       </div>
     </div>
   );

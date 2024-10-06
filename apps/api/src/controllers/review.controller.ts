@@ -27,7 +27,7 @@ export class ReviewController {
   //GET REVIEW By Tenant
   async getReviewbyTenant(req: Request, res: Response) {
     try {
-      const  tenant_id  = req.user?.id;
+      const tenant_id = req.user?.id;
       const data = await reviewServices.getReviewbyTenant(+tenant_id!);
       res.status(200).send({ status: 'ok', data });
     } catch (error) {
@@ -45,7 +45,6 @@ export class ReviewController {
       responseError(res, error);
     }
   }
-
   //GET REVIW BY PROPERTY
   async getReviewByProperty(req: Request, res: Response) {
     try {
@@ -60,11 +59,23 @@ export class ReviewController {
   async feedBackReview(req: Request, res: Response) {
     try {
       const { feedback, review_id } = req.body;
-      await prisma.review.update({
-        where: { id: +review_id },
-        data: { feedBack: feedback },
+      if (!feedback) throw 'masukan feedback';
+      if (!review_id) throw 'masukan id review';
+      await reviewServices.feedBackReview(feedback, review_id);
+      res.status(201).send({
+        status: 'OKE',
       });
-      res.status(201).send('Feedback Posted');
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
+  async getReviewByUser(req: Request, res: Response) {
+    try {
+      const data = await reviewServices.getReviewByUser(req.user?.id!);
+      res.status(200).send({
+        status: 'OK',
+        data,
+      });
     } catch (error) {
       responseError(res, error);
     }

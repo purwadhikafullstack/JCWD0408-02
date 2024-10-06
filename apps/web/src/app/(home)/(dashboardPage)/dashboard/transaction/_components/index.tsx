@@ -8,20 +8,19 @@ import { IReservationList } from "@/types/transaksiTenant";
 import { MdRefresh } from "react-icons/md";
 import { navigate } from "@/libs/server";
 import { useSearchParams } from "next/navigation";
+import EmptyComp from "@/components/EmptyComp";
 
 export default function TransactionList() {
   const [transaction, setTransaction] = useState<IReservationList[]>([]);
-  console.log(transaction);
   const params = useSearchParams();
   const query = params.get("status");
   useEffect(() => {
     const listData = async () => {
       try {
         const res = await getListTransaction(query as string);
-        // console.log(res.data);
         setTransaction(res.data);
       } catch (error) {
-        console.log(error);
+        return error;
       }
     };
     listData();
@@ -39,11 +38,7 @@ export default function TransactionList() {
             <MdRefresh className="text-white" />
           </button>
         </div>
-        <div>
-          {/* <div>
-            <p>search</p>
-          </div> */}
-        </div>
+        <div></div>
       </div>
       <table className="mt-4 lg:w-full">
         <thead className="pb-5">
@@ -61,7 +56,16 @@ export default function TransactionList() {
           </tr>
         </thead>
         <tbody className="h-max">
-          {transaction &&
+          {transaction.length == 0 ? (
+            <div className="flex justify-center w-full">
+            <EmptyComp
+              text="Tidak ada list transaksi"
+              sizetext="text-2xl"
+              width="500px"
+              height="500px"
+              />
+              </div>
+          ) : (
             transaction.map((item, idx) => {
               return (
                 <TableTransaction
@@ -73,7 +77,8 @@ export default function TransactionList() {
                   createdAt={item.createdAt}
                 />
               );
-            })}
+            })
+          )}
         </tbody>
       </table>
     </div>

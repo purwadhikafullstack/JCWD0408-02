@@ -1,12 +1,6 @@
 import { FaCalendarAlt } from "react-icons/fa";
-import { Raleway } from "@next/font/google";
 import { FaLocationDot } from "react-icons/fa6";
-import { formatDateId, formatDateReservation } from "@/utils/formatDate";
-const raleway = Raleway({
-  subsets: ["latin"],
-  weight: ["100", "400", "500"],
-});
-
+import { formatDateReservation } from "@/utils/formatDate";
 interface IProps {
   start: string;
   end: string;
@@ -14,7 +8,6 @@ interface IProps {
   category: string;
   type: string;
   method: string;
-
   id: string;
   created: string;
   prop: string;
@@ -26,10 +19,8 @@ export default function ReservationDetailBody({
   end,
   username,
   category,
-
   type,
   method,
-
   id,
   created,
   location,
@@ -49,13 +40,13 @@ export default function ReservationDetailBody({
     },
   ];
   return (
-    <div
-      className={`${raleway.className} font-400 flex w-[40%] flex-col gap-2`}
-    >
+    <div className={`flex flex-col gap-2 lg:w-[40%]`}>
       <div className="w-fulll flex flex-col">
-        <div className="flex items-center gap-2 text-sm text-orange-500">
-          <FaCalendarAlt />
-          <p>Dipesan tanggal - </p>
+        <div className="flex flex-col gap-2 text-sm text-orange-500 lg:flex-row lg:items-center">
+          <div className="flex">
+            <FaCalendarAlt />
+            <p>Dipesan tanggal - </p>
+          </div>
           <p>{formatDateReservation(new Date(created))}</p>
         </div>
 

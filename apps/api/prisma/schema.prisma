@@ -154,6 +154,7 @@ model Reservation {
   id           String    @id @default(uuid())
   price        Float
   startDate    DateTime
+  guest        Int      @default(1)
   endDate      DateTime
   method       Method    @default(VA)
   paymentProof String?

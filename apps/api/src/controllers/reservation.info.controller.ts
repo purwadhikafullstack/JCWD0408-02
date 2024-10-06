@@ -1,10 +1,8 @@
 import { responseError } from '@/helper/ResponseError';
-import prisma from '@/prisma';
 import { reservationInfoServices } from '@/services/reservationInfo.services';
 import { IReservationUser, IStatus } from '@/types/reservationInfo';
 import { Request, Response } from 'express';
 const base_url = process.env.NEXT_PUBLIC_BASE_API_URL;
-
 export class ReservationInfoController {
   async getReservationUser(req: Request, res: Response) {
     try {
@@ -41,6 +39,30 @@ export class ReservationInfoController {
       const { reservation_id } = req.params;
       const data =
         await reservationInfoServices.getReservationById(reservation_id);
+      res.status(200).send({
+        msg: 'ok',
+        data,
+      });
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
+  async getPastReservation(req: Request, res: Response) {
+    try {
+      const user_id = req.user?.id!;
+      const data = await reservationInfoServices.getPastReservation(user_id);
+      res.status(200).send({
+        msg: 'ok',
+        data,
+      });
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
+  async getAllReservationDate(req: Request, res: Response) {
+    try {
+      const { room_id } = req.params;
+      const data = await reservationInfoServices.getAllReservationDates(room_id);
       res.status(200).send({
         msg: 'ok',
         data,

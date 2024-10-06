@@ -7,6 +7,7 @@ import express, {
   NextFunction,
   Router,
 } from 'express';
+import schedule from 'node-schedule';
 import cors from 'cors';
 import { PORT } from './config';
 import { UserRouter } from './routers/user.router';
@@ -20,17 +21,18 @@ import { ReservationInfoRouter } from './routers/reservation.info.router';
 import { TenantTransactionRouter } from './routers/tenant.transaction.router';
 import { ReviewRouter } from './routers/review.router';
 import { SosmedLoginRouter } from './routers/sosmedlogin.router';
+import { scheduleReminders } from './helper/reminder';
+import { ReportSalesRouter } from './routers/reportsales.router';
 
 export default class App {
   private app: Express;
-
   constructor() {
     this.app = express();
     this.configure();
     this.routes();
     this.handleError();
+    this.scheduler();
   }
-
   private configure(): void {
     this.app.use(cors());
     this.app.use(json());
@@ -63,7 +65,9 @@ export default class App {
       },
     );
   }
-
+  private scheduler(): void {
+    schedule.scheduleJob('00 00 10 * * *', scheduleReminders);
+  }
   private routes(): void {
     const userRouter = new UserRouter();
     const tenantRouter = new TenantRouter();
@@ -75,11 +79,11 @@ export default class App {
     const transactionTenant = new TenantTransactionRouter();
     const review = new ReviewRouter();
     const sosmedlogin = new SosmedLoginRouter();
+    const reportSales = new ReportSalesRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
     });
-
     this.app.use('/api/users', userRouter.getRouter());
     this.app.use('/api/tenant', tenantRouter.getRouter());
     this.app.use('/api/reservation', reservationRouter.getRouter());
@@ -90,6 +94,7 @@ export default class App {
     this.app.use('/api/transaction', transactionTenant.getRouter());
     this.app.use('/api/review', review.getRouter());
     this.app.use('/api/auth', sosmedlogin.getRouter());
+    this.app.use('/api/report', reportSales.getRouter());
   }
 
   public start(): void {

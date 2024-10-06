@@ -1,6 +1,5 @@
 import Footer from "@/components/Footer";
 import ReservationNav from "./_components/reservationNav";
-
 import { Raleway } from "@next/font/google";
 const raleway = Raleway({
   subsets: ["latin"],

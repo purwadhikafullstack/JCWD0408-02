@@ -28,6 +28,11 @@ export class ReviewRouter {
       '/reservation/:property_id',
       this.reviewController.getReviewByProperty,
     );
+    this.router.get(
+      '/user',
+      this.authMiddleware.verifyTokenOtp,
+      this.reviewController.getReviewByUser,
+    );
     this.router.patch(
       '/feedback',
       this.authMiddleware.verifyTokenOtp,

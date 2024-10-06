@@ -28,8 +28,8 @@ export default function PriceDetail({
   const hargaKamar = formatRupiah(price as number);
   const nights = Math.round((endDate - startDate) / millisecondsPerNight);
   const priceNight = (price as number) * nights;
-  const total = (priceNight as number) + (priceNight as number) * 0.15;
-  const pajak = formatRupiah((total as number) * 0.15);
+  const pajak = (priceNight as number) * 0.15;
+  const total = priceNight + pajak;
   return (
     <div className="flex h-max w-full flex-col gap-4 border-b-2 bg-white py-5 text-hitam lg:sticky lg:top-8 lg:w-[25%] lg:rounded-xl lg:border-b-0 lg:px-6 lg:shadow-md">
       <div className="flex flex-col justify-start gap-2">
@@ -54,14 +54,16 @@ export default function PriceDetail({
       <hr className="text-abu" />
       <div className="w-full">
         <table className="w-full">
-          <tr>
-            <td className="font-semibold">Check-in</td>
-            <td className="text-end font-semibold">Check-out</td>
-          </tr>
-          <tr>
-            <td className="text-sm">{`${checkin}`}</td>
-            <td className="text-end text-sm">{`${checkout}`}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td className="font-semibold">Check-in</td>
+              <td className="text-end font-semibold">Check-out</td>
+            </tr>
+            <tr>
+              <td className="text-sm">{`${checkin}`}</td>
+              <td className="text-end text-sm">{`${checkout}`}</td>
+            </tr>
+          </tbody>
         </table>
         {/* <p className="">{`${checkin} - ${checkout}`}</p> */}
         <p className="text-sm font-semibold">{nights} Malam • 1 Kamar</p>
@@ -73,24 +75,26 @@ export default function PriceDetail({
       <hr className="text-abu" />
       <h2 className="font-semibold">Perincian Harga</h2>
       <table>
-        <tr>
-          <td>Harga Kamar</td>
-          <td className="text-end"> {hargaKamar}</td>
-        </tr>
-        <tr className="text-[13px] text-gray-500">
-          <td>{nights} malam</td>
-          <td className="text-end">
-            {nights} x {hargaKamar}
-          </td>
-        </tr>
-        <tr>
-          <td>Pajak 15%</td>
-          <td className="text-end"> {pajak}</td>
-        </tr>
-        <tr>
-          <td className="">Total</td>
-          <td className="text-end font-semibold">{` ${formatRupiah(total)}`}</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Harga Kamar</td>
+            <td className="text-end"> {hargaKamar}</td>
+          </tr>
+          <tr className="text-[13px] text-gray-500">
+            <td>{nights} malam</td>
+            <td className="text-end">
+              {nights} x {hargaKamar}
+            </td>
+          </tr>
+          <tr>
+            <td>Pajak 15%</td>
+            <td className="text-end"> {formatRupiah(pajak)}</td>
+          </tr>
+          <tr>
+            <td className="">Total</td>
+            <td className="text-end font-semibold">{` ${formatRupiah(total)}`}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   );
