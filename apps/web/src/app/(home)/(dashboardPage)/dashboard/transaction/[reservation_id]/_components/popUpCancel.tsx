@@ -27,7 +27,7 @@ export default function PopUpCancel({
     <div>
       <button
         onClick={() => setOpen(!open)}
-        className={`${status != "PENDING" && proof ? "hidden" : "block"} rounded-lg bg-red-500 px-4 py-3 font-semibold text-white duration-300 hover:bg-red-600 lg:w-[250px]`}
+        className={`${status != "PENDING" && proof ? "hidden" : status == "PAID" ? "hidden" : "block"} rounded-lg bg-red-500 px-4 py-3 font-semibold text-white duration-300 hover:bg-red-600 lg:w-[250px]`}
       >
         Tolak Pemesanan
       </button>

@@ -96,4 +96,15 @@ export class TenantTransactionController {
       responseError(res, error);
     }
   }
+
+  async getNotification(req: Request, res: Response) {
+    try {
+      const data = await tenantTransactionInfoServices.getNotification(
+        req.user?.id!,
+      );
+      res.status(200).send(data);
+    } catch (error) {
+      responseError(res, error);
+    }
+  }
 }

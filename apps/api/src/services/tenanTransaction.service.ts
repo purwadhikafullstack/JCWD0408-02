@@ -21,7 +21,7 @@ export class tenantTransactionInfoService {
         where: { id: id },
       });
     } catch (error: any) {
-      return error;
+      throw error;
     }
   }
   async rejectPayment(id: string) {
@@ -40,7 +40,7 @@ export class tenantTransactionInfoService {
         where: { id: id },
       });
     } catch (error) {
-      return error;
+      throw error;
     }
   }
   async cancelOrder(id: string) {
@@ -58,7 +58,17 @@ export class tenantTransactionInfoService {
         data: { statusRes: 'CANCEL' },
       });
     } catch (error) {
-      return error;
+      throw error;
+    }
+  }
+  async getNotification(tenant_id: number) {
+    try {
+      const confirmations = await prisma.reservation.findMany({
+        where: { room: { tenant_Id: tenant_id }, statusRes: 'CONFIRMATION' },
+      });
+      return confirmations;
+    } catch (error) {
+      throw error;
     }
   }
 }
