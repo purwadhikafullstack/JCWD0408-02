@@ -5,3 +5,10 @@ export const formatRupiah = (input: number) => {
   }).format(input);
 };
   
+export function formatRupiahNoRP(amount: number): string {
+  return new Intl.NumberFormat('id-ID', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+  }).format(amount);
+}
+

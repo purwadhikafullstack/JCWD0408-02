@@ -30,6 +30,11 @@ export class TenantTransactionRouter {
       this.authMiddleware.verifyTokenOtp,
       this.tenantTransactionController.cancelUserOrder,
     );
+    this.router.get(
+      '/notif',
+      this.authMiddleware.verifyTokenOtp,
+      this.tenantTransactionController.getNotification,
+    );
   }
   getRouter(): Router {
     return this.router;
