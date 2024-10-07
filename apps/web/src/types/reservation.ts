@@ -48,3 +48,11 @@ export interface Booking {
 export interface DataResponse {
   data: Booking[];
 }
+
+export interface ICreateReservation {
+  guest: number;
+  total: number;
+  startDate: Date;
+  endDate: Date;
+  room_id: string;
+}

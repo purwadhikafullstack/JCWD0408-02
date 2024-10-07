@@ -1,5 +1,7 @@
 "use client";
 
+"use client";
+
 import GridCardRooms from "@/app/(home)/(dashboardPage)/dashboard/(createProperty)/create-property/_components/roomsComp/GridCardRooms";
 import { CalendarComp } from "@/components/Calendar";
 import { getRoomsById } from "@/libs/fetch/rooms";

@@ -7,6 +7,9 @@ import { getReviewByTenant } from "@/libs/fetch/review";
 import { IReviewList } from "@/types/review";
 export default function MainReview() {
   const [dataReview, setDataReview] = useState<IReviewList[]>();
+  const users = dataReview?.map((item) => item.user.username);
+  const uniqueUsers = new Set(users);
+  const totalUniqueUsers = uniqueUsers.size;
 
   useEffect(() => {
     try {
@@ -52,7 +55,7 @@ export default function MainReview() {
         <div className="mt-4 flex flex-col gap-2 lg:w-[250px] lg:px-6">
           <h3 className="mb-2 text-xl">Jumlah Pengunjung</h3>
 
-          <p className="text-4xl font-medium">50</p>
+          <p className="text-4xl font-medium">{totalUniqueUsers}</p>
           <p className="text-sm font-medium text-gray-500/70">
             Jumlah pengunjung di property anda
           </p>

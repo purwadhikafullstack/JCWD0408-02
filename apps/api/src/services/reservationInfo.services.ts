@@ -11,7 +11,11 @@ export class reservationInfoService {
         AND: any[];
       }
       const filterQuery: IFilterQuery = {
-        AND: [{ user_Id: payload.user_id }, { endDate: { gt: date } }],
+        AND: [
+          { user_Id: payload.user_id },
+          { endDate: { gt: date } },
+          { statusRes: { not: 'CANCEL' } },
+        ],
       };
       if (payload.booking_id) {
         filterQuery.AND.push({ id: payload.booking_id });
@@ -104,7 +108,7 @@ export class reservationInfoService {
       const date = new Date(now);
       console.log(now);
       const data = await prisma.reservation.findMany({
-        where: { user_Id: +user_id, endDate: { lt: date } },
+        where: { user_Id: +user_id },
         include: {
           user: { select: { username: true, phone: true, email: true } },
           room: {

@@ -73,3 +73,14 @@ export const cancelTransaction = async (reservation_id: String) => {
   );
   return res;
 };
+
+export const getNotification = async () => {
+  const token = await getCookie("token");
+  const res = await axiosInstance("/api/transaction/notif", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${token?.value}`,
+    },
+  });
+  return res.data;
+};
