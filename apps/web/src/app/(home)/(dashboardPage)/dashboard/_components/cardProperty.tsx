@@ -18,11 +18,18 @@ import { MdOutlineVilla } from "react-icons/md";
 import { RiHotelLine } from "react-icons/ri";
 import { GoTrash } from "react-icons/go";
 import ModalDashboard from "./modalDashboard";
+import { tagRevalidate } from "@/libs/server";
 
 const CardPropertyDashboard = ({
   data,
+  onDraft,
+  onPublish,
+  onDelete,
 }: {
   data: DataProperty;
+  onDraft: (id: string) => void;
+  onPublish: (id: string) => void;
+  onDelete: (id: string) => void;
 }) => {
   const [loading, setLoading] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -33,6 +40,7 @@ const CardPropertyDashboard = ({
     setLoading(true);
     try {
       const res = await publishProperty(data.id!.toString());
+      onPublish(data.id.toString());
       toast.success(res.data.msg);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -48,6 +56,7 @@ const CardPropertyDashboard = ({
     setLoading(true);
     try {
       const res = await unPublishProperty(data.id!.toString());
+      onDraft(data.id.toString());
       toast.success(res.data.msg);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -63,8 +72,8 @@ const CardPropertyDashboard = ({
     setLoading(true);
     try {
       const res = await deleteProperty(data.id!.toString());
+      onDelete(data.id.toString());
       toast.success(res.data.msg);
-      // onDeleteSuccess(data.id.toString());
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data);

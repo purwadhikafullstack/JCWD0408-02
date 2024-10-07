@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import GridCardRooms from "@/app/(home)/(dashboardPage)/dashboard/(createProperty)/create-property/_components/roomsComp/GridCardRooms";
 import { CalendarComp } from "@/components/Calendar";
 import { getRoomsById } from "@/libs/fetch/rooms";
@@ -29,15 +27,12 @@ const CardRoomDetail = ({ id }: { id: string }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
   const checkParams = useSearchParams();
-  // console.log(date?.to?.toISOString());
 
   const checkInParams = checkParams.get("checkIn") || "";
   const checkOutParams = checkParams.get("checkOut") || "";
 
   const [checkIn, setCheckIn] = useState<string>(checkInParams);
   const [checkOut, setCheckOut] = useState<string>(checkOutParams);
-  console.log(checkIn, "checkin");
-  console.log(checkOut, "checkOut");
 
   const updateQueryParams = () => {
     const query = new URLSearchParams({
@@ -62,7 +57,6 @@ const CardRoomDetail = ({ id }: { id: string }) => {
 
     fetchRoomData();
   }, [id, checkIn, checkOut]);
-  console.log();
   
   useEffect(() => {
     updateQueryParams();

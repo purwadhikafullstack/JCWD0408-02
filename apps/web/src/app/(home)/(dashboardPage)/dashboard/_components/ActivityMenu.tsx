@@ -32,7 +32,7 @@ const ActivityMenu = ({
       }
     };
     fetchData();
-  }, [totalAll]);
+  }, []);
 
   useEffect(() => {
     const fetchDataPublish = async () => {
@@ -44,7 +44,7 @@ const ActivityMenu = ({
       }
     };
     fetchDataPublish();
-  }, [totalPublish]);
+  }, []);
 
   useEffect(() => {
     const fetchDataDraft = async () => {
@@ -56,7 +56,7 @@ const ActivityMenu = ({
       }
     };
     fetchDataDraft();
-  }, [totalDraft]);
+  }, []);
 
   const card = [
     {

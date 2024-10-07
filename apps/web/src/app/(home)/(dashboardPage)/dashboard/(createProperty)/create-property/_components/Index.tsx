@@ -18,11 +18,6 @@ const CreatePropertyPage = () => {
   const handlePrev = () => {
     dispatch(prevStep());
   };
-
-  const handleReset = () => {
-    dispatch(resetStep());
-  };
-
   return (
     <div>
       <main className="mt-4">

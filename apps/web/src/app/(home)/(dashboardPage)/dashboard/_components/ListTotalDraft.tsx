@@ -13,9 +13,9 @@ const ListTotalDraft = () => {
 
   useEffect(() => {
     const fetchDataDraft = async () => {
-      const res = await getPropertyDraft();
-      setDataDraft(res.data.property);
       try {
+        const res = await getPropertyDraft();
+        setDataDraft(res.data.property);
       } catch (error) {
         console.log(error);
       } finally {
@@ -23,7 +23,28 @@ const ListTotalDraft = () => {
       }
     };
     fetchDataDraft();
-  }, [totalDraft]);
+  }, []);
+
+  const handleDelete = (id: string) => {
+    setDataDraft((prev) => prev?.filter((item) => item.id.toString() !== id));
+  };
+
+  const handlePublish = (id: string) => {
+    setDataDraft((prev) =>
+      prev?.map((item) =>
+        item.id.toString() === id ? { ...item, isActive: true } : item,
+      ),
+    );
+  };
+
+  const handleUnpublish = (id: string) => {
+    setDataDraft((prev) =>
+      prev?.map((item) =>
+        item.id.toString() === id ? { ...item, isActive: false } : item,
+      ),
+    );
+  };
+  
 
   return (
     <div>
@@ -36,7 +57,14 @@ const ListTotalDraft = () => {
           </>
         ) : (
           totalDraft?.map((item) => {
-            return <CardPropertyDashboard data={item} />;
+            return (
+              <CardPropertyDashboard
+                data={item}
+                onDelete={handleDelete}
+                onPublish={handlePublish}
+                onDraft={handleUnpublish}
+              />
+            );
           })
         )}
       </main>

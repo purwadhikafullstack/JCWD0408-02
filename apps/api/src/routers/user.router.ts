@@ -45,11 +45,6 @@ export class UserRouter {
       this.authMiddleware.verifyTokenOtp,
       this.userController.changeEmail,
     );
-    this.router.get(
-      '/getusers',
-      this.authMiddleware.verifyTokenOtp,
-      this.userController.getusers,
-    );
   }
 
   getRouter(): Router {

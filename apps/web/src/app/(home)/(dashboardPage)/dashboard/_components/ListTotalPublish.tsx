@@ -23,7 +23,28 @@ const ListTotalPublish = () => {
       }
     };
     fetchDataPublish();
-  }, [totalPublish]);
+  }, []);
+
+  const handleDelete = (id: string) => {
+    setDataPublish((prev) => prev?.filter((item) => item.id.toString() !== id));
+  };
+
+  const handlePublish = (id: string) => {
+    setDataPublish((prev) =>
+      prev?.map((item) =>
+        item.id.toString() === id ? { ...item, isActive: true } : item,
+      ),
+    );
+  };
+
+  const handleUnpublish = (id: string) => {
+    setDataPublish((prev) =>
+      prev?.map((item) =>
+        item.id.toString() === id ? { ...item, isActive: false } : item,
+      ),
+    );
+  };
+
   return (
     <div>
       <main className="grid grid-cols-1 place-items-center gap-3 py-2 md:grid-cols-2 lg:grid-cols-3">
@@ -35,7 +56,14 @@ const ListTotalPublish = () => {
           </>
         ) : (
           totalPublish?.map((item) => {
-            return <CardPropertyDashboard data={item} />;
+            return (
+              <CardPropertyDashboard
+                data={item}
+                onDraft={handleUnpublish}
+                onDelete={handleDelete}
+                onPublish={handlePublish}
+              />
+            );
           })
         )}
       </main>
