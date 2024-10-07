@@ -4,6 +4,7 @@ import { FC, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import FormikRoom from "../_components/FormikRoom";
 import ListCardRoom from "../_components/ListCardRoom";
+import SpinnerLoading from "@/components/SpinnerLoading";
 
 interface PropsFormik {
   nextButton: () => void;
@@ -17,6 +18,13 @@ const DesignRoom: FC<PropsFormik> = ({ nextButton, prevButton, params }) => {
     setIsRoom(!isRoom);
   };
 
+  if (!params?.id) {
+    return (
+      <div className="flex h-[500px] w-full items-center justify-center">
+        <SpinnerLoading />
+      </div>
+    );
+  }
   return (
     <div>
       <h1 className="text-lg font-semibold">Tentang room</h1>

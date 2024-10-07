@@ -7,18 +7,14 @@ import { verify } from 'jsonwebtoken';
 import { hashPass } from '@/helper/hashPass';
 import { compare } from 'bcrypt';
 import { createToken } from '@/helper/createToken';
+import path from 'path';
+import fs from 'fs';
+import handlebars from 'handlebars';
 const secret = process.env.SECRET_KEY || 'nezztar';
 const base_url = process.env.BASE_URL_BACKEND || 'http://localhost/8000/api';
-const sendVerifikationMailUser = async (email: string, otp: string) => {
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: 'Verifikasi email',
-    text: `Kode OTP Anda adalah ${otp}`,
-  };
-  await transporter.sendMail(mailOptions);
-};
-
+const imageurl = process.env.BASE_URL_BACKEND + '/public/welcome2.svg';
+const imageurl2 = process.env.BASE_URL_BACKEND + '/public/forgotpassmail.svg';
+const imageurl3 = process.env.BASE_URL_BACKEND + '/public/changeemail.svg';
 export const registerServicesUser = async (body: User) => {
   try {
     const { email } = body;
@@ -29,7 +25,21 @@ export const registerServicesUser = async (body: User) => {
     const createUser = await prisma.user.create({
       data: { email, otp, otpExpired },
     });
-    await sendVerifikationMailUser(email, otp);
+    const templatePath = path.join(__dirname, '../../templates', 'otp.hbs');
+    const dataEmail = {
+      email,
+      otp,
+      imageurl,
+    };
+    const templateSource = await fs.readFileSync(templatePath, 'utf-8');
+    const compiledTemplate = handlebars.compile(templateSource);
+    const html = compiledTemplate(dataEmail);
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Verifikasi Email',
+      html,
+    });
     return { createUser, token };
   } catch (error) {
     throw error;
@@ -55,7 +65,6 @@ export const verifyOtpServices = async (token: string, otp: string) => {
         otpExpired: null,
       },
     });
-
     return updateUser;
   } catch (error) {
     throw error;
@@ -78,7 +87,6 @@ export const updateDatauserServices = async (body: User, token: string) => {
         password: hashPassword,
       },
     });
-
     return updateData;
   } catch (error) {
     throw error;
@@ -107,7 +115,6 @@ export const loginUserServices = async (body: User) => {
       phone: user.phone!,
     };
     const token = createToken(payload, '1d');
-
     return { user, token };
   } catch (error) {
     throw error;
@@ -117,9 +124,13 @@ export const loginUserServices = async (body: User) => {
 export const forgotPasswordUserServices = async (email: string) => {
   try {
     const user = await prisma.user.findFirst({
-      where: { email, provider: 'CREDENTIAL' },
+      where: { email },
     });
-    if (!user) throw new Error('Invalid email address');
+    if (!user) throw new Error('Email not found');
+    if (user.provider !== 'CREDENTIAL')
+      throw new Error(
+        'Cannot change password if logged with social media account',
+      );
     const payload = {
       id: user.id,
       role: user.role,
@@ -127,15 +138,28 @@ export const forgotPasswordUserServices = async (email: string) => {
       email: user.email,
       phone: user.phone!,
     };
+    const templatePath = path.join(
+      __dirname,
+      '../../templates',
+      'forgot-pass.hbs',
+    );
     const token = createToken(payload, '30m');
     const link =
-      process.env.BASE_URL_FRONTEND + `/account/forgot-password-user/${token}`;
+      process.env.BASE_URL_FRONTEND +
+      `/account/forgot-password-tenant/${token}`;
+    const dataEmail = {
+      link,
+      username: user.username ? user.username : user.email,
+      imageurl2,
+    };
+    const templateSource = await fs.readFileSync(templatePath, 'utf-8');
+    const compiledTemplate = handlebars.compile(templateSource);
+    const html = compiledTemplate(dataEmail);
     await transporter.sendMail({
       to: email,
-      subject: 'Link reset password',
-      html: `<a href="${link}" target="_blank">Reset password here</a>`,
+      subject: 'Reset password',
+      html,
     });
-
     return user;
   } catch (error) {
     throw error;
@@ -162,15 +186,6 @@ export const resetPasswordUserServices = async (
   }
 };
 
-export const getUserServices = async () => {
-  try {
-    const user = await prisma.user.findMany();
-    return user;
-  } catch (error) {
-    throw error;
-  }
-};
-
 export const editUserServices = async (
   body: User,
   userId: number,
@@ -189,7 +204,6 @@ export const editUserServices = async (
     const avatar = file
       ? `${base_url}/public/avatar/${file}`
       : existuser!.avatar;
-
     const updUser = await prisma.user.update({
       where: { id: userId },
       data: {
@@ -206,7 +220,6 @@ export const editUserServices = async (
       phone: updUser.phone!,
     };
     const token = createToken(payload, '1d');
-
     return { updUser, token };
   } catch (error) {
     throw error;
@@ -228,15 +241,27 @@ export const sendVerificationChangeMailServices = async (email: string) => {
       email: mail.email,
       phone: mail.phone!,
     };
+    const templatePath = path.join(
+      __dirname,
+      '../../templates',
+      'changeemail.hbs',
+    );
     const token = createToken(payload, '30m');
     const link =
       process.env.BASE_URL_FRONTEND + `/account/change-email-user/${token}`;
+    const dataEmail = {
+      link,
+      username: mail.username ? mail.username : mail.email,
+      imageurl3,
+    };
+    const templateSource = await fs.readFileSync(templatePath, 'utf-8');
+    const compiledTemplate = handlebars.compile(templateSource);
+    const html = compiledTemplate(dataEmail);
     await transporter.sendMail({
       to: email,
-      subject: 'Link ganti email',
-      html: `<a href="${link}" target="_blank">Ganti email disini</a>`,
+      subject: 'Ganti email',
+      html,
     });
-
     return mail;
   } catch (error) {
     throw error;
@@ -258,7 +283,21 @@ export const changeEmailServices = async (id: number, email: string) => {
       where: { id },
       data: { email, otp, otpExpired, isVerify: false },
     });
-    await sendVerifikationMailUser(email, otp);
+    const templatePath = path.join(__dirname, '../../templates', 'otp.hbs');
+    const dataEmail = {
+      email,
+      otp,
+      imageurl,
+    };
+    const templateSource = await fs.readFileSync(templatePath, 'utf-8');
+    const compiledTemplate = handlebars.compile(templateSource);
+    const html = compiledTemplate(dataEmail);
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Verifikasi Email',
+      html,
+    });
     return { newMail, token };
   } catch (error) {
     throw error;

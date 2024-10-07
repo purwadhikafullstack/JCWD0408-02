@@ -10,9 +10,7 @@ import { IoLocationOutline } from "react-icons/io5";
 
 const Detailproperty = async ({ params }: { params: { id: string } }) => {
   const res = await getPropertyByid(params.id);
-  // console.log(res.data.property);
   const data: DataProperty = res.data.property;
-  // console.log(data);
 
   return (
     <section className="w-full bg-btnhover pt-20">
