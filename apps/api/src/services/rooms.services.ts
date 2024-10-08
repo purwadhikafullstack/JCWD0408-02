@@ -2,7 +2,7 @@ import prisma from '@/prisma';
 import { GetRoomsParams } from '@/types/room';
 import { Room } from '@prisma/client';
 
-const base_url = process.env.BASE_URL_BACKEND || 'http://localhost/8000/api';
+const base_url = process.env.BASE_URL_BACKEND || 'http://localhost:8000/api';
 
 export const getRoomServices = async (propertyId: string) => {
   try {
