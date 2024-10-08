@@ -5,7 +5,6 @@ import {
   LoginGoogleTenantServices,
 } from '@/services/sosmedlogin.service';
 import { NextFunction, Request, Response } from 'express';
-
 export class SosmedLoginController {
   async LoginGoogle(req: Request, res: Response, next: NextFunction) {
     try {
