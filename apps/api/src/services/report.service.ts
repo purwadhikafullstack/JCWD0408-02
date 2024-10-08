@@ -67,19 +67,21 @@ export class reportSalesService {
           },
         },
       });
-      const data = users.map((user) => {
-        const totalAmount = user.Reservation.reduce(
-          (acc, reservation) => acc + reservation.price,
-          0,
-        );
-        const totalReservation = user.Reservation.length;
-        return {
-          userId: user.id,
-          username: user.username,
-          totalAmount,
-          totalReservation,
-        };
-      });
+      const data = users
+        .filter((user) => user.Reservation.length > 0)
+        .map((user) => {
+          const totalAmount = user.Reservation.reduce(
+            (acc, reservation) => acc + reservation.price,
+            0,
+          );
+          const totalReservation = user.Reservation.length;
+          return {
+            userId: user.id,
+            username: user.username,
+            totalAmount,
+            totalReservation,
+          };
+        });
       return data;
     } catch (error) {
       throw error;

@@ -2,7 +2,7 @@ import { responseError } from '@/helper/ResponseError';
 import { reservationInfoServices } from '@/services/reservationInfo.services';
 import { IReservationUser, IStatus } from '@/types/reservationInfo';
 import { Request, Response } from 'express';
-const base_url = process.env.NEXT_PUBLIC_BASE_API_URL;
+const base_url = process.env.BASE_API_URL;
 export class ReservationInfoController {
   async getReservationUser(req: Request, res: Response) {
     try {

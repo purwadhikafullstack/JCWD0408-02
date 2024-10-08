@@ -1,7 +1,7 @@
 import prisma from '@/prisma';
 import { Property, Room } from '@prisma/client';
 
-const base_url = process.env.BASE_URL_BACKEND || 'http://localhost/8000/api';
+const base_url = process.env.BASE_URL_BACKEND || 'http://localhost:8000/api';
 
 export const createPropertyServices = async (
   TenantId: number,

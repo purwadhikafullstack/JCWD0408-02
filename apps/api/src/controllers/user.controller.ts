@@ -1,9 +1,7 @@
-import prisma from '@/prisma';
 import {
   changeEmailServices,
   editUserServices,
   forgotPasswordUserServices,
-  getUserServices,
   loginUserServices,
   registerServicesUser,
   resetPasswordUserServices,
@@ -97,18 +95,6 @@ export class UserController {
       return res.status(200).send({
         status: 'ok',
         msg: 'Reset password success',
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async getusers(req: Request, res: Response, next: NextFunction) {
-    try {
-      const result = await getUserServices();
-      return res.status(200).send({
-        status: 'ok',
-        result,
       });
     } catch (error) {
       next(error);

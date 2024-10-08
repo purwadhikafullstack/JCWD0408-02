@@ -29,6 +29,11 @@ export class UserRouter {
       this.authMiddleware.verifyTokenOtp,
       this.userController.sendVerificationChangeMail,
     );
+    this.router.post(
+      '/send-mail',
+      this.authMiddleware.verifyTokenOtp,
+      this.userController.sendVerificationChangeMail,
+    );
     this.router.patch(
       '/reset-password',
       this.authMiddleware.verifyTokenOtp,
@@ -44,11 +49,6 @@ export class UserRouter {
       '/change-mail',
       this.authMiddleware.verifyTokenOtp,
       this.userController.changeEmail,
-    );
-    this.router.get(
-      '/getusers',
-      this.authMiddleware.verifyTokenOtp,
-      this.userController.getusers,
     );
   }
 

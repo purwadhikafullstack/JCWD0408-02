@@ -3,7 +3,7 @@ import prisma from '@/prisma';
 import { createPaymentLink } from '@/services/reservation.service';
 import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-const base_url = process.env.NEXT_PUBLIC_BASE_API_URL;
+const base_url = process.env.BASE_API_URL;
 export class ReservationController {
   async createReservationVA(req: Request, res: Response) {
     try {
@@ -13,18 +13,13 @@ export class ReservationController {
       const startDate = new Date(req.body.startDate);
       const endDate = new Date(req.body.endDate);
       const now = new Date();
-
       if (startDate >= endDate)
         throw 'The check-in date cannot be greater than or equal to the check-out date.';
       const room = await prisma.room.findFirst({ where: { id: room_id } });
       if (!room) {
         return res.status(404).json({ message: 'Room not found' });
       }
-      // if (now >= startDate)
-      //   throw 'Waktu Check-in tidak valid (sudah melewati tanggal hari ini)';
-      //MENCARI TANGGAL YANG SUDAH DI PESAN DI ROOM YANG SAMA
       const roomReserved = await prisma.reservation.findFirst({
-        //BOLEH DI HARI USER LAIN CHECKOUT
         where: {
           room_Id: room_id,
           statusRes: { not: 'CANCEL' },
@@ -114,7 +109,6 @@ export class ReservationController {
       const startDate = new Date(req.body.startDate);
       const endDate = new Date(req.body.endDate);
       const now = Date.now();
-      const dateNow = new Date(now);
       if (startDate >= endDate)
         throw 'The check-in date cannot be greater than or equal to the check-out date.';
       const room = await prisma.room.findUnique({ where: { id: room_id } });
@@ -161,7 +155,7 @@ export class ReservationController {
       const { reservation_id } = req.params;
       let media = null;
       if (req.file) {
-        media = `${base_url}/api/public/proof/${req.file?.filename}`;
+        media = `${base_url}/public/proof/${req.file?.filename}`;
       }
 
       await prisma.reservation.update({
