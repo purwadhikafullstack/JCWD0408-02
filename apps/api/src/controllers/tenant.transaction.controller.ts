@@ -36,6 +36,7 @@ export class TenantTransactionController {
         checkin: startDate,
         checkout: endDate,
         price: reservation?.price,
+        guest: reservation?.guest,
       };
       const templateSource = await fs.readFileSync(templatePath, 'utf-8');
       const compiledTemplate = handlebars.compile(templateSource);

@@ -36,7 +36,7 @@ export const createPaymentVA = async (payload: ICreateReservation) => {
   }
 };
 
-export const createPaymentTF = async (payload: ICreateReservation) =>{
+export const createPaymentTF = async (payload: ICreateReservation) => {
   const { total, startDate, endDate, room_id, guest } = payload;
   const token = await getCookie("token");
   try {
@@ -62,12 +62,12 @@ export const createPaymentTF = async (payload: ICreateReservation) =>{
       ? toast.error(error.response?.data?.msg)
       : "error";
   }
-}
+};
 
 export const getReservation = async (booking_id?: string) => {
   const token = await getCookie("token");
   const res = await axios.get(
-    `http://localhost:8000/api/reservationInfo${booking_id ? `?booking_id=${booking_id}` : ""}`,
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/reservationInfo${booking_id ? `?booking_id=${booking_id}` : ""}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -78,13 +78,11 @@ export const getReservation = async (booking_id?: string) => {
   return res.data;
 };
 
-
-
 export const cancelResersvationUser = async (reservation_id: string) => {
   const token = await getCookie("token");
   try {
     const res = await fetch(
-      `http://localhost:8000/api/reservation/TF/cancel/${reservation_id}`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/reservation/TF/cancel/${reservation_id}`,
       {
         method: "PATCH",
         headers: {

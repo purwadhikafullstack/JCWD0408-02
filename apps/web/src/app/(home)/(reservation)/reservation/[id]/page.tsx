@@ -33,7 +33,7 @@ export default function Reservation({ params }: { params: { id: string } }) {
     return <LoadingDetailRooms />;
   }
   return (
-    <div className="mb-4 flex flex-col items-center lg:pt-10 ">
+    <div className="mb-4 flex flex-col items-center lg:pt-10">
       <div className="flex flex-col gap-5 px-3 pt-2 lg:flex-row-reverse lg:justify-center lg:gap-20 lg:pb-14 lg:pt-10">
         <PriceDetail
           roomType={data.type}
@@ -44,7 +44,7 @@ export default function Reservation({ params }: { params: { id: string } }) {
           image={data.property.thumbnail}
         />
         <ReservationDetail price={price} capacity={data.capacity} />
-        <Link href={`/detailproperty/${data.property.id}`}>
+        <Link href={`/search/room/${data.id}`}>
           <IoChevronBackOutline className="hidden size-10 rounded-full p-2 hover:bg-abu lg:block" />
         </Link>
       </div>

@@ -10,7 +10,8 @@ export default function MainReview() {
   const users = dataReview?.map((item) => item.user.username);
   const uniqueUsers = new Set(users);
   const totalUniqueUsers = uniqueUsers.size;
-
+  console.log(users);
+  
   useEffect(() => {
     try {
       const getReview = async () => {
@@ -53,11 +54,11 @@ export default function MainReview() {
           </p>
         </div>
         <div className="mt-4 flex flex-col gap-2 lg:w-[250px] lg:px-6">
-          <h3 className="mb-2 text-xl">Jumlah Pengunjung</h3>
+          <h3 className="mb-2 text-xl">Pemberi Ulasan</h3>
 
           <p className="text-4xl font-medium">{totalUniqueUsers}</p>
           <p className="text-sm font-medium text-gray-500/70">
-            Jumlah pengunjung di property anda
+            Jumlah user yang memberikan ulasan
           </p>
         </div>
       </div>
