@@ -8,7 +8,7 @@ CREATE TABLE `User` (
     `isVerify` BOOLEAN NOT NULL DEFAULT false,
     `otp` VARCHAR(191) NULL,
     `otpExpired` DATETIME(3) NULL,
-    `provider` ENUM('GOOGLE', 'TWITTER', 'FACEBOOK', 'CREDENTIAL') NOT NULL DEFAULT 'CREDENTIAL',
+    `provider` ENUM('GOOGLE', 'TWITTER', 'GITHUB', 'CREDENTIAL') NOT NULL DEFAULT 'CREDENTIAL',
     `avatar` VARCHAR(191) NULL,
     `role` VARCHAR(191) NOT NULL DEFAULT 'user',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -29,7 +29,7 @@ CREATE TABLE `Tenant` (
     `isVerify` BOOLEAN NOT NULL DEFAULT false,
     `otp` VARCHAR(191) NULL,
     `otpExpired` DATETIME(3) NULL,
-    `provider` ENUM('GOOGLE', 'TWITTER', 'FACEBOOK', 'CREDENTIAL') NOT NULL DEFAULT 'CREDENTIAL',
+    `provider` ENUM('GOOGLE', 'TWITTER', 'GITHUB', 'CREDENTIAL') NOT NULL DEFAULT 'CREDENTIAL',
     `avatar` VARCHAR(191) NULL,
     `role` VARCHAR(191) NOT NULL DEFAULT 'tenant',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -106,23 +106,15 @@ CREATE TABLE `RoomPic` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Availability` (
+CREATE TABLE `RoomAvailability` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `startDate` DATETIME(3) NOT NULL,
     `endDate` DATETIME(3) NOT NULL,
     `isAvailable` BOOLEAN NOT NULL DEFAULT true,
-    `roomId` VARCHAR(191) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `PriceAdjustment` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `startDate` DATETIME(3) NOT NULL,
-    `endDate` DATETIME(3) NOT NULL,
-    `percentage` DOUBLE NOT NULL,
-    `roomId` VARCHAR(191) NOT NULL,
+    `priceAdjustment` DOUBLE NULL,
+    `room_Id` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -132,6 +124,7 @@ CREATE TABLE `Reservation` (
     `id` VARCHAR(191) NOT NULL,
     `price` DOUBLE NOT NULL,
     `startDate` DATETIME(3) NOT NULL,
+    `guest` INTEGER NOT NULL DEFAULT 1,
     `endDate` DATETIME(3) NOT NULL,
     `method` ENUM('VA', 'TF') NOT NULL DEFAULT 'VA',
     `paymentProof` VARCHAR(191) NULL,
@@ -180,10 +173,7 @@ ALTER TABLE `Facility` ADD CONSTRAINT `Facility_roomId_fkey` FOREIGN KEY (`roomI
 ALTER TABLE `RoomPic` ADD CONSTRAINT `RoomPic_room_Id_fkey` FOREIGN KEY (`room_Id`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Availability` ADD CONSTRAINT `Availability_roomId_fkey` FOREIGN KEY (`roomId`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `PriceAdjustment` ADD CONSTRAINT `PriceAdjustment_roomId_fkey` FOREIGN KEY (`roomId`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `RoomAvailability` ADD CONSTRAINT `RoomAvailability_room_Id_fkey` FOREIGN KEY (`room_Id`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Reservation` ADD CONSTRAINT `Reservation_room_Id_fkey` FOREIGN KEY (`room_Id`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
