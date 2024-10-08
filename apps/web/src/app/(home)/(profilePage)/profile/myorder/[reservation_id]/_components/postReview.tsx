@@ -7,6 +7,7 @@ import { TbMessageChatbot } from "react-icons/tb";
 import { IoClose } from "react-icons/io5";
 import { useParams } from "next/navigation";
 import { postReview } from "@/libs/fetch/review";
+import * as Yup from "yup";
 import toast from "react-hot-toast";
 export default function PostReview() {
   const [rating, setRating] = useState(1);
@@ -15,10 +16,16 @@ export default function PostReview() {
   const ratingString = String(rating);
   const params = useParams();
   const reservation_id = params.reservation_id as string;
+  const validationSchema = Yup.object().shape({
+    review: Yup.string()
+      .min(10, "Ulasan harus terdiri dari setidaknya 10 karakter.")
+      .required("Ulasan tidak boleh kosong."),
+  });
   const formik = useFormik({
     initialValues: {
       review: "",
     },
+    validationSchema,
     onSubmit: async (values) => {
       try {
         const review = values.review;
@@ -26,7 +33,7 @@ export default function PostReview() {
         const data: any = await postReview(reservation_id, payload);
         if (data?.response?.data?.status == "ERROR")
           throw data?.response?.data?.message;
-      
+
         setIsSubmitted(true);
         formik.setValues({ review: "" });
         setRating(1);
@@ -37,8 +44,8 @@ export default function PostReview() {
   });
   useEffect(() => {
     if (isSubmitted) {
-      setModalOpen(false); 
-      setIsSubmitted(false); 
+      setModalOpen(false);
+      setIsSubmitted(false);
     }
   }, [isSubmitted]);
   return (
@@ -64,7 +71,6 @@ export default function PostReview() {
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-          
               <div className="flex flex-col items-center p-4">
                 <div className="flex w-full items-center justify-between border-b-2 pb-4">
                   <div className="flex items-center gap-2">
@@ -106,8 +112,17 @@ export default function PostReview() {
                         onChange={formik.handleChange}
                         value={formik.values.review}
                         placeholder="Berikan ulasan anda . . ."
-                        className="min-h-[150px] w-full rounded-xl border-2 bg-slate-200/30 px-2 pt-2 text-sm"
+                        className={`min-h-[150px] w-full rounded-xl border-2 bg-slate-200/30 px-2 pt-2 text-sm ${
+                          formik.touched.review && formik.errors.review
+                            ? "border-red-500"
+                            : ""
+                        }`}
                       />
+                      {formik.touched.review && formik.errors.review && (
+                        <div className="text-sm text-red-500">
+                          {formik.errors.review}
+                        </div>
+                      )}
                       <button
                         type="submit"
                         onClick={() => setModalOpen(false)}

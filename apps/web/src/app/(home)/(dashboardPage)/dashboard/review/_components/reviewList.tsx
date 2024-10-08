@@ -43,7 +43,7 @@ export default function ReviewList({
         </div>
         {feedback ? (
           <>
-            <div className="flex flex-col">
+            <div className="flex flex-col mt-4">
               <h3 className="font-semibold">Balasan Anda : </h3>
 
               <p className="text-sm">{feedback}</p>
