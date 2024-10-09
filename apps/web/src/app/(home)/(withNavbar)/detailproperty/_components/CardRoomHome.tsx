@@ -7,7 +7,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
-import { FaWifi } from "react-icons/fa6";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 const CardRoomHome = ({ data }: { data: RoomData }) => {
@@ -60,9 +59,9 @@ const CardRoomHome = ({ data }: { data: RoomData }) => {
             ref={emblaRef}
           >
             <div className="embla__container h-[200px]">
-              {data.RoomPic.map((item) => {
+              {data.RoomPic.map((item, idx) => {
                 return (
-                  <div className="embla__slide flex items-center justify-center">
+                  <div key={idx} className="embla__slide flex items-center justify-center">
                     <Image
                       src={item.url}
                       alt="Room"

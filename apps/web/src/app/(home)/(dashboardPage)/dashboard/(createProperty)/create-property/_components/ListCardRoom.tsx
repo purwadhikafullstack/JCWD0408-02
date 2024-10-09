@@ -27,7 +27,6 @@ const ListCardRoom = ({ id }: { id: string }) => {
 
     fetchRoomData();
   }, [id]);
-  console.log(roomData);
   
   const handleNext = () => {
     setLoading(true);
@@ -43,7 +42,7 @@ const ListCardRoom = ({ id }: { id: string }) => {
   return (
     <div className="mb-5 grid grid-cols-1 place-items-center gap-3 px-2 py-2">
       {roomData.map((item) => {
-        return <CardCreateRoom data={item} />;
+        return <CardCreateRoom key={item.id} data={item} />;
       })}
       {roomData.length === 0 && (
         <div>

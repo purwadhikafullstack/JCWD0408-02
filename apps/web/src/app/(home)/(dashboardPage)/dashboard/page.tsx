@@ -1,5 +1,6 @@
-import Dashboardpage from "./_components/Index";
+"use client"
 
+import Dashboardpage from "./_components/Index";
 
 const Dashboard = () => {
   return <Dashboardpage />;

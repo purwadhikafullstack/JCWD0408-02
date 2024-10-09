@@ -43,9 +43,9 @@ const ModalPartnert = ({ onCloseModal }: { onCloseModal: () => void }) => {
 
       {/* Card benefit start */}
       <main className="my-6 grid w-full grid-cols-3 gap-4">
-        {data.map((item) => {
+        {data.map((item, idx) => {
           return (
-            <div className="flex w-full items-start justify-between gap-2 rounded-lg border px-2 py-2">
+            <div key={idx} className="flex w-full items-start justify-between gap-2 rounded-lg border px-2 py-2">
               <Image src={`${item.src}`} alt="vector" width={50} height={50} />
               <div className="w-full">
                 <h1 className="text-sm font-medium">{item.judul}</h1>

@@ -18,7 +18,6 @@ import { MdOutlineVilla } from "react-icons/md";
 import { RiHotelLine } from "react-icons/ri";
 import { GoTrash } from "react-icons/go";
 import ModalDashboard from "./modalDashboard";
-import { tagRevalidate } from "@/libs/server";
 
 const CardPropertyDashboard = ({
   data,
@@ -93,7 +92,7 @@ const CardPropertyDashboard = ({
         className="h-[140px] w-full rounded-lg object-cover transition-all duration-300 hover:scale-110 md:h-[180px]"
       />
       <section className="h-full px-3 py-2">
-        <main className="flex items-center justify-between gap-6 text-sm md:text-base">
+        <div className="flex items-center justify-between gap-6 text-sm md:text-base">
           <div className="flex w-1/2 items-center gap-1">
             <FaLocationDot className="text-btn" />
             <p className="truncate font-medium text-hitam">{data.location}</p>
@@ -109,13 +108,13 @@ const CardPropertyDashboard = ({
               <p>Villa</p>
             </div>
           )}
-        </main>
-        <main className="text-sm md:text-base">
+        </div>
+        <div className="text-sm md:text-base">
           <p className="line-clamp-2 h-[50px] font-semibold text-hitam">
             Nama Properti{" "}
             <span className="font-normal text-gray-500">{data.name}</span>
           </p>
-        </main>
+        </div>
         <Link
           href={`/dashboard/${data.id}`}
           className="flex items-center justify-center gap-1 rounded-md bg-btn/10 py-1 text-gray-500 transition-all duration-150 hover:bg-btn/50 hover:text-hitam"

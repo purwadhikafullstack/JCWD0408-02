@@ -1,14 +1,24 @@
 "use client";
+
 import Calendar from "react-awesome-calendar";
 import React, { useEffect, useState } from "react";
 import { getReportCalendar } from "@/libs/fetch/report";
+import dynamic from "next/dynamic";
+
 interface IData {
-  color: string;
-  from: string; 
   id: number;
-  title: string;
+  color: string;
+  from: string;
   to: string; 
+  title: string;
 }
+
+interface AwesomeCalendarProps {
+  events: IData[];
+}
+const AwesomeCalendar = dynamic(() =>  import("react-awesome-calendar"), {
+ssr: false,
+});
 export default function CardSalesreport() {
   const [data, setData] = useState<IData[]>([]);
   useEffect(() => {
@@ -18,11 +28,10 @@ export default function CardSalesreport() {
     };
     getDataCalendar();
   }, []);
-  console.log(data);
 
   return (
-    <div className="bg-white p-4 rounded-xl my-4">
-      <Calendar events={data} />
+    <div className="my-4 rounded-xl bg-white p-4">
+      <AwesomeCalendar events={data}/>
     </div>
   );
 }

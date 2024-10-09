@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import SearchBar from "./_components/SearchBar";
 import PriceRange from "./_components/PriceRange";
 import CategoryDropdown from "./_components/CategoryDropDown";
@@ -16,6 +16,7 @@ interface TypeRooms {
   total: number;
   room: RoomDataProps[];
 }
+
 const AllRooms = () => {
   const [loading, setLoading] = useState(true);
   const [rooms, setRooms] = useState<TypeRooms>();
@@ -41,17 +42,20 @@ const AllRooms = () => {
   const [maxPrice, setMaxPrice] = useState<number>(Number(maxPriceParam));
   const [page, setPages] = useState<number>(Number(pageParams));
   const [location, setLocation] = useState<string>(locationParam);
-  const [startDate, setStartDate] = useState<string>(startDateParam)
-  const [endDate, setEndDate] = useState<string>(endDateParam)
+  const [startDate, setStartDate] = useState<string>(startDateParam);
+  const [endDate, setEndDate] = useState<string>(endDateParam);
+
   const handleSearch = (location: string, startDate: string, endDate: string) => {
     setLocation(location);
     setStartDate(startDate);
-    setEndDate(endDate)
+    setEndDate(endDate);
     setPages(1);
   };
+
   const onPageChange = ({ selected }: { selected: number }) => {
     setPages(selected + 1);
   };
+
   const handleResetQuery = () => {
     setSortBy("price");
     setSortOrder("asc");
@@ -63,6 +67,7 @@ const AllRooms = () => {
     setLocation("");
     setStartDate("");
     setEndDate("");
+
     const resetQuery = new URLSearchParams({
       sortBy: "price",
       sortOrder: "asc",
@@ -75,9 +80,11 @@ const AllRooms = () => {
       startDate: "",
       endDaet: "",
     }).toString();
+
     router.push(`?${resetQuery}`);
   };
-  const updateQueryParams = () => {
+
+  const updateQueryParams = useCallback(() => {
     const query = new URLSearchParams({
       sortBy,
       sortOrder,
@@ -88,10 +95,11 @@ const AllRooms = () => {
       minPrice: minPrice.toString(),
       maxPrice: maxPrice.toString(),
       startDate,
-      endDate
+      endDate,
     }).toString();
+
     router.push(`?${query}`);
-  };
+  }, [sortBy, sortOrder, category, propertyName, location, page, minPrice, maxPrice, startDate, endDate, router]);
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -105,14 +113,17 @@ const AllRooms = () => {
         setLoading(false);
       }
     };
+
     const debounceFetch = setTimeout(() => {
       fetchRoom();
     }, 800);
+
     return () => clearTimeout(debounceFetch);
-  }, [ propertyName, category, minPrice, maxPrice, sortBy, sortOrder, page, location ]);
+  }, [propertyName, category, minPrice, maxPrice, sortBy, sortOrder, page, location, startDate, endDate]);
+
   useEffect(() => {
     updateQueryParams();
-  }, [ sortBy, sortOrder, category, propertyName, minPrice, maxPrice, page, location ]);
+  }, [updateQueryParams]);
 
   return (
     <div className="w-full bg-btnhover pt-20">
@@ -125,8 +136,8 @@ const AllRooms = () => {
               <div className="flex justify-between">
                 <p className="text-xl font-semibold text-hitam">Filter</p>
                 <button
-                onClick={handleResetQuery}
-                className="text-sm text-gray-500 hover:text-gray-700">
+                  onClick={handleResetQuery}
+                  className="text-sm text-gray-500 hover:text-gray-700">
                   Reset
                 </button>
               </div>
@@ -182,9 +193,7 @@ const AllRooms = () => {
                     return <CardAllRooms key={data.id} data={data} />;
                   })
                 ) : (
-                  <p className="text-center">
-                    Tidak ada data kamar yang tersedia
-                  </p>
+                  <p className="text-center">Tidak ada data kamar yang tersedia</p>
                 )}
               </div>
               {rooms?.totalPage! > 1 && (

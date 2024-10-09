@@ -15,19 +15,13 @@ const CreatePropertyPage = () => {
     dispatch(nextStep());
   };
 
-  const handlePrev = () => {
-    dispatch(prevStep());
-  };
   return (
     <div>
       <main className="mt-4">
         {currentStep == 1 ? (
           <FormikProperty nextButton={handleNext} />
         ) : currentStep == 2 ? (
-          <DesignRoom
-            nextButton={handleNext}
-            prevButton={handlePrev}
-          />
+          <DesignRoom />
         ) : (
           <ReviewProperty />
         )}

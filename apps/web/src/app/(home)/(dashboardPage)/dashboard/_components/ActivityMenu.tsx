@@ -88,12 +88,12 @@ const ActivityMenu = ({
             onClick={() => setCardId(item.id)}
             className={`flex h-[120px] w-full cursor-pointer flex-col justify-between rounded-lg p-4 transition-all duration-300 ease-in-out ${cardId === item.id ? "scale-105 border bg-slate-50 shadow-md" : "border bg-slate-50/50 shadow-sm"} `}
           >
-            <main
+            <div
               className={`flex items-center gap-2 ${cardId === item.id ? "text-gray-800" : "text-gray-500"}`}
             >
               <item.icon className="h-8 w-8 rounded-full bg-btn/60 p-1" />
               <p className="font-medium">{item.name}</p>
-            </main>
+            </div>
             <div
               className={`flex items-end justify-between ${cardId === item.id ? "text-gray-800" : "text-gray-500"} `}
             >

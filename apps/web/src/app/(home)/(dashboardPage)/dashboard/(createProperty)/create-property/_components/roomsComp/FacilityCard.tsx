@@ -18,35 +18,35 @@ const FacilityCard = ({ data }: { data: RoomData }) => {
         {data.facility.map((item) => {
           if (item.name === "Wifi") {
             return (
-              <div className="flex items-center gap-1">
+              <div key={item.name} className="flex items-center gap-1">
                 <FaWifi />
                 <p>Wifi</p>
               </div>
             );
           } else if (item.name === "Single bed") {
             return (
-              <div className="flex items-center gap-1">
+              <div key={item.name} className="flex items-center gap-1">
                 <MdOutlineBedroomChild />
                 <p>Single bed</p>
               </div>
             );
           } else if (item.name === "Double bed") {
             return (
-              <div className="flex items-center gap-1">
+              <div key={item.name} className="flex items-center gap-1">
                 <MdOutlineBedroomParent />
                 <p>Double bed</p>
               </div>
             );
           } else if (item.name === "Breakfast") {
             return (
-              <div className="flex items-center gap-1">
+              <div key={item.name} className="flex items-center gap-1">
                 <MdOutlineFreeBreakfast />
                 <p>Breakfast</p>
               </div>
             );
           } else {
             return (
-              <div className="flex items-center gap-1">
+              <div key={item.name} className="flex items-center gap-1">
                 <MdOutlineShower />
                 <p>Shower</p>
               </div>

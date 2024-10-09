@@ -1,4 +1,5 @@
 "use client";
+
 import { getNotification } from "@/libs/fetch/transaction";
 import { useAppSelector } from "@/Redux/Hooks";
 import Image from "next/image";
@@ -18,7 +19,6 @@ const NavBar = () => {
     };
     getNotif();
   }, []);
-  console.log(dataNotif);
   const totalNotif = dataNotif.length;
 
   // const createAccount = formatDateCreateAccount(createdAt);
@@ -39,10 +39,11 @@ const NavBar = () => {
           {/* <p className="text-xs font-normal text-gray-500">{createAccount}</p> */}
         </main>
         <main className="flex items-center gap-4">
-          {menuNav.map((item) => {
+          {menuNav.map((item, idx) => {
             const isActive = pathname == item.href;
             return (
               <Link
+                key={idx}
                 href={`${item.href}`}
                 className={`flex items-center gap-2 rounded-full p-2 text-xs font-medium md:text-sm ${isActive ? "bg-btn text-white" : "bg-btn/10 text-hitam transition-all duration-300 hover:bg-btn/30"} `}
               >

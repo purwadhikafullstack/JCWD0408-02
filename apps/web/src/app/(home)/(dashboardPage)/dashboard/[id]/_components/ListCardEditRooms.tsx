@@ -56,7 +56,7 @@ const ListCardEditRooms = ({ id }: { id: string }) => {
         <div>
           {dataBe?.Room.map((data) => {
             return (
-              <div>
+              <div key={data.id}>
                 <FormikEditRoom data={data} />
               </div>
             );

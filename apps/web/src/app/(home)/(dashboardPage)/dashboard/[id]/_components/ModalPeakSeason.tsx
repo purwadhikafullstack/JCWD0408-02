@@ -66,7 +66,7 @@ const ModalPeakSeason: React.FC<ModalProps> = ({
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [isPeakSeasons]);
+  }, [isPeakSeasons, setIsPeakSeasons]);
 
   return (
     <div className="fixed inset-0 z-50 flex h-full items-center justify-center bg-black/20">
