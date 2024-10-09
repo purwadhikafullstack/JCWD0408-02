@@ -10,12 +10,176 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sample {
-  id        Int      @id @default(autoincrement())
-  name      String
-  code      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum Provider {
+  GOOGLE
+  TWITTER
+  GITHUB
+  CREDENTIAL
+}
 
-  @@map("samples") // if you want to use snake_case format
+model User {
+  id          Int           @id @default(autoincrement())
+  email       String        @unique
+  username    String?       @unique
+  phone       String?
+  password    String?
+  isVerify    Boolean       @default(false)
+  otp         String?
+  otpExpired  DateTime?
+  provider    Provider      @default(CREDENTIAL)
+  avatar      String?
+  role        String        @default("user")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt()
+  Review      Review[]
+  Reservation Reservation[]
+}
+
+model Tenant {
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  username   String?    @unique
+  phone      String?
+  password   String?
+  isVerify   Boolean    @default(false)
+  otp        String?
+  otpExpired DateTime?
+  provider   Provider   @default(CREDENTIAL)
+  avatar     String?
+  role       String     @default("tenant")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt()
+  Property   Property[]
+  Room       Room[]
+}
+
+enum Category {
+  Hotel
+  Villa
+}
+
+model Property {
+  id          String        @id @default(cuid())
+  name        String        @unique
+  description String        @db.LongText()
+  category    Category
+  thumbnail   String
+  location    String
+  isActive    Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt()
+  tenant_Id   Int
+  tenant      Tenant        @relation(fields: [tenant_Id], references: [id])
+  PropertyPic PropertyPic[]
+  Room        Room[]
+}
+
+model PropertyPic {
+  id          Int      @id @default(autoincrement())
+  url         String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt()
+  property_Id String
+  property    Property @relation(fields: [property_Id], references: [id])
+}
+
+enum Type {
+  Deluxe
+  Standard
+  Suite
+}
+
+model Room {
+  id            String        @id @default(uuid())
+  type          Type          @default(Standard)
+  price         Float
+  capacity      Int           @default(1)
+  description   String        @db.LongText()
+  pricediscount Float
+  availability  Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt()
+  property_Id   String
+  tenant_Id     Int
+  tenant        Tenant        @relation(fields: [tenant_Id], references: [id])
+  property      Property      @relation(fields: [property_Id], references: [id])
+  facility      Facility[]
+  RoomPic       RoomPic[]
+  Review        Review[]
+  Reservation   Reservation[]
+  RoomAvailability  RoomAvailability[]  
+}
+
+model Facility {
+  id     Int     @id @default(autoincrement())
+  name   String
+  roomId String?
+  Room   Room?   @relation(fields: [roomId], references: [id])
+}
+
+model RoomPic {
+  id        Int      @id @default(autoincrement())
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+  room_Id   String
+  room      Room     @relation(fields: [room_Id], references: [id])
+}
+
+model RoomAvailability {
+  id         Int      @id @default(autoincrement())
+  startDate  DateTime
+  endDate    DateTime
+  isAvailable Boolean  @default(true)
+  priceAdjustment Float?
+  room_Id    String
+  room       Room     @relation(fields: [room_Id], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt()
+}
+
+enum StatusRes {
+  PENDING
+  CONFIRMATION
+  PAID
+  CANCEL
+}
+
+enum Method {
+  VA
+  TF
+}
+
+model Reservation {
+  id           String    @id @default(uuid())
+  price        Float
+  startDate    DateTime
+  guest        Int      @default(1)
+  endDate      DateTime
+  method       Method    @default(VA)
+  paymentProof String?
+  paymentLink  String?
+  statusRes    StatusRes @default(PENDING)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt()
+  Review       Review?
+  user_Id      Int
+  room_Id      String
+  room         Room      @relation(fields: [room_Id], references: [id])
+  user         User      @relation(fields: [user_Id], references: [id])
+}
+
+model Review {
+  id             Int         @id @default(autoincrement())
+  content        String      @db.LongText()
+  ratings        String
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt()
+  feedBack       String?     @db.LongText()
+  user_Id        Int
+  room_Id        String
+  reservation_Id String      @unique
+  user           User        @relation(fields: [user_Id], references: [id])
+  room           Room        @relation(fields: [room_Id], references: [id])
+  reservation    Reservation @relation(fields: [reservation_Id], references: [id])
 }
