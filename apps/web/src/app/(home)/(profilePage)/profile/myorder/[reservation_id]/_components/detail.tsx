@@ -77,7 +77,7 @@ export default function ReservationDetailBody({
         <div>
           <p className="font-semibold">Status Pembayaran</p>
           <p
-            className={`w-max -translate-x-1 rounded-full px-2 py-1 text-sm font-bold ${status == "PAID" ? "bg-green-400/20 text-green-600" : status == "CANCEL" ? "bg-red-300/20 text-red-500" : "bg-slate-300/30 text-gray-600"} `}
+            className={`text-wrap text-xs lg:w-max -translate-x-1 rounded-full px-2 py-1 text-center lg:text-sm font-bold ${status == "PAID" ? "bg-green-400/20 text-green-600" : status == "CANCEL" ? "bg-red-300/20 text-red-500" : "bg-slate-300/30 text-gray-600"} `}
           >
             {status == "PAID"
               ? "berhasil"

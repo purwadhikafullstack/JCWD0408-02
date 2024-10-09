@@ -54,7 +54,7 @@ export default function SummaryTransaction({
           <p className="text-lg font-semibold">Pemesan</p>
           {customers.map((item, idx) => {
             return (
-              <div className="flex gap-4 font-medium">
+              <div key={idx} className="flex gap-4 font-medium">
                 <p className="text-gray-500 lg:min-w-[120px]">{item.text}</p>
                 <p className="text-gray-500">:</p>
                 <p

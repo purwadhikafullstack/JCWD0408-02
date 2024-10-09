@@ -8,7 +8,7 @@ const raleway = Raleway({
 
 export default function MyOrderDetail() {
   return (
-    <div className={`rounded-xl bg-white font-[400] ${raleway.className}`}>
+    <div className={`rounded-xl my-2 lg:py-10 bg-white font-[400] ${raleway.className}`}>
       <MyReservationDetail />
     </div>
   );

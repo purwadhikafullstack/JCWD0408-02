@@ -26,14 +26,14 @@ export default function MyReservationDetail() {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [id]);
   useEffect(() => {
     const getReview = async () => {
       const review = await getReviewByReservation(id as string);
       setReview(review.data);
     };
     getReview();
-  }, []);
+  }, [id]);
   const startDate: any = new Date(data?.startDate!);
   const endDate: any = new Date(data?.endDate!);
   const millisecondsPerNight = 24 * 60 * 60 * 1000;

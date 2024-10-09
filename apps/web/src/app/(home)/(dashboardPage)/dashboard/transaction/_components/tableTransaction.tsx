@@ -14,7 +14,7 @@ export default function TableTransaction({
   const indoDate = formatDateReservation(date);
   return (
     <tr className="border-b-2 text-sm">
-      <td className=" py-4 text-sm w-[40$] lg:w-[30%]">{String(id)}</td>
+      <td className=" py-4 text-sm w-[40%] lg:w-[30%]">{String(id)}</td>
       <td className="hidden py-4 lg:table-cell">{name}</td>
       <td className="hidden py-4 lg:table-cell max-w-[200px] text-sm px-2">{property}</td>
       <td className="hidden py-4 lg:table-cell">{room}</td>

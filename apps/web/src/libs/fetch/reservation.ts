@@ -3,7 +3,6 @@ import { getCookie, navigate } from "../server";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../axios";
-
 export const getRoomReservation = async (id: string) => {
   const res = await axiosInstance.get(`/api/rooms/get-roombyid/${id}`);
   return res.data.room;
@@ -13,7 +12,7 @@ export const createPaymentVA = async (payload: ICreateReservation) => {
     const { total, startDate, endDate, room_id, guest } = payload;
     const token = await getCookie("token");
     const res = await axios.post(
-      `https://lemur-rare-eft.ngrok-free.app/api/reservation/VA/${room_id}`,
+      `${process.env.NEXT_PUBLIC_NGROK_URL}/api/reservation/VA/${room_id}`,
       {
         guest: guest,
         price: total,
@@ -33,6 +32,7 @@ export const createPaymentVA = async (payload: ICreateReservation) => {
     typeof error.response?.data?.msg == "string"
       ? toast.error(error.response?.data?.msg)
       : toast.error("error");
+    console.log(error);
   }
 };
 

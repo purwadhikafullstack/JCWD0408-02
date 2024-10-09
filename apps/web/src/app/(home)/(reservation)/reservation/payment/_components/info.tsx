@@ -14,9 +14,7 @@ export default function Info() {
       setData(res.data[0]);
     };
     getData();
-  }, []);
-  console.log(data);
-
+  }, [booking_id]);
   return (
     <div className="mt-20 flex w-full flex-col items-center justify-center gap-2 justify-self-center rounded-xl px-2 py-2 lg:px-4">
       <p className="text-sm font-semibold text-gray-500">
