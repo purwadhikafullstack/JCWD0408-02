@@ -23,7 +23,7 @@ export default function TransactionDetailIndex() {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [reservation_id]);
 
   const date = new Date(data?.createdAt ? data?.createdAt : Date.now());
   const tanggal = formatDateReservation(date);

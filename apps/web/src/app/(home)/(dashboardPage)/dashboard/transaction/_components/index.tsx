@@ -57,14 +57,14 @@ export default function TransactionList() {
         </thead>
         <tbody className="h-max">
           {transaction.length == 0 ? (
-            <div className="flex justify-center w-full">
-            <EmptyComp
-              text="Tidak ada list transaksi"
-              sizetext="text-2xl"
-              width="500px"
-              height="500px"
+            <div className="flex w-full justify-center">
+              <EmptyComp
+                text="Tidak ada list transaksi"
+                sizetext="text-2xl"
+                width="500px"
+                height="500px"
               />
-              </div>
+            </div>
           ) : (
             transaction.map((item, idx) => {
               return (
@@ -75,6 +75,7 @@ export default function TransactionList() {
                   room={item.room.type}
                   id={item.id}
                   createdAt={item.createdAt}
+                  key={idx}
                 />
               );
             })

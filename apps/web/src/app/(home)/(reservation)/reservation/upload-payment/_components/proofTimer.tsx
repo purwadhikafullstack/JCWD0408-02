@@ -38,7 +38,7 @@ export default function TimerComp() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [start]);
+  }, [start,reservation_id]);
   const hour = Math.floor(time / 3600);
   const second = time % 60;
   const minutes: number = Math.floor(time / 60 / (hour + 1));

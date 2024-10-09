@@ -28,7 +28,7 @@ const BookingDate: React.FC = () => {
       setDisableDate(res.data);
     };
     getDateRes();
-  }, []);
+  }, [id]);
   const handleSelect = (selectedDate: DateRange | undefined) => {
     setDate(selectedDate);
   };

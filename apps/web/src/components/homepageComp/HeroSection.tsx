@@ -47,8 +47,8 @@ export default function EmblaCarousel() {
               <Image
                 src={item.img}
                 alt={`HeroSection-${idx}`}
-                width={500}
-                height={500}
+                width={3000}
+                height={1000}
                 className="h-[700px] w-full object-cover brightness-50 md:h-[500px]"
               />
             </div>
