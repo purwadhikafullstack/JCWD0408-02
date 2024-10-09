@@ -3,13 +3,21 @@ import { sendFeedback } from "@/libs/fetch/review";
 import { useFormik } from "formik";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import * as Yup from "yup";
+
 export default function FeedbackModal({ id }: { id: number }) {
   const [open, setOpen] = useState<boolean>(false);
   const [submit, setIsSubmitted] = useState(false);
+  const validationSchema = Yup.object().shape({
+    feedback: Yup.string()
+      .min(10, "Feedback harus terdiri dari setidaknya 10 karakter.")
+      .required("Feedback tidak boleh kosong."),
+  });
   const formik = useFormik({
     initialValues: {
       feedback: "",
     },
+    validationSchema,
     onSubmit: async (values) => {
       try {
         const feedback = values.feedback;
@@ -76,8 +84,19 @@ export default function FeedbackModal({ id }: { id: number }) {
                             onChange={formik.handleChange}
                             value={formik.values.feedback}
                             placeholder="Berikan ulasan anda . . ."
-                            className="min-h-[150px] w-full rounded-xl border-2 bg-slate-200/30 px-2 pt-2 text-sm"
+                            className={`min-h-[150px] w-full rounded-xl border-2 bg-slate-200/30 px-2 pt-2 text-sm ${
+                              formik.touched.feedback && formik.errors.feedback
+                                ? "border-red-500"
+                                : ""
+                            }`}
                           />
+                          {formik.touched.feedback &&
+                            formik.errors.feedback && (
+                              <div className="text-xs text-red-500">
+                                {formik.errors.feedback}
+                              </div>
+                            )}
+
                           <button
                             type="submit"
                             onClick={() => setOpen(false)}

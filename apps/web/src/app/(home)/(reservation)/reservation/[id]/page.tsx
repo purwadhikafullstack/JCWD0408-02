@@ -25,7 +25,6 @@ export default function Reservation({ params }: { params: { id: string } }) {
     };
     fetchRoomData();
   }, [params.id, checkIn, checkOut]);
-  console.log(data);
 
   const price = data?.price;
   const tenant = data?.tenant.username;

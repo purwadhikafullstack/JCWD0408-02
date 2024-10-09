@@ -47,7 +47,7 @@ const ListTotalPublish = () => {
 
   return (
     <div>
-      <main className="grid grid-cols-1 place-items-center gap-3 py-2 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 place-items-center gap-3 py-2 md:grid-cols-2 lg:grid-cols-3">
         {loading ? (
           <>
             <SkeletonPropertyCard />
@@ -58,6 +58,7 @@ const ListTotalPublish = () => {
           totalPublish?.map((item) => {
             return (
               <CardPropertyDashboard
+                key={item.id}
                 data={item}
                 onDraft={handleUnpublish}
                 onDelete={handleDelete}
@@ -66,7 +67,7 @@ const ListTotalPublish = () => {
             );
           })
         )}
-      </main>
+      </div>
 
       <div className="flex w-full items-center">
         {totalPublish?.length === 0 && (

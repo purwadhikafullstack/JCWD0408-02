@@ -41,10 +41,7 @@ const SideBarDashboard = () => {
     },
     { href: "/dashboard/review", text: "Review", icon: MdOutlineRateReview },
     { href: "/dashboard/sales", text: "Sales Report", icon: BsClipboard2Data },
-    
-  ]
-  ;
-
+  ];
   const menuAcc = [
     { href: "/dashboard/profile", text: "Akun anda", icon: IoSettingsSharp },
   ];
@@ -53,7 +50,7 @@ const SideBarDashboard = () => {
     <div className="sticky top-0 h-screen lg:w-[250px]">
       <main className="px-2 py-5 lg:px-5 lg:py-8">
         {/* Profile start */}
-        <Link href={'/'} className="flex gap-3 border-b pb-3">
+        <Link href={"/"} className="flex gap-3 border-b pb-3">
           {avatar !== null ? (
             <div className="overflow-hidden rounded-full bg-slate-50 shadow-lg">
               <Image
@@ -61,7 +58,7 @@ const SideBarDashboard = () => {
                 alt="Profile"
                 width={50}
                 height={50}
-                className="h-11 w-11 object-cover rounded-full"
+                className="h-11 w-11 rounded-full object-cover"
               />
             </div>
           ) : (
@@ -79,10 +76,11 @@ const SideBarDashboard = () => {
 
         {/* Menu sec start */}
         <section className="mt-4 flex flex-col gap-3 border-b pb-4">
-          {menuBar.map((item) => {
+          {menuBar.map((item, idx) => {
             const isActive = pathname == item.href;
             return (
               <Link
+                key={idx}
                 href={`${item.href}`}
                 className={`flex items-center gap-2 rounded-md ${isActive ? "bg-btn text-white" : "text-gray-500 hover:bg-btn/10"} px-3 py-3 font-medium`}
               >
@@ -96,10 +94,11 @@ const SideBarDashboard = () => {
 
         {/* Menu logout and account start */}
         <section className="mt-4 flex flex-col gap-3">
-          {menuAcc.map((item) => {
+          {menuAcc.map((item, idx) => {
             const isActive = pathname == item.href;
             return (
               <Link
+                key={idx}
                 href={`${item.href}`}
                 className={`flex items-center gap-2 rounded-md ${isActive ? "bg-btn text-white" : "text-gray-500 hover:bg-btn/10"} px-3 py-3 font-medium`}
               >

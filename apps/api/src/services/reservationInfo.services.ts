@@ -128,6 +128,7 @@ export class reservationInfoService {
             },
           },
         },
+        orderBy: { startDate: 'desc' },
       });
       return data;
     } catch (error) {

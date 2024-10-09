@@ -1,3 +1,5 @@
+"use client"
+
 const SkeletonPropertyCard = () => {
     return (
       <div className="w-full overflow-hidden rounded-lg border bg-slate-100 shadow-md animate-pulse">

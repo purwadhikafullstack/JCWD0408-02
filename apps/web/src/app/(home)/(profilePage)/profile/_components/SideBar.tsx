@@ -75,10 +75,11 @@ const SideBarProfile = () => {
 
         {/* Menu sec start */}
         <section className="mt-4 flex flex-col gap-3 border-b pb-4">
-          {menuBar.map((item) => {
+          {menuBar.map((item, idx) => {
             const isActive = pathname == item.href;
             return (
               <Link
+                key={idx}
                 href={`${item.href}`}
                 className={`flex items-center gap-2 rounded-md ${isActive ? "bg-btn text-white" : "text-gray-500 hover:bg-btn/10"} px-3 py-3 font-medium`}
               >
@@ -92,10 +93,11 @@ const SideBarProfile = () => {
 
         {/* Menu logout and account start */}
         <section className="mt-4 flex flex-col gap-3">
-          {menuAcc.map((item) => {
+          {menuAcc.map((item, idx) => {
             const isActive = pathname == item.href;
             return (
               <Link
+                key={idx}
                 href={`${item.href}`}
                 className={`flex items-center gap-2 rounded-md ${isActive ? "bg-btn text-white" : "text-gray-500 hover:bg-btn/10"} px-3 py-3 font-medium`}
               >

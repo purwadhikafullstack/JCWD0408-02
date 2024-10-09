@@ -7,12 +7,10 @@ import ListCardRoom from "../_components/ListCardRoom";
 import SpinnerLoading from "@/components/SpinnerLoading";
 
 interface PropsFormik {
-  nextButton: () => void;
-  prevButton: () => void;
   params?: { id: string };
 }
 
-const DesignRoom: FC<PropsFormik> = ({ nextButton, prevButton, params }) => {
+const DesignRoom: FC<PropsFormik> = ({ params }) => {
   const [isRoom, setIsRoom] = useState(false);
   const onRoomClick = () => {
     setIsRoom(!isRoom);

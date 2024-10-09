@@ -29,7 +29,7 @@ const ImagePreviewRoom: React.FC<ImagePreviewProps> = ({
     <section>
       <div className="flex gap-2">
         {previews.map((src, index) => (
-          <div className="relative">
+          <div key={index} className="relative">
             <Image
               key={index}
               src={src}

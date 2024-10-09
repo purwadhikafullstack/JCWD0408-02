@@ -67,9 +67,6 @@ const FormikProperty: FC<PropsFormik> = ({ nextButton }) => {
     }
   };
 
-  if (laoding) {
-    return <div>Loading...</div>
-  }
   const initialValues: PropertyForm = {
     name: "",
     description: "",

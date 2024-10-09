@@ -18,11 +18,11 @@ const Dashboardpage = () => {
       <h4 className="text-sm font-light text-gray-500">
         Jelajahi informasi dan aktivitas tentang properti anda
       </h4>
-      <main className="mt-5">
+      <div className="mt-5">
         <ActivityMenu cardId={cardId} setCardId={setCardId} />
-      </main>
+      </div>
 
-      <main className="mt-7">
+      <div className="mt-7">
         {cardId === 1 ? (
           <ListTotalProperty />
         ) : cardId === 2 ? (
@@ -30,7 +30,7 @@ const Dashboardpage = () => {
         ) : cardId === 3 ? (
           <ListTotalDraft />
         ) : null}
-      </main>
+      </div>
 
       <button
         type="button"
