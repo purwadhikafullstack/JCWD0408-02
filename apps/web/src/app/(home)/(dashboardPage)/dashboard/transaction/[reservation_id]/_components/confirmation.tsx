@@ -77,11 +77,10 @@ export default function Confrimation({
             <Link
               target="_blank"
               href={proofLink}
-              className="w-[50px] bg-gray-400 text-blue-700 truncate hover:text-blue-600"
+              className="truncate text-blue-700 hover:text-blue-600"
             >
-              <p className="w-[400px] bg-gray-400 truncate">
-
-              {method == "TF" ? proofLink : "-"}
+              <p className="b w-[100px] truncate lg:w-[400px]">
+                {method == "TF" ? proofLink : "-"}
               </p>
             </Link>
           </div>
