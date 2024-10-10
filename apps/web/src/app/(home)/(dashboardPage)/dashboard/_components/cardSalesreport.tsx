@@ -1,7 +1,9 @@
 "use client";
-import Calendar from "react-awesome-calendar";
+// import Calendar from "react-awesome-calendar";
+const Calendar = dynamic(() => import('react-awesome-calendar'), { ssr: false });
 import React, { useEffect, useState } from "react";
 import { getReportCalendar } from "@/libs/fetch/report";
+import dynamic from "next/dynamic";
 interface IData {
   color: string;
   from: string; 
