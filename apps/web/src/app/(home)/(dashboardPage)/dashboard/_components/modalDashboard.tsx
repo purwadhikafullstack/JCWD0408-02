@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import React, { FC } from "react";
 
@@ -35,7 +37,7 @@ const ModalDashboard: FC<ModalProps> = ({
           className="h-32 w-32"
         />
         <p className="text-center text-lg font-medium">{ketmodal}</p>
-        <p className="text-center font-light text-gray-500">"{nameProperty}"</p>
+        <p className="text-center font-light text-gray-500">&quot;{nameProperty}&quot;</p>
         <div className="flex w-full items-center justify-between gap-2 pt-3">
           <button
             onClick={onClose}

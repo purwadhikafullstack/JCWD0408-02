@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import GridCardRooms from "@/app/(home)/(dashboardPage)/dashboard/(createProperty)/create-property/_components/roomsComp/GridCardRooms";
 import { CalendarComp } from "@/components/Calendar";
 import { getRoomsById } from "@/libs/fetch/rooms";
@@ -9,7 +7,7 @@ import { getCookie } from "@/libs/server";
 import { DataProperty, RoomData } from "@/types/property";
 import { formatRupiah } from "@/utils/formataRupiah";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { DateRange } from "react-day-picker";
 import { FaWifi } from "react-icons/fa6";
 import { IoLocationOutline } from "react-icons/io5";
@@ -36,13 +34,14 @@ const CardRoomDetail = ({ id }: { id: string }) => {
   const [checkIn, setCheckIn] = useState<string>(checkInParams);
   const [checkOut, setCheckOut] = useState<string>(checkOutParams);
 
-  const updateQueryParams = () => {
+  const updateQueryParams = useCallback(() => {
     const query = new URLSearchParams({
       checkIn,
       checkOut,
     }).toString();
     router.push(`?${query}`);
-  };
+  }, [checkIn, checkOut, router]);
+
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
@@ -59,10 +58,10 @@ const CardRoomDetail = ({ id }: { id: string }) => {
 
     fetchRoomData();
   }, [id, checkIn, checkOut]);
-  
+
   useEffect(() => {
     updateQueryParams();
-  }, [checkIn, checkOut]);
+  }, [checkIn, checkOut, updateQueryParams]);
 
   const handleDateChange = (newDate: DateRange | undefined) => {
     setDate(newDate);
@@ -92,7 +91,10 @@ const CardRoomDetail = ({ id }: { id: string }) => {
     checkAuth();
   }, []);
 
-  const unavailableDates = data?.RoomAvailability?.filter((availability) => !availability.isAvailable) ?? [];
+  const unavailableDates =
+    data?.RoomAvailability?.filter(
+      (availability) => !availability.isAvailable,
+    ) ?? [];
 
   const handleReservasi = () => {
     if (!isLoggedIn) {

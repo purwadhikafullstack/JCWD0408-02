@@ -17,6 +17,8 @@ export default function SummaryPay() {
     };
     getRes();
   });
+  
+  
   return (
     <div className="flex flex-col rounded-lg border-2 px-4 lg:min-w-[500px]">
       <div className="flex items-center justify-between">

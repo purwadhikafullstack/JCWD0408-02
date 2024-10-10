@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { MdOutlineVilla } from "react-icons/md";
 import { RiHotelLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
-import CardRoomReview from "./cardRoom";
 import { ButtonComp, ButtonCompStroke } from "@/components/ButtonComp";
 import { navigate } from "@/libs/server";
 import toast from "react-hot-toast";
@@ -105,7 +104,7 @@ const Cardcomp = ({ id }: { id: string }) => {
 
       <main className="mb-10 flex w-full flex-col gap-7 pt-3">
         {propertyData?.Room.map((item) => {
-          return <CardCreateRoom data={item} />;
+          return <CardCreateRoom key={item.id} data={item} />;
         })}
       </main>
 
