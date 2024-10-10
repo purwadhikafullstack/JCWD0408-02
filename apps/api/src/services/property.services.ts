@@ -73,6 +73,7 @@ export const getPropertyActiveServices = async () => {
         },
       },
       orderBy: { createdAt: 'desc' },
+      take: 8,
     });
 
     return property;
