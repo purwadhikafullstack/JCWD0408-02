@@ -1,5 +1,4 @@
 "use client";
-
 import { addDays } from "date-fns";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
@@ -13,6 +12,8 @@ const DateComp = () => {
   const [startDateOpen, setStartDateOpen] = useState(false);
   const [endDateOpen, setEndDateOpen] = useState(false);  
 
+  const start = String(startDate)
+  const end = String(endDate)
   const handleDateChange = (date: Date | null) => {
     setStartDate(date);
     setStartDateOpen(false);
@@ -29,7 +30,7 @@ const DateComp = () => {
       >
         <div className="cursor-pointer text-start text-base">
           <p className="font-semibold text-black">Check-in </p>
-          <p className="text-xs text-hitam">{formatDateId(startDate)}</p>
+          <p className="text-xs text-hitam">{formatDateId(start)}</p>
         </div>
       </div>
       {startDateOpen && (
@@ -49,7 +50,7 @@ const DateComp = () => {
       >
         <div className="cursor-pointer text-start text-base">
           <p className="font-semibold text-black">Check-out</p>
-          <p className="text-xs text-hitam">{formatDateId(endDate)}</p>
+          <p className="text-xs text-hitam">{formatDateId(end)}</p>
         </div>
         {endDateOpen && (
           <div className="absolute right-[-120px] top-10 z-10">
