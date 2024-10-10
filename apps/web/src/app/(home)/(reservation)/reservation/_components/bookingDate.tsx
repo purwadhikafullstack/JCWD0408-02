@@ -63,11 +63,11 @@ const BookingDate: React.FC = () => {
         <div className="flex flex-col gap-4">
           <div>
             <p className="font-semibold">Tanggal Check-in</p>
-            <p>{formatDateId(new Date(checkin!))}</p>
+            <p>{formatDateId(checkin)}</p>
           </div>
           <div>
             <p className="font-semibold">Tanggal Check-out</p>
-            <p>{formatDateId(new Date(checkout!))}</p>
+            <p>{formatDateId(checkout)}</p>
           </div>
         </div>
         <div className="relative flex flex-col items-end">

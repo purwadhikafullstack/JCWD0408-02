@@ -50,7 +50,6 @@ export class ReservationController {
             room_Id: room_id,
           },
         });
-
         //MIDTRANS
         const paymentLinkURL = await createPaymentLink(
           reservation.id.toString(),
@@ -77,7 +76,6 @@ export class ReservationController {
       responseError(res, error);
     }
   }
-
   //MENGUPDATE STATUS TRANS MENJADI PAID
   async updateStatusTrans(req: Request, res: Response) {
     try {
@@ -93,7 +91,6 @@ export class ReservationController {
           data: { statusRes: 'CANCEL' },
           where: { id: order_id },
         });
-
       return res.status(200).send({
         msg: 'success update status reservation',
       });
@@ -101,7 +98,6 @@ export class ReservationController {
       responseError(res, error);
     }
   }
-
   async createReservationTF(req: Request, res: Response) {
     try {
       const { price, guest } = req.body;
@@ -157,7 +153,6 @@ export class ReservationController {
       if (req.file) {
         media = `${base_url}/public/proof/${req.file?.filename}`;
       }
-
       await prisma.reservation.update({
         data: { paymentProof: media, statusRes: 'CONFIRMATION' },
         where: { id: reservation_id },

@@ -21,4 +21,4 @@ module.exports = {
         cwd: '/var/www/html/jcwd040802.purwadhikabootcamp.com/apps/api',
       },
     ],
-   };
+};
