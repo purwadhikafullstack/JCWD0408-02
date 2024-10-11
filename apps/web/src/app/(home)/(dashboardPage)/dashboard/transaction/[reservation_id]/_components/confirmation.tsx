@@ -51,7 +51,7 @@ export default function Confrimation({
     <div className="mt-6">
       <h1 className="text-2xl font-semibold">Detail Transaksi</h1>
       <div className="mb-2 mt-4 border-b-2"></div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-1 gap-4">
         <div className="flex flex-col gap-2">
           <div className="font-medium">
             <p className={`font-semibold text-gray-500`}>Metode Pembayaran</p>
@@ -69,16 +69,19 @@ export default function Confrimation({
               {method == "VA" ? payLink : "-"}
             </Link>
           </div>
-          <div className="font-medium">
-            <p className={`font-semibold text-gray-500`}>
+          <div className="max-w-[400px] font-medium">
+            <p className={`text-wrap font-semibold text-gray-500`}>
               Link Bukti Pembayaran
             </p>
+
             <Link
               target="_blank"
               href={proofLink}
-              className="text-blue-700 hover:text-blue-600"
+              className="truncate text-blue-700 hover:text-blue-600"
             >
-              {method == "TF" ? proofLink : "-"}
+              <p className="b w-[100px] truncate lg:w-[400px]">
+                {method == "TF" ? proofLink : "-"}
+              </p>
             </Link>
           </div>
           <button

@@ -75,6 +75,12 @@ export const createRoomServices = async (
 
 export const deleteRoomServices = async (id: string) => {
   try {
+    await prisma.review.deleteMany({
+      where: { room_Id: id },
+    });
+    await prisma.reservation.deleteMany({
+      where: { room_Id: id },
+    });
     await prisma.roomPic.deleteMany({
       where: { room_Id: id },
     });
@@ -116,8 +122,13 @@ export const getRoomsByIdServices = async (
         property: true,
         tenant: { select: { username: true } },
         RoomAvailability: {
-          select:{ startDate: true, endDate: true, isAvailable: true, priceAdjustment: true}
-        }
+          select: {
+            startDate: true,
+            endDate: true,
+            isAvailable: true,
+            priceAdjustment: true,
+          },
+        },
       },
     });
 
@@ -133,7 +144,7 @@ export const getRoomsByIdServices = async (
     });
 
     if (!isAvailable) {
-      return {room, msg:  "nn"}
+      return { room, msg: 'nn' };
     }
 
     let totalPrice = room!.price; // Harga default room

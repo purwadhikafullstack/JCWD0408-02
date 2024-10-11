@@ -38,7 +38,7 @@ export default function SummaryTransaction({
     <div className="mt-6">
       <h1 className="text-2xl font-semibold">Ringkasan</h1>
       <div className="mb-2 mt-4 border-b-2"></div>
-      <div className="grid grid-cols-2 justify-between">
+      <div className="grid grid-cols-1 lg:grid-cols-2 justify-between">
         <div className="flex flex-col gap-2">
           {info.map((item, idx) => {
             return (

@@ -146,7 +146,7 @@ export const forgotPasswordUserServices = async (email: string) => {
     const token = createToken(payload, '30m');
     const link =
       process.env.BASE_URL_FRONTEND +
-      `/account/forgot-password-tenant/${token}`;
+      `/account/forgot-password-user/${token}`;
     const dataEmail = {
       link,
       username: user.username ? user.username : user.email,

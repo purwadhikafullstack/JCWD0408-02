@@ -138,5 +138,4 @@ export class reportSalesService {
     }
   }
 }
-
 export const reportSalesServices = new reportSalesService();
