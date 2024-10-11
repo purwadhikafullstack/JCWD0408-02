@@ -148,6 +148,12 @@ export const getPropertyDraftServices = async (tenantId: number) => {
 };
 export const deletePropertyServices = async (property_Id: string) => {
   try {
+    await prisma.review.deleteMany({
+      where: { room: { property_Id } },
+    });
+    await prisma.reservation.deleteMany({
+      where: { room: { property_Id } },
+    });
     await prisma.facility.deleteMany({
       where: { Room: { property_Id } },
     });
