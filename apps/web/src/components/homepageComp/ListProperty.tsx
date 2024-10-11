@@ -1,12 +1,27 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import SearchLocation from "./SearchLocation";
 import CardPropertyHome from "./CardPropertyHome";
 import { getAllProperty } from "@/libs/fetch/property";
 import { DataProperty } from "@/types/property";
 
-const ListProperty = async () => {
-  const res = await getAllProperty();
-  const data: DataProperty[] = res.data.property;
+export const revalidate = 0;
+
+const ListProperty = () => {
+  const [data, setData] = useState<DataProperty[]>([]);
+  useEffect(() => {
+    const fecthData = async () => {
+      try {
+        const res = await getAllProperty();
+        const data: DataProperty[] = res.data.property;
+        setData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fecthData();
+  },[]);
 
   return (
     <div className="w-full bg-latar/40 py-10">
